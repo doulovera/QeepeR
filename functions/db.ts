@@ -16,5 +16,5 @@ const db = new Redis({
  * @returns A Promise that resolves when the value is set.
  */
 export const set = async (category: string, key: string, value: string) => {
-  return await db.set(`${category}:${key}`, value)
+  return await db.set(`app:${category}:${key}`, value)
 }
