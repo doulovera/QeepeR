@@ -7,6 +7,7 @@ interface Props {
   className?: string;
   disabled?: boolean;
   description?: string;
+  name?: string;
 }
 
 export const Input = (
@@ -19,6 +20,7 @@ export const Input = (
     className,
     disabled,
     description,
+    name,
   }: Props,
 ) => {
   return (
@@ -32,6 +34,7 @@ export const Input = (
       }
       <input
         type={type}
+        name={name}
         placeholder={placeholder}
         value={value}
         onChange={onChange}

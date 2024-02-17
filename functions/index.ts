@@ -1,31 +1,26 @@
 import { Hono } from 'hono'
-import qr from 'qrcode'
+import { cors } from 'hono/cors'
 
-import { set } from './db'
+import qr from 'qrcode'
 
 const app = new Hono()
 
+app.use('*', cors())
+
 app.post('/', async (c) => {
   const body = await c.req.json()
-  if (!body) return c.json({ error: 'No body' }, 400)
+  if (!body) return c.json({ error: 'Invalid request' }, 400)
 
-  const { username, url, title, light, dark, permanent } = body
-
-  const required = ['username', 'url', 'title']
-  if (required.some((key) => !body[key])) {
-    const missing = required.filter((key) => !body[key])
-    return c.json({ error: `Missing required fields: ${missing.join(', ')}` }, 400)
-  }
-
+  const { url } = body
+  
   const qrImage = await qr.toString(url, {
     type: 'svg',
     color: {
-      light: light || '#ffffff',
-      dark: dark || '#000000'
-    }
+      dark: '#000',
+      light: '#fff'
+    },
+    margin: 1
   })
-
-  if (permanent) await set('doulovera', 'site', url)
 
   return c.json({ svg: qrImage })
 })

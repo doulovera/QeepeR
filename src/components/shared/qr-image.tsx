@@ -11,8 +11,8 @@ export const QrImage = ({ svg, size = 'medium' }: Props) => {
     large: "h-80 w-80",
   }
   return (
-    <div className={`${sizes[size]} bg-white rounded-md mx-auto`}>
-      {/* image */}
+    <div className={`${sizes[size]} bg-white rounded-md mx-auto overflow-hidden`}>
+      <div dangerouslySetInnerHTML={{ __html: svg }} />
     </div>
   )
 }
