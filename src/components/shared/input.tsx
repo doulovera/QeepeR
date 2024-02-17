@@ -7,6 +7,7 @@ export const Input = (
     onChange,
     className,
     disabled,
+    description,
   }: {
     type?: string;
     label?: string;
@@ -15,13 +16,14 @@ export const Input = (
     onChange?: (e: any) => void;
     className?: string;
     disabled?: boolean;
+    description?: string;
   },
 ) => {
   return (
-    <label className="w-full">
+    <label className="w-full my-5">
       {
         label && (
-          <span className="block text-primary-50 mb-2 text-sm font-medium">
+          <span className="block text-primary-50 mb-2 text-sm font-bold">
             {label}
           </span>
         )
@@ -31,9 +33,21 @@ export const Input = (
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-        className={`px-3 py-4 h-14 w-full rounded-xl ${disabled ? 'bg-gray-700' : 'bg-primary-800'} ${className}`}
+        className={
+          `px-3 py-4 h-14 w-full rounded-xl ${disabled ? 'bg-gray-700' : 'bg-primary-800'} ${disabled ? 'cursor-not-allowed' : ''} ${className}`
+        }
         disabled={disabled}
       />
+
+      {
+        description 
+        ? <p className="ml-1 mt-2 text-xs">{description}</p>
+        : null
+      }
     </label>
   );
+}
+
+const ColorPicker = () => {
+  
 }

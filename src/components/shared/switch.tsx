@@ -19,7 +19,7 @@ export const Switch = (
         </div>
       </div>
       <div className="ms-3">
-        <span className="text-sm font-medium text-gray-300">{label}</span>
+        <span className="text-sm font-bold text-gray-300">{label}</span>
         {
           description 
           ? <p className="text-xs">{description}</p>
