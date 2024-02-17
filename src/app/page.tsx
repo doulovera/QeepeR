@@ -1,7 +1,11 @@
+import { Header } from "@/components/landing/header";
+import { Hero } from "@/components/landing/hero";
+
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-     <p>Soon...</p>
+    <main className="w-full max-w-3xl min-h-screen mx-auto">
+      <Header />
+      <Hero />
     </main>
   );
 }

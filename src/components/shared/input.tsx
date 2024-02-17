@@ -1,3 +1,14 @@
+interface Props {
+  type?: string;
+  label?: string;
+  placeholder?: string;
+  value?: string;
+  onChange?: (e: any) => void;
+  className?: string;
+  disabled?: boolean;
+  description?: string;
+}
+
 export const Input = (
   {
     type = 'text',
@@ -8,16 +19,7 @@ export const Input = (
     className,
     disabled,
     description,
-  }: {
-    type?: string;
-    label?: string;
-    placeholder?: string;
-    value?: string;
-    onChange?: (e: any) => void;
-    className?: string;
-    disabled?: boolean;
-    description?: string;
-  },
+  }: Props,
 ) => {
   return (
     <label className="w-full my-5">
@@ -34,7 +36,7 @@ export const Input = (
         value={value}
         onChange={onChange}
         className={
-          `px-3 py-4 h-14 w-full rounded-xl ${disabled ? 'bg-gray-700' : 'bg-primary-800'} ${disabled ? 'cursor-not-allowed' : ''} ${className}`
+          `px-3 py-4 h-14 w-full rounded-xl ${disabled ? 'bg-gray-700 cursor-not-allowed' : 'bg-primary-800'} ${className}`
         }
         disabled={disabled}
       />

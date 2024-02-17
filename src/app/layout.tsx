@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Onest } from "next/font/google";
 import "./globals.css";
 
 const satoshiFont = localFont({
