@@ -7,6 +7,8 @@ import { Button } from "../shared/button";
 import { Input } from "../shared/input";
 import { QrImage } from "../shared/qr-image";
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || ""
+
 const QrGenerationForm = ({ setSvg }: { setSvg: (svg: string | null) => void }) => {
 
   const handleSubmit = async (evt: React.FormEvent<HTMLFormElement>) => {
@@ -14,7 +16,7 @@ const QrGenerationForm = ({ setSvg }: { setSvg: (svg: string | null) => void }) 
     const form = evt.currentTarget
     const url = form.url.value
 
-    const res = await fetch('http://localhost:8787', {
+    const res = await fetch(API_BASE_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -34,7 +36,7 @@ const QrGenerationForm = ({ setSvg }: { setSvg: (svg: string | null) => void }) 
         label="Destination URL"
       />
       <div className="flex gap-2">
-        <Button type="submit">
+        <Button type="submit" disabled={!API_BASE_URL}>
           <span className="flex gap-2">
             Generate <Qr width={20} color="#fff" />
           </span>
@@ -57,8 +59,15 @@ export const Hero = () => {
       <QrGenerationForm
         setSvg={setSvg}
       />
-      <div>
+      <div className="flex flex-col justify-center gap-2">
         <QrImage svg={svg || ''} size="large" />
+        {
+          svg && ( // TODO: avoid layout shift when appearing
+            <Button>
+              Save
+            </Button>
+          )
+        }
       </div>
     </section>
   );
