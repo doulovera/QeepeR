@@ -1,4 +1,11 @@
+'use client'
+
+import useAuth from "@/hooks/useAuth";
+import { logInWithGoogle, logOut } from "@/lib/auth";
+
 export const Header = () => {
+  const user = useAuth();
+
   return (
     <header className="flex items-center justify-center w-80 h-20 p-4 mx-auto">
       <nav className="w-full">
@@ -13,7 +20,11 @@ export const Header = () => {
             <a href="/about">About</a>
           </li>
           <li>
-            <a href="/login">Log in</a>
+            {
+              user 
+                ? <button onClick={logOut}>{user.name}</button>
+                : <button onClick={logInWithGoogle}>Log in</button>
+            }
           </li>
         </ul>
       </nav>

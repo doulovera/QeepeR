@@ -6,10 +6,12 @@ import { Qr } from "../icons/qr";
 import { Button } from "../shared/button";
 import { Input } from "../shared/input";
 import { QrImage } from "../shared/qr-image";
+import useAuth from "@/hooks/useAuth";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || ""
 
 const QrGenerationForm = ({ setSvg }: { setSvg: (svg: string | null) => void }) => {
+  const user = useAuth();
 
   const handleSubmit = async (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault()
@@ -42,7 +44,7 @@ const QrGenerationForm = ({ setSvg }: { setSvg: (svg: string | null) => void }) 
           </span>
         </Button>
 
-        <Button title="You need to login" disabled>
+        <Button title="You need to login" disabled={!user}>
           <span className="flex gap-2">
             PermaQR <LightningBolt width={20} color="#fff" />
           </span>
