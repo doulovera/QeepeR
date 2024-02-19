@@ -12,4 +12,12 @@ export const createQrLink = async (url: string) => {
   return key
 }
 
-export const getQrLink = async (key: string) => {}
+export const getQrLink = async (key: string): Promise<string> => {
+  const url = await db.get(key)
+
+  if (!url) {
+    throw new Error('QR link not found')
+  }
+
+  return url
+}

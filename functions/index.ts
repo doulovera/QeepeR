@@ -4,7 +4,7 @@ import { cors } from 'hono/cors'
 import { auth } from './middlewares/auth'
 
 import { generateQr } from './services/generate-qr'
-import { createQrLink } from './services/qr-link'
+import { createQrLink, getQrLink } from './services/qr-link'
 
 const app = new Hono<{ Bindings: { FIREBASE_PROJECT_ID: string } }>()
 
@@ -46,6 +46,14 @@ app.post('/perma', async (c) => {
   }
 })
 
-// redirection endpoint
+app.get('/:key', async (c) => {
+  const key = c.req.param('key')
+
+  // add view to firestore if enabled
+
+  const url = await getQrLink(key)
+
+  return c.redirect(url)
+})
 
 export default app

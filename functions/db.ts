@@ -23,6 +23,6 @@ export const set = async (key: string, value: string) => {
  * @param key - The key of the value.
  * @returns A Promise that resolves with the value.
  */
-export const get = async (key: string) => {
+export const get = async (key: string): Promise<string | null> => {
   return db.get(key)
 }
