@@ -3,7 +3,7 @@ import { getRandomString } from './get-random-string'
 
 export const createQrLink = async (url: string) => {
   const key = getRandomString()
-  const response = db.set(key, url)
+  const response = await db.set(key, url)
 
   if (!response) {
     throw new Error('Failed to create QR link')
