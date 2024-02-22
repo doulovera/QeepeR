@@ -17,7 +17,6 @@ export const logOut = async () => {
 
 export const onAuthChanged = (onChange: (user: User | null) => void) => {
   return onAuthStateChanged(auth, (user) => {
-    console.log('org', user)
     const normalizedUser = user ? normalizeGoogleUser(user) : null
     onChange(normalizedUser)
   })

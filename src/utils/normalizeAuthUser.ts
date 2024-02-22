@@ -1,7 +1,8 @@
 import { FirebaseUser } from "@/types/firebase";
 
 export const normalizeGoogleUser = (user: FirebaseUser) => {
-  const { uid, displayName, email, photoURL } = user
+  /// @ts-ignore
+  const { uid, displayName, email, photoURL, accessToken } = user
 
   if (!uid || !displayName || !email || !photoURL) return null
 
@@ -10,5 +11,6 @@ export const normalizeGoogleUser = (user: FirebaseUser) => {
     email,
     name: displayName,
     photoUrl: photoURL,
+    accessToken
   }
 }

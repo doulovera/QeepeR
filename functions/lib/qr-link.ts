@@ -1,5 +1,5 @@
-import * as db from '../db'
-import { getRandomString } from './get-random-string'
+import * as db from './db'
+import { getRandomString } from '../utils/get-random-string'
 
 export const createQrLink = async (url: string) => {
   const key = getRandomString()

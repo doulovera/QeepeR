@@ -3,8 +3,8 @@ import { cors } from 'hono/cors'
 
 import { auth } from './middlewares/auth'
 
-import { generateQr } from './services/generate-qr'
-import { createQrLink, getQrLink } from './services/qr-link'
+import { generateQr } from './utils/generate-qr'
+import { createQrLink, getQrLink } from './lib/qr-link'
 
 const app = new Hono<{ Bindings: { FIREBASE_PROJECT_ID: string } }>()
 

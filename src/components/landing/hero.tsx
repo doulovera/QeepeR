@@ -12,6 +12,9 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || ""
 
 const QrGenerationForm = ({ setSvg }: { setSvg: (svg: string | null) => void }) => {
   const user = useAuth();
+  const [destinationUrl, setDestinationUrl] = useState<string>('')
+
+  const permaQrDisabled = !user
 
   const handleSubmit = async (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault()
@@ -26,7 +29,22 @@ const QrGenerationForm = ({ setSvg }: { setSvg: (svg: string | null) => void }) 
       body: JSON.stringify({ url })
     })
 
-    const data = await res.json()
+    const data: { svg: string } = await res.json()
+    setSvg(data.svg)
+  }
+
+  const handlePermaQr = async () => {
+    const res = await fetch(`${API_BASE_URL}/perma`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        /// @ts-ignore
+        'Authorization': `Bearer ${user?.accessToken}`
+      },
+      body: JSON.stringify({ url: destinationUrl })
+    })
+
+    const data: { svg: string } = await res.json()
     setSvg(data.svg)
   }
 
@@ -36,6 +54,7 @@ const QrGenerationForm = ({ setSvg }: { setSvg: (svg: string | null) => void }) 
       <Input
         name="url"
         label="Destination URL"
+        onChange={(evt) => setDestinationUrl(evt.target.value)}
       />
       <div className="flex gap-2">
         <Button type="submit" disabled={!API_BASE_URL}>
@@ -44,7 +63,12 @@ const QrGenerationForm = ({ setSvg }: { setSvg: (svg: string | null) => void }) 
           </span>
         </Button>
 
-        <Button title="You need to login" disabled={!user}>
+        <Button
+          type="button"
+          title={permaQrDisabled ? "You need to login" : undefined}
+          disabled={permaQrDisabled}
+          onClick={handlePermaQr}
+        >
           <span className="flex gap-2">
             PermaQR <LightningBolt width={20} color="#fff" />
           </span>
