@@ -4,7 +4,7 @@ import { cors } from 'hono/cors'
 import { auth } from './middlewares/auth'
 
 import { generateQr } from './utils/generate-qr'
-import { createQrLink, getQrLink } from './lib/qr-link'
+import { createQrLink, getQrLink, sumView } from './lib/qr-link'
 
 export type WranglerEnv  ={
   FIREBASE_PROJECT_ID: string
@@ -54,12 +54,12 @@ app.post('/perma', async (c) => {
 
 app.get('/:key', async (c) => {
   const key = c.req.param('key')
+  if (!key) return c.json({ error: 'Not found' }, 404)
 
-  // add view to firestore if enabled
+  const qr = await getQrLink(c, key)
+  if (!qr) return c.json({ error: 'Not found' }, 404)
 
-  const url = await getQrLink(c, key)
-
-  return c.redirect(url)
+  return c.redirect(qr.url)
 })
 
 export default app
