@@ -6,7 +6,13 @@ import { auth } from './middlewares/auth'
 import { generateQr } from './utils/generate-qr'
 import { createQrLink, getQrLink } from './lib/qr-link'
 
-const app = new Hono<{ Bindings: { FIREBASE_PROJECT_ID: string } }>()
+export type WranglerEnv  ={
+  FIREBASE_PROJECT_ID: string
+  UPSTASH_REDIS_REST_URL: string
+  UPSTASH_REDIS_REST_TOKEN: string
+}
+
+const app = new Hono<{ Bindings: WranglerEnv }>()
 
 app.use('*', cors())
 
@@ -33,7 +39,7 @@ app.post('/perma', async (c) => {
 
     // store extra info in firestore
 
-    const key = await createQrLink(url)
+    const key = await createQrLink(c, url)
 
     const appUrl = c.req.url.replace('/perma', '')
     const qrUrl = `${appUrl}/${key}`
@@ -51,7 +57,7 @@ app.get('/:key', async (c) => {
 
   // add view to firestore if enabled
 
-  const url = await getQrLink(key)
+  const url = await getQrLink(c, key)
 
   return c.redirect(url)
 })
