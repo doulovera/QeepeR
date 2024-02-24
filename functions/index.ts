@@ -71,7 +71,7 @@ app.get('/:key', async (c) => {
   return c.redirect(qr.url)
 })
 
-app.use('/perma', auth)
+app.use('*', auth)
 app.post('/perma', async (c) => {
   try {
     const body = await c.req?.json()

@@ -33,10 +33,25 @@ export const createQrInfoDB = async (c: Context<HonoContext>, qrInfo: QrInfo) =>
   }
 
   const response = await Firestore.set(await db(c.env, uid), `qrs/${key}`, docObj);
+  await addQrToUserListDB(c, key);
 
   return response;
 }
 
-export const getQrInfoDB = async (c: { get: () => void, env: WranglerEnv }, key: string) => {}
+export const getUserQrInfoDB = async (c: Context<HonoContext>, key: string) => {}
 
-export const updateUserQrList = async (c: { get: () => void, env: WranglerEnv }, key: string) => {}
+export const getUserQrListDB = async (c: Context<HonoContext>) => {}
+
+export const addQrToUserListDB = async (c: Context<HonoContext>, key: string) => {
+  const uid = c.get('auth')?.uid
+
+  if (!uid) {
+    throw new Error('Unauthorized');
+  }
+
+  const response = await Firestore.set(await db(c.env, uid), `users/${uid}/qrs/${key}`, { qr: `/qrs/${key}` });
+
+  return response;
+}
+
+export const validateUserQrDB = async (c: Context<HonoContext>) => {}
