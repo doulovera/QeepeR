@@ -4,12 +4,17 @@ import { cors } from 'hono/cors'
 import { auth } from './middlewares/auth'
 
 import { generateQr } from './utils/generate-qr'
-import { createQrLink, getQrLink, sumView } from './lib/qr-link'
+import { createQrLink, getQrLink } from './lib/qr-link'
+import { createQrInfoDB } from './lib/firestore'
 
 export type WranglerEnv  ={
   FIREBASE_PROJECT_ID: string
   UPSTASH_REDIS_REST_URL: string
   UPSTASH_REDIS_REST_TOKEN: string
+
+  FIREBASE_CLIENT_EMAIL: string
+  FIREBASE_PRIVATE_KEYID: string
+  FIREBASE_PRIVATE_KEY: string
 }
 
 const app = new Hono<{ Bindings: WranglerEnv }>()
@@ -28,6 +33,16 @@ app.post('/', async (c) => {
   return c.json({ svg })
 })
 
+app.get('/:key', async (c) => {
+  const key = c.req.param('key')
+  if (!key) return c.json({ error: 'Not found' }, 404)
+
+  const qr = await getQrLink(c, key)
+  if (!qr) return c.json({ error: 'Not found' }, 404)
+
+  return c.redirect(qr.url)
+})
+
 app.use('/perma', auth)
 app.post('/perma', async (c) => {
   try {
@@ -37,9 +52,10 @@ app.post('/perma', async (c) => {
     const { url } = body
     if (!url) return c.json({ error: 'Invalid request, missing url' }, 400)
 
-    // store extra info in firestore
-
     const key = await createQrLink(c, url)
+    
+    /// @ts-ignore ** TODO **
+    await createQrInfoDB(c, { key, destinationUrl: url })
 
     const appUrl = c.req.url.replace('/perma', '')
     const qrUrl = `${appUrl}/${key}`
@@ -52,14 +68,8 @@ app.post('/perma', async (c) => {
   }
 })
 
-app.get('/:key', async (c) => {
-  const key = c.req.param('key')
-  if (!key) return c.json({ error: 'Not found' }, 404)
-
-  const qr = await getQrLink(c, key)
-  if (!qr) return c.json({ error: 'Not found' }, 404)
-
-  return c.redirect(qr.url)
-})
+// endpoint to update url (with validation with firebase to check if it's user's url)
+// endpoint to create/delete qr from redis for the disabled/enabled url (with validation with firebase to check if it's user's url)
+// endpoint to enable/disable views for the url (with validation with firebase to check if it's user's url)
 
 export default app

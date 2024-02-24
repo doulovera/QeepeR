@@ -10,9 +10,6 @@ dependencies:
   firebase:
     specifier: ^10.8.0
     version: 10.8.0
-  firebase-auth-cloudflare-workers:
-    specifier: ^1.1.0
-    version: 1.1.0
   fireworkers:
     specifier: ^0.3.1
     version: 0.3.1
