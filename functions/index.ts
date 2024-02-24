@@ -7,7 +7,7 @@ import { generateQr } from './utils/generate-qr'
 import { createQrLink, getQrLink } from './lib/qr-link'
 import { createQrInfoDB } from './lib/firestore'
 
-export type WranglerEnv  ={
+export type WranglerEnv = {
   FIREBASE_PROJECT_ID: string
   UPSTASH_REDIS_REST_URL: string
   UPSTASH_REDIS_REST_TOKEN: string
@@ -17,7 +17,35 @@ export type WranglerEnv  ={
   FIREBASE_PRIVATE_KEY: string
 }
 
-const app = new Hono<{ Bindings: WranglerEnv }>()
+interface AuthUser {
+  name: string,
+  picture: string,
+  iss: string,
+  aud: string,
+  auth_time: number,
+  user_id: string,
+  sub: string,
+  iat: number,
+  exp: number,
+  email: string,
+  email_verified: boolean,
+  firebase: {
+    identities: Record<string, string[]>,
+    sign_in_provider: string
+  },
+  uid: string
+}
+
+type WranglerVariables = {
+  auth: AuthUser
+}
+
+export type HonoContext = {
+  Bindings: WranglerEnv
+  Variables: WranglerVariables
+}
+
+const app = new Hono<HonoContext>()
 
 app.use('*', cors())
 

@@ -1,4 +1,5 @@
-import type { WranglerEnv } from ".."
+import type { Context } from "hono";
+import type { HonoContext, WranglerEnv } from ".."
 
 import * as Firestore from 'fireworkers';
 
@@ -15,10 +16,9 @@ type QrInfo = {
   destinationUrl: string,
 }
 
-export const createQrInfoDB = async (c: { get: () => void, env: WranglerEnv }, qrInfo: QrInfo) => {
+export const createQrInfoDB = async (c: Context<HonoContext>, qrInfo: QrInfo) => {
   const { key, destinationUrl } = qrInfo;
 
-  /// @ts-ignore ** TODO **
   const uid = c.get('auth')?.uid
 
   if (!uid) {
@@ -36,3 +36,7 @@ export const createQrInfoDB = async (c: { get: () => void, env: WranglerEnv }, q
 
   return response;
 }
+
+export const getQrInfoDB = async (c: { get: () => void, env: WranglerEnv }, key: string) => {}
+
+export const updateUserQrList = async (c: { get: () => void, env: WranglerEnv }, key: string) => {}

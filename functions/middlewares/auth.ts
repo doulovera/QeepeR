@@ -1,7 +1,7 @@
 
 import { getFirebaseToken, verifyFirebaseAuth } from "@hono/firebase-auth";
 
-/// @ts-ignore
+/// @ts-ignore ** TODO **
 export const auth = async (c, next) => {
   let l: any;
   const firebaseAuth = verifyFirebaseAuth({
@@ -11,7 +11,7 @@ export const auth = async (c, next) => {
       get() {
         return l;
       },
-      /// @ts-ignore
+      /// @ts-ignore ** TODO **
       put(e: any) {
         l = e;
       },
@@ -19,7 +19,7 @@ export const auth = async (c, next) => {
   });
 
   try {
-    /// @ts-ignore
+    /// @ts-ignore ** TODO **
     await firebaseAuth(c, () => {
       c.set("auth", getFirebaseToken(c));
     });
