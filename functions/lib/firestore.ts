@@ -38,9 +38,33 @@ export const createQrInfoDB = async (c: Context<HonoContext>, qrInfo: QrInfo) =>
   return response;
 }
 
-export const getUserQrInfoDB = async (c: Context<HonoContext>, key: string) => {}
+export const getUserQrListDB = async (c: Context<HonoContext>) => {
+  const uid = c.get('auth')?.uid
+  
+  if (!uid) {
+    throw new Error('Unauthorized');
+  }
 
-export const getUserQrListDB = async (c: Context<HonoContext>) => {}
+  const fetchedQrs = await Firestore.query<{ disabled: boolean, destinationUrl: string, user: `/users/${string}` }>(await db(c.env, uid), {
+    from: [{ collectionId: 'qrs' }],
+    where: {
+      fieldFilter: {
+        field: { fieldPath: 'user' },
+        op: 'EQUAL',
+        value: { stringValue: `/users/${uid}` }
+      }
+    }
+  })
+
+  const mappedQrs = fetchedQrs.map(({ createTime, id, fields }) => ({
+    id,
+    createdAt: createTime,
+    disabled: fields.disabled,
+    destinationUrl: fields.destinationUrl,
+  }))
+
+  return mappedQrs
+}
 
 export const addQrToUserListDB = async (c: Context<HonoContext>, key: string) => {
   const uid = c.get('auth')?.uid

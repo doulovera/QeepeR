@@ -5,7 +5,7 @@ import { auth } from './middlewares/auth'
 
 import { generateQr } from './utils/generate-qr'
 import { createQrLink, getQrLink } from './lib/qr-link'
-import { createQrInfoDB } from './lib/firestore'
+import { createQrInfoDB, getUserQrListDB } from './lib/firestore'
 
 export type WranglerEnv = {
   FIREBASE_PROJECT_ID: string
@@ -61,17 +61,9 @@ app.post('/', async (c) => {
   return c.json({ svg })
 })
 
-app.get('/:key', async (c) => {
-  const key = c.req.param('key')
-  if (!key) return c.json({ error: 'Not found' }, 404)
+app.use('/list', auth)
+app.use('/perma', auth)
 
-  const qr = await getQrLink(c, key)
-  if (!qr) return c.json({ error: 'Not found' }, 404)
-
-  return c.redirect(qr.url)
-})
-
-app.use('*', auth)
 app.post('/perma', async (c) => {
   try {
     const body = await c.req?.json()
@@ -82,7 +74,6 @@ app.post('/perma', async (c) => {
 
     const key = await createQrLink(c, url)
     
-    /// @ts-ignore ** TODO **
     await createQrInfoDB(c, { key, destinationUrl: url })
 
     const appUrl = c.req.url.replace('/perma', '')
@@ -94,6 +85,38 @@ app.post('/perma', async (c) => {
     console.error(error)
     return c.json({ error: 'Internal server error' }, 500)
   }
+})
+
+app.get('/list', async (c) => {
+  try {
+    const qrList = await getUserQrListDB(c)
+    
+    const img = c.req.query('img')
+
+    if (img) {
+      const qrListWithQr = await Promise.all(qrList.map(async (qr) => {
+        const svg = await generateQr(qr.destinationUrl)
+        return { ...qr, svg }
+      }))
+
+      return c.json(qrListWithQr)
+    }
+
+    return c.json(qrList)
+  } catch (error) {
+    console.error(error)
+    return c.json({ error: 'Internal server error' }, 500)
+  }
+})
+
+app.get('/:key', async (c) => {
+  const key = c.req.param('key')
+  if (!key) return c.json({ error: 'Not found' }, 404)
+
+  const qr = await getQrLink(c, key)
+  if (!qr) return c.json({ error: 'Not found' }, 404)
+
+  return c.redirect(qr.url)
 })
 
 // endpoint to update url (with validation with firebase to check if it's user's url)
