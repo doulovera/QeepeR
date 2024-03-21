@@ -1,4 +1,4 @@
-import type { WranglerEnv } from ".."
+import type { WranglerEnv } from "../types"
 
 import { Redis } from "@upstash/redis/cloudflare"
 
@@ -28,4 +28,16 @@ export const set = async (c: { env: WranglerEnv }, key: string, value: QrRespons
  */
 export const get = async (c: { env: WranglerEnv }, key: string): Promise<QrResponse | null> => {
   return db(c.env.UPSTASH_REDIS_REST_URL, c.env.UPSTASH_REDIS_REST_TOKEN).get(key)
+}
+
+/**
+ * Delete a record from the database.
+ * @param c - The context object that includes the environment variables.
+ * @param key - The key of the value.
+ * @returns A Promise that resolves with the value.
+ */
+export const del = async (c: { env: WranglerEnv }, key: string): Promise<boolean> => {
+  const numberOfDeletedRecords = await db(c.env.UPSTASH_REDIS_REST_URL, c.env.UPSTASH_REDIS_REST_TOKEN).del(key)
+
+  return numberOfDeletedRecords > 0
 }

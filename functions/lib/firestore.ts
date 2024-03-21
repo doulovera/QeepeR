@@ -1,7 +1,12 @@
 import type { Context } from "hono";
-import type { HonoContext, WranglerEnv } from ".."
+import type { HonoContext, WranglerEnv } from "../types";
 
 import * as Firestore from 'fireworkers';
+import { DocumentList, QrObject } from "../types/firestore";
+import ApplicationError from "./error";
+import { API_RESPONSE } from "../constants/errors";
+
+/// TODO: Transform into class
 
 const db = async (env: WranglerEnv, uid: string) => await Firestore.init({
   uid,
@@ -16,13 +21,33 @@ type QrInfo = {
   destinationUrl: string,
 }
 
+export const getQrInfoByKey = async (c: Context<HonoContext>, key: string) => {
+  const uid = c.get('auth')?.uid
+
+  if (!uid) {
+    throw new ApplicationError(API_RESPONSE.UNAUTHORIZED.TITLE, API_RESPONSE.UNAUTHORIZED.MESSAGE, 401);
+  }
+
+  const qrInfo = await Firestore.get<QrObject>(await db(c.env, uid), `qrs/${key}`);
+
+  if (!qrInfo.fields.user) {
+    return null; 
+  }
+
+  if (qrInfo.fields.user !== `/users/${uid}`) {
+    throw new ApplicationError(API_RESPONSE.UNAUTHORIZED.TITLE, API_RESPONSE.UNAUTHORIZED.MESSAGE, 401);
+  }
+
+  return qrInfo.fields;
+}
+
 export const createQrInfoDB = async (c: Context<HonoContext>, qrInfo: QrInfo) => {
   const { key, destinationUrl } = qrInfo;
 
   const uid = c.get('auth')?.uid
 
   if (!uid) {
-    throw new Error('Unauthorized');
+    throw new ApplicationError(API_RESPONSE.UNAUTHORIZED.TITLE, API_RESPONSE.UNAUTHORIZED.MESSAGE, 401);
   }
 
   const docObj = {
@@ -42,10 +67,10 @@ export const getUserQrListDB = async (c: Context<HonoContext>) => {
   const uid = c.get('auth')?.uid
   
   if (!uid) {
-    throw new Error('Unauthorized');
+    throw new ApplicationError(API_RESPONSE.UNAUTHORIZED.TITLE, API_RESPONSE.UNAUTHORIZED.MESSAGE, 401);
   }
 
-  const fetchedQrs = await Firestore.query<{ disabled: boolean, destinationUrl: string, user: `/users/${string}` }>(await db(c.env, uid), {
+  const fetchedQrs = await Firestore.query<QrObject>(await db(c.env, uid), {
     from: [{ collectionId: 'qrs' }],
     where: {
       fieldFilter: {
@@ -78,4 +103,33 @@ export const addQrToUserListDB = async (c: Context<HonoContext>, key: string) =>
   return response;
 }
 
-export const validateUserQrDB = async (c: Context<HonoContext>) => {}
+export const validateUserQrDB = async (c: Context<HonoContext>, key: string) => {
+  const uid = c.get('auth')?.uid
+
+  if (!uid) {
+    throw new ApplicationError(API_RESPONSE.UNAUTHORIZED.TITLE, API_RESPONSE.UNAUTHORIZED.MESSAGE, 401);
+  }
+
+  const userInfo = await Firestore.get(await db(c.env, uid), `users/${uid}/qrs`) as unknown as DocumentList<{ qr: { stringValue: string } }>
+
+  const mappedList = userInfo.documents.map(({ name }) => name.split('/').at(-1));
+
+  if (!mappedList.includes(key)) {
+    throw new ApplicationError(API_RESPONSE.NOT_FOUND.TITLE, 'This QR code is not associated with your account', 404);
+  }
+
+  return true;  
+}
+
+type UpdateQrDBResponse = {
+  createTime?: unknown | string,
+  updateTime?: unknown | string,
+  id: string,
+  fields: Partial<QrObject>
+}
+export const updateQrDB = async (c: Context<HonoContext>, key: string, properties: Partial<QrObject>): Promise<UpdateQrDBResponse> => {
+  await validateUserQrDB(c, key);
+
+  const response = await Firestore.update(await db(c.env, c.get('auth')?.uid), `qrs/${key}`, properties);
+  return response;  
+}
