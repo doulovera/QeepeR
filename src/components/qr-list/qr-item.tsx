@@ -6,12 +6,22 @@ import { Input } from "../shared/input"
 import { QrImage } from "../shared/qr-image"
 import { Switch } from "../shared/switch"
 
-export const QrItem = () => {
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || ""
+
+export const QrItem = (
+  { svg, id, disabled, destinationUrl }:
+  {
+    svg: string;
+    id: string;
+    disabled: boolean;
+    destinationUrl: string;
+  }
+) => {
   const visitorsCount = 0
 
   return (
     <article className="flex flex-col justify-center gap-8 w-full max-w-2xl ">
-      <QrImage svg="" />
+      <QrImage svg={svg} />
 
       <section className="flex flex-col gap-2 w-full h-auto rounded-3xl overflow-hidden">
         <div className="flex-1 flex flex-col gap-1 min-h-[20rem] p-6 bg-primary-950 rounded-b-[2.5px] rounded-t-3xl">
@@ -19,9 +29,11 @@ export const QrItem = () => {
           <div className="flex justify-between gap-20">
             <Input
               label="Background Color"
+              disabled
             />
             <Input
               label="Squares Color"
+              disabled
             />
           </div>
           
@@ -29,6 +41,8 @@ export const QrItem = () => {
             <Input
               label="Destination URL"
               description="The link you want it to redirect"
+              value={destinationUrl}
+              onChange={() => console.log('change')}
             />
           </div>
 
@@ -36,16 +50,19 @@ export const QrItem = () => {
             <Switch
               label="Disable Link"
               description="If enabled, the QR will show a 404 page"
+              checked={disabled}
             />
             <Switch
               label="Visitors Count"
               description="Keep track of the amount of people that visits your QR"
+              disabled
             />
           </div>
 
           <div className="flex gap-20 justify-between">
             <Input
               label="Shortened URL"
+              value={`${API_BASE_URL}/${id}`}
               disabled
             />
             <div className="w-full my-5">

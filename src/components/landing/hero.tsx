@@ -34,7 +34,7 @@ const QrGenerationForm = ({ setSvg }: { setSvg: (svg: string | null) => void }) 
   }
 
   const handlePermaQr = async () => {
-    const res = await fetch(`${API_BASE_URL}/perma`, {
+    const res = await fetch(`${API_BASE_URL}/gen/perma`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

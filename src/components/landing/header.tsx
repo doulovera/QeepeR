@@ -14,7 +14,12 @@ export const Header = () => {
             <a href="/">Home</a>
           </li>
           <li>
-            <a href="/qr" className="opacity-70 cursor-not-allowed">My QRs</a>
+            <a
+              href="/qr"
+              className={!user ? 'opacity-70 cursor-not-allowed' : ''}
+            >
+              My QRs
+            </a>
           </li>
           <li>
             <a href="/about">About</a>
@@ -22,7 +27,7 @@ export const Header = () => {
           <li>
             {
               user 
-                ? <button onClick={logOut}>{user.name}</button>
+                ? <button onClick={logOut}>{user.name.split(' ')[0]}</button>
                 : <button onClick={logInWithGoogle}>Log in</button>
             }
           </li>
