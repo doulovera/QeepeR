@@ -2,6 +2,7 @@
 
 import useAuth from "@/hooks/useAuth";
 import { logInWithGoogle, logOut } from "@/lib/auth";
+import Link from "next/link";
 
 export const Header = () => {
   const user = useAuth();
@@ -11,18 +12,21 @@ export const Header = () => {
       <nav className="w-full">
         <ul className="flex justify-between w-full">
           <li>
-            <a href="/">Home</a>
+            <Link href="/">Home</Link>
           </li>
           <li>
-            <a
-              href="/qr"
-              className={!user ? 'opacity-70 cursor-not-allowed' : ''}
-            >
-              My QRs
-            </a>
-          </li>
-          <li>
-            <a href="/about">About</a>
+            {
+              user
+                ? (
+                  <Link
+                    href="/qr"
+                    className={!user ? 'opacity-70 cursor-not-allowed' : ''}
+                  >
+                    My QRs
+                  </Link>
+                )
+                : <span className={!user ? 'opacity-70 cursor-not-allowed' : ''}>My QRs</span>
+            }
           </li>
           <li>
             {

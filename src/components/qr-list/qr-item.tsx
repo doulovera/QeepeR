@@ -1,12 +1,12 @@
-import { Delete } from "../icons/delete"
-import { Download } from "../icons/download"
-import { Eye } from "../icons/eye"
-import { Share } from "../icons/share"
+import { ActionButtons } from "./action-buttons"
+
 import { Input } from "../shared/input"
 import { QrImage } from "../shared/qr-image"
 import { Switch } from "../shared/switch"
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || ""
+import { Eye } from "../icons/eye"
+import { EditForm } from "./edit-form"
+import { ClipboardCopy } from "../icons/clipboard-copy"
 
 export const QrItem = (
   { svg, id, disabled, destinationUrl }:
@@ -25,44 +25,19 @@ export const QrItem = (
 
       <section className="flex flex-col gap-2 w-full h-auto rounded-3xl overflow-hidden">
         <div className="flex-1 flex flex-col gap-1 min-h-[20rem] p-6 bg-primary-950 rounded-b-[2.5px] rounded-t-3xl">
-          
-          <div className="flex justify-between gap-20">
-            <Input
-              label="Background Color"
-              disabled
-            />
-            <Input
-              label="Squares Color"
-              disabled
-            />
-          </div>
-          
-          <div className="w-full">
-            <Input
-              label="Destination URL"
-              description="The link you want it to redirect"
-              value={destinationUrl}
-              onChange={() => console.log('change')}
-            />
-          </div>
-
-          <div className="flex justify-between items-center gap-20">
-            <Switch
-              label="Disable Link"
-              description="If enabled, the QR will show a 404 page"
-              checked={disabled}
-            />
-            <Switch
-              label="Visitors Count"
-              description="Keep track of the amount of people that visits your QR"
-              disabled
-            />
-          </div>
+          <EditForm
+            id={id}
+            destinationUrl={destinationUrl}
+            disabled={disabled}
+          />
 
           <div className="flex gap-20 justify-between">
             <Input
-              label="Shortened URL"
-              value={`${API_BASE_URL}/${id}`}
+              label="QR ID"
+              // description="This id is used to access the QR code from the URL"
+              // value={`${API_BASE_URL}/${id}`}
+              value={`${id}`}
+              iconBtn={ <ClipboardCopy width="20" color="#fff" /> }
               disabled
             />
             <div className="w-full my-5">
@@ -88,20 +63,9 @@ export const QrItem = (
           </div>
 
         </div>
-        <div className="flex justify-between gap-2">
-          <button className="flex items-center justify-center gap-2 w-full h-14 rounded-[2.5px] bg-primary-950">
-            <Delete width="20" color="#fff" />
-            Delete
-          </button>
-          <button className="flex items-center justify-center gap-2 w-full h-14 rounded-[2.5px] bg-primary-950">
-            <Download width="20" color="#fff" />
-            Download
-          </button>
-          <button className="flex items-center justify-center gap-2 w-full h-14 rounded-[2.5px] bg-primary-950">
-            <Share width="20" color="#fff" />
-            Share
-          </button>
-        </div>
+        <ActionButtons
+          handleDelete={() => console.log('delete')}
+        />
       </section>
     </article>
   )

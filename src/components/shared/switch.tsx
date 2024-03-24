@@ -4,12 +4,14 @@ import { useState } from "react";
 
 export const Switch = (
   {
+    name,
     label,
     checked,
     onChange,
     description,
     disabled,
   }: {
+    name?: string;
     label?: string;
     description?: string;
     checked?: boolean;
@@ -25,9 +27,10 @@ export const Switch = (
   }
 
   return (
-    <label className={`relative inline-flex items-center w-full max-w-full my-5 cursor-pointer ${disabled ? 'opacity-80' : ''}`}>
+    <label className={`relative inline-flex items-center w-full max-w-full my-5 ${disabled ? 'opacity-80 cursor-not-allowed' : 'cursor-pointer'}`}>
       <div className="relative">
         <input
+          name={name}
           type="checkbox"
           checked={isChecked}
           value=""
