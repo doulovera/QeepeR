@@ -79,6 +79,7 @@ export const listUserQrs = async (c: QeeperCtx) => {
  * @param c The Hono context
  */
 export const updateQrInfo = async (c: QeeperCtx) => {
+  /// TODO :: FIX - if it's disabled, it shouldn't appear in upstash if any other setting is updated
   try {
     const body = await c.req.json()
     if (!body) throw new ApplicationError(API_RESPONSE.MISSING_BODY.TITLE, API_RESPONSE.MISSING_BODY.MESSAGE, 400)

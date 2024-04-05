@@ -5,7 +5,7 @@ import { QrImage } from "../shared/qr-image"
 import { Switch } from "../shared/switch"
 
 import { Eye } from "../icons/eye"
-import { EditForm } from "./edit-form"
+import { EditForm } from "./form/edit-form"
 import { ClipboardCopy } from "../icons/clipboard-copy"
 
 export const QrItem = (

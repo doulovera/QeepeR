@@ -3,9 +3,9 @@ import { useState } from "react";
 
 import { updateQr } from "@/modules/qr-generation/update-qr";
 
-import { Save } from "../icons/save";
-import { Input } from "../shared/input"
-import { Switch } from "../shared/switch"
+import { Input } from "../../shared/input"
+import { Switch } from "../../shared/switch"
+import { DestinationUrlField } from "./destination-url-field";
 
 export const EditForm = (
   { id, destinationUrl, disabled }:
@@ -50,12 +50,9 @@ export const EditForm = (
       </div>
       
       <div className="w-full">
-        <Input
-          label="Destination URL"
-          description="The link you want it to redirect"
-          value={destinationUrl}
-          onChange={() => console.log('change')}
-          iconBtn={ <Save width="20" color="#fff" /> }
+        <DestinationUrlField
+          id={id}
+          destinationUrl={destinationUrl}
         />
       </div>
 
