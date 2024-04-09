@@ -59,7 +59,9 @@ export const listUserQrs = async (c: QeeperCtx) => {
 
     if (img) {
       const qrListWithQr = await Promise.all(qrList.map(async (qr) => {
-        const svg = await generateQr(qr.destinationUrl)
+        /// TODO : create a better and scalable way to get the app url
+        const appUrl = c.req.url.split('/gen')[0]
+        const svg = await generateQr(`${appUrl}/${qr.id}`)
         return { ...qr, svg }
       }))
 
