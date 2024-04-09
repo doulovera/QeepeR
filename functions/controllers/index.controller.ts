@@ -19,6 +19,7 @@ export default function mainRoutes() {
  * If any errors occur during this process, it returns an error payload.
  */
 export const main = async (c: QeeperCtx) => {
+  /// TODO : do something to avoid infinite loop (using the same url as the one that is being called)
   try {
     const body = await c.req.json()
     if (!body) throw new ApplicationError(API_RESPONSE.MISSING_BODY.TITLE, API_RESPONSE.MISSING_BODY.MESSAGE, 400)

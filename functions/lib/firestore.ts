@@ -133,3 +133,17 @@ export const updateQrDB = async (c: Context<HonoContext>, key: string, propertie
   const response = await Firestore.update(await db(c.env, c.get('auth')?.uid), `qrs/${key}`, properties);
   return response;  
 }
+
+export const getUserQrKeys = async (c: Context<HonoContext>) => {
+  const uid = c.get('auth')?.uid
+
+  if (!uid) {
+    throw new ApplicationError(API_RESPONSE.UNAUTHORIZED.TITLE, API_RESPONSE.UNAUTHORIZED.MESSAGE, 401);
+  }
+
+  const userInfo = await Firestore.get(await db(c.env, uid), `users/${uid}/qrs`) as unknown as DocumentList<{ qr: { stringValue: string } }>
+  const sortedList = userInfo.documents.toSorted((a,b) => new Date(a.createTime).getTime() - new Date(b.createTime).getTime())
+
+  const mappedList = sortedList.map(({ name }) => name.split('/').at(-1))
+  return mappedList;
+}

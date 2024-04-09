@@ -6,12 +6,13 @@ import { generateQr } from "../utils/generate-qr"
 import { API_RESPONSE } from "../constants/errors"
 
 import { createQrLink, deleteQrLink, updateQrLink } from "../lib/qr-link"
-import { createQrInfoDB, getQrInfoByKey, getUserQrListDB, updateQrDB, validateUserQrDB } from "../lib/firestore"
+import { createQrInfoDB, getQrInfoByKey, getUserQrKeys, getUserQrListDB, updateQrDB, validateUserQrDB } from "../lib/firestore"
 
 export default function genRoutes() {
   const gen = new Hono<HonoContext>()
 
   gen.get('/list', listUserQrs)
+  gen.get('/info/:key', getQrInfo)
   gen.post('/perma', permaQr)
   gen.put('/update/:key', updateQrInfo)
 
@@ -65,6 +66,7 @@ export const listUserQrs = async (c: QeeperCtx) => {
         return { ...qr, svg }
       }))
 
+      /// TODO : list should ALWAYS have a concurrent sort order (by creation date probably)
       return successPayload(c, { success: true, images: img, result: qrListWithQr })
     }
 
@@ -72,6 +74,39 @@ export const listUserQrs = async (c: QeeperCtx) => {
   } catch (error) {
     return errorPayload(c, error as Error)
   }
+}
+
+/**
+ * This is the controller for getting the information of a QR code. It handles incoming requests by parsing the request parameters,
+ * validating the presence of a key, and fetching the information of the QR code. It returns a success payload with the information
+ * of the QR code. If any errors occur during this process, it returns an error payload.
+ * @param c The Hono context
+ */
+export const getQrInfo = async (c: QeeperCtx) => {
+  try {
+    const key = c.req.param('key')
+    if (!key) throw new ApplicationError(API_RESPONSE.MISSING_BODY_KEY.TITLE, API_RESPONSE.MISSING_BODY_KEY.MESSAGE('key'), 400)
+    
+    const userKeys = await getUserQrKeys(c)
+
+    // Validate if the key is associated with the user
+    if (!userKeys.includes(key)) throw new ApplicationError(API_RESPONSE.NOT_FOUND.TITLE, API_RESPONSE.NOT_FOUND.MESSAGE, 404)
+
+    const qrInfo = await getQrInfoByKey(c, key)
+    if (!qrInfo) throw new ApplicationError(API_RESPONSE.NOT_FOUND.TITLE, API_RESPONSE.NOT_FOUND.MESSAGE, 404)
+
+    const response = {
+      id: key,
+      ...qrInfo,
+      length: userKeys.length,
+      page: userKeys.indexOf(key) + 1,
+    }
+
+    return successPayload(c, { success: true, response })
+  } catch (error) {
+    return errorPayload(c, error as Error)
+  }
+
 }
 
 /**
@@ -124,7 +159,6 @@ export const updateQrInfo = async (c: QeeperCtx) => {
 
     return successPayload(c, { success: true, response })
   } catch (error) {
-    console.log(error)
     return errorPayload(c, error as Error)
   }
 }
