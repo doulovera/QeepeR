@@ -1,12 +1,15 @@
 import type { HonoContext, QeeperCtx } from "../types"
+import type { GetQrInfoResponse } from "../types/responses"
+
 import { Hono } from "hono"
+
 import { successPayload, errorPayload } from "../lib/response"
 import ApplicationError from "../lib/error"
-import { generateQr } from "../utils/generate-qr"
-import { API_RESPONSE } from "../constants/errors"
-
 import { createQrLink, deleteQrLink, updateQrLink } from "../lib/qr-link"
 import { createQrInfoDB, getQrInfoByKey, getUserQrKeys, getUserQrListDB, updateQrDB, validateUserQrDB } from "../lib/firestore"
+
+import { generateQr } from "../utils/generate-qr"
+import { API_RESPONSE } from "../constants/errors"
 
 export default function genRoutes() {
   const gen = new Hono<HonoContext>()
@@ -95,11 +98,24 @@ export const getQrInfo = async (c: QeeperCtx) => {
     const qrInfo = await getQrInfoByKey(c, key)
     if (!qrInfo) throw new ApplicationError(API_RESPONSE.NOT_FOUND.TITLE, API_RESPONSE.NOT_FOUND.MESSAGE, 404)
 
-    const response = {
+    const currentKeyPosition = userKeys.indexOf(key)
+
+    const response: GetQrInfoResponse = {
       id: key,
       ...qrInfo,
       length: userKeys.length,
-      page: userKeys.indexOf(key) + 1,
+      page: currentKeyPosition + 1,
+      image: false,
+      next: userKeys[currentKeyPosition + 1] || null,
+      previous: userKeys[currentKeyPosition - 1] || null
+    }
+
+    const img = c.req.query('img')
+
+    if (img) {
+      const appUrl = c.req.url.split('/gen')[0]
+      const svg = await generateQr(`${appUrl}/${key}`)
+      response.image = svg
     }
 
     return successPayload(c, { success: true, response })

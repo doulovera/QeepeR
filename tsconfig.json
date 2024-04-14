@@ -34,7 +34,8 @@
     ".next/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "functions"
   ],
   "types": [
     "@cloudflare/workers-types/2023-07-01"
