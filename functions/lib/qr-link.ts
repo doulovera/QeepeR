@@ -1,10 +1,10 @@
-import type { WranglerEnv } from '../types'
+import type { WranglerBindings } from '../types'
 import type { QrResponse } from './db'
 
 import * as db from './db'
 import { getRandomString } from '../utils/get-random-string'
 
-export const createQrLink = async (c: { env: WranglerEnv }, url: string, defaultKey?: string) => {
+export const createQrLink = async (c: { env: WranglerBindings }, url: string, defaultKey?: string) => {
   let key = defaultKey || undefined
 
   if (!key) key = getRandomString()
@@ -17,7 +17,7 @@ export const createQrLink = async (c: { env: WranglerEnv }, url: string, default
   return key
 }
 
-export const getQrLink = async (c: { env: WranglerEnv }, key: string): Promise<QrResponse> => {
+export const getQrLink = async (c: { env: WranglerBindings }, key: string): Promise<QrResponse> => {
   const qr = await db.get(c, key)
 
   if (!qr) {
@@ -27,7 +27,7 @@ export const getQrLink = async (c: { env: WranglerEnv }, key: string): Promise<Q
   return sumView(c, { key, qr })
 }
 
-export const sumView = async (c: { env: WranglerEnv }, qrInfo: { key: string, qr: QrResponse }) => {
+export const sumView = async (c: { env: WranglerBindings }, qrInfo: { key: string, qr: QrResponse }) => {
   if (qrInfo.qr.views == null) return qrInfo.qr
 
   const copyOfQr = {
@@ -44,7 +44,7 @@ export const sumView = async (c: { env: WranglerEnv }, qrInfo: { key: string, qr
   return copyOfQr
 }
 
-export const deleteQrLink = async (c: { env: WranglerEnv }, key: string) => {
+export const deleteQrLink = async (c: { env: WranglerBindings }, key: string) => {
   const response = await db.del(c, key)
 
   if (!response) {
@@ -52,7 +52,7 @@ export const deleteQrLink = async (c: { env: WranglerEnv }, key: string) => {
   }
 }
 
-export const updateQrLink = async (c: { env: WranglerEnv }, key: string, url: string, options: { views: number | null }) => {  
+export const updateQrLink = async (c: { env: WranglerBindings }, key: string, url: string, options: { views: number | null }) => {  
   const copyOfQr = {
     url,
     views: options?.views ?? null

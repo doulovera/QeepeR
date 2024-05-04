@@ -1,5 +1,10 @@
+import type { KVNamespace } from "@cloudflare/workers-types"
 import type { Context } from "hono"
 import type { AuthUser } from "./auth"
+
+type WranglerKV = {
+  KV: KVNamespace
+}
 
 export type WranglerEnv = {
   FIREBASE_PROJECT_ID: string
@@ -15,8 +20,10 @@ type WranglerVariables = {
   auth: AuthUser
 }
 
+export type WranglerBindings = WranglerEnv & WranglerKV
+
 export type HonoContext = {
-  Bindings: WranglerEnv
+  Bindings: WranglerBindings
   Variables: WranglerVariables
 }
 

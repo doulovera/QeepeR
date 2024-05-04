@@ -1,13 +1,11 @@
-import type { WranglerEnv } from "../types"
-
-import { Redis } from "@upstash/redis/cloudflare"
+import type { WranglerBindings } from "../types"
 
 export type QrResponse = {
   url: string
   views: number | null
 }
 
-const db = (url: string, token: string) => new Redis({ url, token })
+const db = (c: { env: WranglerBindings }) => c.env.KV
 
 /**
  * Sets a value in the database.
@@ -16,8 +14,14 @@ const db = (url: string, token: string) => new Redis({ url, token })
  * @param value - The value to be set.
  * @returns A Promise that resolves when the value is set.
  */
-export const set = async (c: { env: WranglerEnv }, key: string, value: QrResponse) => {
-  return db(c.env.UPSTASH_REDIS_REST_URL, c.env.UPSTASH_REDIS_REST_TOKEN).set(key, value)
+export const set = async (c: { env: WranglerBindings }, key: string, value: QrResponse) => {
+  try {
+    await db(c).put(key, JSON.stringify(value))
+    return true
+  } catch (error) {
+    console.error(error)
+    return false
+  }
 }
 
 /**
@@ -26,8 +30,12 @@ export const set = async (c: { env: WranglerEnv }, key: string, value: QrRespons
  * @param key - The key of the value.
  * @returns A Promise that resolves with the value.
  */
-export const get = async (c: { env: WranglerEnv }, key: string): Promise<QrResponse | null> => {
-  return db(c.env.UPSTASH_REDIS_REST_URL, c.env.UPSTASH_REDIS_REST_TOKEN).get(key)
+export const get = async (c: { env: WranglerBindings }, key: string): Promise<QrResponse | null> => {
+  const value = await db(c).get(key)
+
+  return value
+    ? JSON.parse(value)
+    : null
 }
 
 /**
@@ -36,8 +44,7 @@ export const get = async (c: { env: WranglerEnv }, key: string): Promise<QrRespo
  * @param key - The key of the value.
  * @returns A Promise that resolves with the value.
  */
-export const del = async (c: { env: WranglerEnv }, key: string): Promise<boolean> => {
-  const numberOfDeletedRecords = await db(c.env.UPSTASH_REDIS_REST_URL, c.env.UPSTASH_REDIS_REST_TOKEN).del(key)
-
-  return numberOfDeletedRecords > 0
+export const del = async (c: { env: WranglerBindings }, key: string): Promise<boolean> => {
+  await db(c).delete(key)
+  return true
 }

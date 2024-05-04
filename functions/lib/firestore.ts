@@ -1,5 +1,5 @@
 import type { Context } from "hono";
-import type { HonoContext, WranglerEnv } from "../types";
+import type { HonoContext, WranglerBindings } from "../types";
 
 import * as Firestore from 'fireworkers';
 import { DocumentList, QrObject } from "../types/firestore";
@@ -8,7 +8,7 @@ import { API_RESPONSE } from "../constants/errors";
 
 /// TODO: Transform into class
 
-const db = async (env: WranglerEnv, uid: string) => await Firestore.init({
+const db = async (env: WranglerBindings, uid: string) => await Firestore.init({
   uid,
   project_id: env.FIREBASE_PROJECT_ID,
   client_email: env.FIREBASE_CLIENT_EMAIL,
