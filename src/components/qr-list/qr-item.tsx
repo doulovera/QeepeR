@@ -1,72 +1,65 @@
-import { ActionButtons } from "./action-buttons"
+'use server'
 
-import { Input } from "../shared/input"
-import { QrImage } from "../shared/qr-image"
-import { Switch } from "../shared/switch"
+import { QrItemContent } from "./qr-item-content";
 
-import { Eye } from "../icons/eye"
-import { EditForm } from "./form/edit-form"
-import { ClipboardCopy } from "../icons/clipboard-copy"
+export default async function QrItem (
+  { user, id }:
+  { user: { accessToken: string }, id: string }
+) {
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || ""
 
-export const QrItem = (
-  { svg, id, disabled, destinationUrl }:
-  {
-    svg: string;
-    id: string;
-    disabled: boolean;
-    destinationUrl: string;
+  const res = await fetch(
+    `${API_BASE_URL}/gen/info/${id}?img=true`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${user.accessToken}`
+      },
+      next: { revalidate: 0 },
+      cache: 'no-store',
+    }
+  )
+
+  if (!res.ok) {
+    console.error('Error fetching QR code')
+    return null
   }
-) => {
+
+  const data: Response = await res.json()
+
+  if (!data.success) {
+    console.error('Error fetching QR code')
+    return null
+  }
+
+  const response = data.response
+
   const visitorsCount = 0
 
   return (
-    <article className="flex flex-col justify-center gap-8 w-full max-w-2xl ">
-      <QrImage svg={svg} />
-
-      <section className="flex flex-col gap-2 w-full h-auto rounded-3xl overflow-hidden">
-        <div className="flex-1 flex flex-col gap-1 min-h-[20rem] p-6 bg-primary-950 rounded-b-[2.5px] rounded-t-3xl">
-          <EditForm
-            id={id}
-            destinationUrl={destinationUrl}
-            disabled={disabled}
-          />
-
-          <div className="flex gap-20 justify-between">
-            <Input
-              label="QR ID"
-              // description="This id is used to access the QR code from the URL"
-              // value={`${API_BASE_URL}/${id}`}
-              value={`${id}`}
-              iconBtn={ <ClipboardCopy width="20" color="#fff" /> }
-              disabled
-            />
-            <div className="w-full my-5">
-              <span className="block text-primary-50 mb-2 text-sm font-bold">
-                Visitors Count
-              </span>
-
-              <div className="flex items-center justify-start gap-2 py-2 text-2xl font-bold">
-                {
-                  visitorsCount
-                    ? (
-                      <>
-                        <Eye width={40} color="#fff" />
-                        <p className="w-full">
-                          {visitorsCount} views
-                        </p>
-                      </>
-                    )
-                    : <p>Disabled</p>
-                }
-              </div>
-            </div>
-          </div>
-
-        </div>
-        <ActionButtons
-          handleDelete={() => console.log('delete')}
-        />
-      </section>
-    </article>
+    <>
+      <QrItemContent
+        visitorsCount={0}
+        {...response}
+      />
+    </>
   )
+}
+
+/// TODO: put in correct file
+export type QrInfoResponse = {
+  id: string;
+  created: string | undefined;
+  disabled: boolean;
+  destinationUrl: string;
+  length: number
+  page: number
+  image: string
+  next: string | null
+  previous: string | null
+}
+type Response = {
+  success: boolean
+  response: QrInfoResponse
 }

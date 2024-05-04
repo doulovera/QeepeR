@@ -1,9 +1,10 @@
 import { List } from "@/components/qr-list/list";
 
-export default function UserQrList() {
+export default function UserQrList({ params }: { params: { key: string } }) {
+
   return (
     <main className="flex flex-col items-center justify-center min-h-screen my-10">
-      <List />
+      <List id={params.key} />
     </main>
   );
 }
