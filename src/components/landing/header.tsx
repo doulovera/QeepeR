@@ -1,11 +1,12 @@
 'use client'
 
-import useAuth from "@/hooks/useAuth";
-import { logInWithGoogle, logOut } from "@/lib/auth";
+import { logInWithGoogle, logOut } from "@/lib/actions/auth";
 import Link from "next/link";
+import { Suspense } from "react";
+import { Name } from "./name";
 
 export const Header = () => {
-  const user = useAuth();
+  const user = null
 
   return (
     <header className="flex items-center justify-center w-80 h-20 p-4 mx-auto">
@@ -31,7 +32,11 @@ export const Header = () => {
           <li>
             {
               user 
-                ? <button onClick={logOut}>{user.name.split(' ')[0]}</button>
+                ? <button onClick={() => console.log('logout')}>
+                    <Name />
+                  <Suspense fallback="...">
+                  </Suspense>
+                </button>
                 : <button onClick={logInWithGoogle}>Log in</button>
             }
           </li>

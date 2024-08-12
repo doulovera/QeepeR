@@ -87,13 +87,9 @@ export const Hero = () => {
       />
       <div className="flex flex-col justify-center gap-2">
         <QrImage svg={svg || ''} size="large" />
-        {
-          svg && ( // TODO: avoid layout shift when appearing
-            <Button>
-              Save
-            </Button>
-          )
-        }
+        <Button className={`${svg ? 'inline-block' : 'invisible'}`}>
+          Save
+        </Button>
       </div>
     </section>
   );
