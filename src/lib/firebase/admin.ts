@@ -20,40 +20,21 @@ async function getSessionFromCookies() {
   try {
     return cookies().get(COOKIE_NAME)?.value
   } catch (error) {
-    console.log('🟡🟡🟡 getSessionFromCookies')
     return undefined
   }
 }
 
-export async function getIsUserAuthenticated(propSession: string | undefined = undefined) {
-  const session = propSession ?? (await getSessionFromCookies())
+export async function getUserByCookie(propCookie: string | undefined = undefined) {
+  const cookie = propCookie ?? (await getSessionFromCookies())
 
-  if (!session) return false
+  if (!cookie) return false
 
   try {
-    const isNotRevoked = await auth.verifyIdToken(session, true)
-    return isNotRevoked
+    const user = await auth.verifySessionCookie(cookie, true)
+    return user
   } catch (error) {
     console.error(error)
     return false
-  }
-}
-
-export async function getCurrentUser() {
-  try {
-    const session = await getSessionFromCookies()
-
-    const isUserAuthenticated = await getIsUserAuthenticated(session)
-
-    if (!isUserAuthenticated || !session) return null
-
-    const decodedIdToken = await auth.verifySessionCookie(session)
-    const currentUser = await auth.getUser(decodedIdToken.uid)
-
-    return currentUser
-  } catch (error) {
-    console.error(error)
-    return undefined
   }
 }
 
