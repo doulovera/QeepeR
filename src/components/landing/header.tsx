@@ -1,12 +1,12 @@
-'use client'
+'use server'
 
-import { logInWithGoogle, logOut } from "@/lib/actions/auth";
 import Link from "next/link";
-import { Suspense } from "react";
-import { Name } from "./name";
 
-export const Header = () => {
-  const user = null
+import { getUserMe } from "@/data/services/get-user-me";
+import { LoginHeader } from "./login";
+
+export const Header = async () => {
+  const user = await getUserMe()
 
   return (
     <header className="flex items-center justify-center w-80 h-20 p-4 mx-auto">
@@ -30,15 +30,7 @@ export const Header = () => {
             }
           </li>
           <li>
-            {
-              user 
-                ? <button onClick={() => console.log('logout')}>
-                    <Name />
-                  <Suspense fallback="...">
-                  </Suspense>
-                </button>
-                : <button onClick={logInWithGoogle}>Log in</button>
-            }
+            <LoginHeader name={user?.name ?? undefined} />
           </li>
         </ul>
       </nav>

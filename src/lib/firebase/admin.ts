@@ -38,6 +38,22 @@ export async function getUserByCookie(propCookie: string | undefined = undefined
   }
 }
 
+export async function getUserByToken(token: string) {
+  try {
+    const isUserAuthenticated = await auth.verifyIdToken(token, true)
+
+    if (!isUserAuthenticated) return null
+
+    const decodedIdToken = await auth.verifySessionCookie(token)
+    const currentUser = await auth.getUser(decodedIdToken.uid)
+
+    return currentUser
+  } catch (error) {
+    console.error(error)
+    return undefined
+  }
+}
+
 export async function createSessionCookie(idToken: string, expiresIn: number) {
   return auth.createSessionCookie(idToken, { expiresIn })
 }

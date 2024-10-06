@@ -1,7 +1,7 @@
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import { auth } from '@/lib/firebase/client'
 
-export async function logInWithGoogle (): Promise<boolean> {
+export async function logInWithGoogle (): Promise<void> {
   try {
     const provider = new GoogleAuthProvider()
     const result = await signInWithPopup(auth, provider)
@@ -20,24 +20,30 @@ export async function logInWithGoogle (): Promise<boolean> {
       body: JSON.stringify({ idToken })
     })
 
-    const data = await response.json()
+    const data: { success: boolean, message: string } = await response.json()
 
     if (!response.ok) {
       throw new Error(data.message)
     }
 
-    return data.success
+    window.location.reload()
   } catch (error) {
-    console.error(error) 
-    return false
+    console.error(error)
   }
 }
 
 export async function logOut (): Promise<void> {
   try {
-    // fetch('/api/auth/logout', {
+    await fetch('/api/auth/logout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+
+    window.location.reload()
   } catch (error) {
     console.error(error)
-    
   }
 }
+

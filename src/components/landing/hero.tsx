@@ -6,22 +6,19 @@ import { Qr } from "../icons/qr";
 import { Button } from "../shared/button";
 import { Input } from "../shared/input";
 import { QrImage } from "../shared/qr-image";
-import useAuth from "@/hooks/useAuth";
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || ""
+import { API_BASE_URL } from "@/data/constants/app";
 
 const QrGenerationForm = ({ setSvg }: { setSvg: (svg: string | null) => void }) => {
-  const user = useAuth();
   const [destinationUrl, setDestinationUrl] = useState<string>('')
 
-  const permaQrDisabled = !user
+  const permaQrDisabled = true
 
   const handleSubmit = async (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault()
     const form = evt.currentTarget
     const url = form.url.value
 
-    const res = await fetch(API_BASE_URL, {
+    const res = await fetch(`${API_BASE_URL}/qr/create`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
