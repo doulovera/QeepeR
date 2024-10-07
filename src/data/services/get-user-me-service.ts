@@ -1,4 +1,4 @@
-import { getUserByCookie } from "@/lib/firebase/admin"
+import { getUserByCookie } from "../actions/auth-actions"
 
 type User = {
   uid: string

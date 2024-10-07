@@ -1,10 +1,10 @@
-import { Header } from "@/components/landing/header";
+'use server'
+
 import { Hero } from "@/components/landing/hero";
 
-export default function Home() {
+export default async function Home() {
   return (
     <main className="w-full max-w-3xl min-h-screen mx-auto">
-      <Header />
       <Hero />
     </main>
   );

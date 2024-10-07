@@ -2,7 +2,6 @@
 
 import type { QrInfoResponse } from "./qr-item"
 
-
 import { CircleLeftArrow } from "@/components/icons/circle-left-arrow"
 import { CircleRightArrow } from "@/components/icons/circle-right-arrow"
 import Link from "next/link";
