@@ -1,12 +1,15 @@
 'use client'
 
 import { useState } from "react";
+
+import { API_BASE_URL } from "@/constants/app";
+import { createQR } from "@/data/actions/create-qr-actions";
+
 import { LightningBolt } from "../icons/lightning-bolt";
 import { Qr } from "../icons/qr";
-import { Button } from "../shared/button";
-import { Input } from "../shared/input";
-import { QrImage } from "../shared/qr-image";
-import { API_BASE_URL } from "@/data/constants/app";
+import { Button } from "@/components/shared/button";
+import { Input } from "@/components/shared/input";
+import { QrImage } from "@/components/shared/qr-image";
 
 const QrGenerationForm = ({ setSvg }: { setSvg: (svg: string | null) => void }) => {
   const [destinationUrl, setDestinationUrl] = useState<string>('')
@@ -18,15 +21,9 @@ const QrGenerationForm = ({ setSvg }: { setSvg: (svg: string | null) => void }) 
     const form = evt.currentTarget
     const url = form.url.value
 
-    const res = await fetch(`${API_BASE_URL}/qr/create`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ url })
-    })
+    const data = await createQR({ url })
+    if (!data.success) return
 
-    const data: { svg: string } = await res.json()
     setSvg(data.svg)
   }
 

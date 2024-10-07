@@ -1,6 +1,6 @@
 'use client'
 
-import { logInWithGoogle, logOut } from "@/data/actions/auth";
+import { logInWithGoogle, logOut } from "@/data/services/auth-service"
 
 type Props = {
   name?: string
@@ -8,8 +8,18 @@ type Props = {
 
 export const LoginHeader = ({ name }: Props) => {
 
-  const handleLogIn = async () => logInWithGoogle()
-  const handleLogOut = () => logOut()
+  const handleLogIn = async () => {
+    const response = await logInWithGoogle()
+    if (response) {
+      window.location.reload()
+    }
+  }
+  const handleLogOut = async () => {
+    const response = await logOut()
+    if (response) {
+      window.location.reload()
+    }
+  }
   
   if (!name) {
     return (
@@ -19,8 +29,10 @@ export const LoginHeader = ({ name }: Props) => {
     )
   }
 
-  return <button onClick={handleLogOut}>
-    {name}
-  </button>
+  return (
+    <button onClick={handleLogOut}>
+      {name.split(' ')[0]}
+    </button>
+  )
 
 }

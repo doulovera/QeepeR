@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 
-import { getUserMe } from "@/data/services/get-user-me";
+import { getUserMe } from "@/data/services/get-user-me-service";
 import { LoginHeader } from "./login";
 
 export const Header = async () => {
