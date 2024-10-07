@@ -13,7 +13,7 @@ export const firebaseApp = getApps().find((it) => it.name === APP_NAME) ||
       credential: cert({
         projectId: FIREBASE_PROJECT_ID,
         clientEmail: FIREBASE_CLIENT_EMAIL,
-        privateKey: FIREBASE_PRIVATE_KEY
+        privateKey: FIREBASE_PRIVATE_KEY?.replaceAll('\\n', '\n'),
       })
     },
     APP_NAME,
