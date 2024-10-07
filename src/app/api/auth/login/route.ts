@@ -1,6 +1,5 @@
-import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { COOKIE_NAME, createSessionCookie } from "@/lib/firebase/admin";
+import { createSession } from "@/data/actions/auth-actions";
 
 interface Body {
   idToken: string
@@ -15,15 +14,7 @@ export async function POST(request: NextRequest) {
 
   const { idToken } = body
 
-  const expiresIn  = 60 * 60 * 24 * 5 * 1000 // 5 days
-
-  const sessionCookie = await createSessionCookie(idToken, expiresIn)
-
-  cookies().set(COOKIE_NAME, sessionCookie, {
-    maxAge: expiresIn,
-    httpOnly: true,
-    secure: true,
-  })
+  await createSession(idToken)
 
   return NextResponse.json({
     success: true,

@@ -1,9 +1,8 @@
-import { cookies } from "next/headers";
+import { deleteCookieSession } from "@/data/services/session-service";
 import { NextRequest, NextResponse } from "next/server";
-import { COOKIE_NAME, createSessionCookie } from "@/lib/firebase/admin";
 
 export async function POST(request: NextRequest) {
-  cookies().set(COOKIE_NAME, "", { maxAge: 0 });
+  await deleteCookieSession()
   
   return NextResponse.json({
     success: true,
