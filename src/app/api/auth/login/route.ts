@@ -6,18 +6,25 @@ interface Body {
 }
 
 export async function POST(request: NextRequest) {
-  const body: Body = await request.json()
+  try {
+    const body: Body = await request.json()
 
-  if (!body.idToken) {
-    return new Response('idToken is required', { status: 400 })
+    if (!body.idToken) {
+      return new Response('idToken is required', { status: 400 })
+    }
+
+    const { idToken } = body
+
+    await createSession(idToken)
+
+    return NextResponse.json({
+      success: true,
+      message: 'Logged in successfully',
+    })
+  } catch (error) {
+    return NextResponse.json({
+      success: false,
+      message: (error as Error).message
+    })
   }
-
-  const { idToken } = body
-
-  await createSession(idToken)
-
-  return NextResponse.json({
-    success: true,
-    message: 'Logged in successfully',
-  })
 }
