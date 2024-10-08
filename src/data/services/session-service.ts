@@ -5,7 +5,7 @@ import { cookies } from 'next/headers'
 const COOKIE_NAME = '__session'
 
 export async function getSessionFromCookies() {
-  cookies().get(COOKIE_NAME)?.value
+  return cookies().get(COOKIE_NAME)?.value
 }
 
 export async function createCookieSession(sessionCookie: string, expiresIn: number) {
