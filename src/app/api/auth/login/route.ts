@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createSession } from "@/data/actions/auth-actions";
+import { logger } from "@/data/services/logger";
 
 interface Body {
   idToken: string
@@ -22,9 +23,13 @@ export async function POST(request: NextRequest) {
       message: 'Logged in successfully',
     })
   } catch (error) {
-    return NextResponse.json({
-      success: false,
-      message: (error as Error).message
-    })
+    await logger('error', (error as Error).message)
+    return NextResponse.json(
+      {
+        success: false,
+        message: (error as Error).message
+      },
+      { status: 500 }
+    )
   }
 }

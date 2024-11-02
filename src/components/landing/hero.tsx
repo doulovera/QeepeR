@@ -10,11 +10,12 @@ import { Qr } from "../icons/qr";
 import { Button } from "@/components/shared/button";
 import { Input } from "@/components/shared/input";
 import { QrImage } from "@/components/shared/qr-image";
+import { createPermaQR } from "@/data/actions/qr-code-actions";
 
 const QrGenerationForm = ({ setSvg }: { setSvg: (svg: string | null) => void }) => {
   const [destinationUrl, setDestinationUrl] = useState<string>('')
 
-  const permaQrDisabled = true
+  const permaQrDisabled = false
 
   const handleSubmit = async (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault()
@@ -28,18 +29,12 @@ const QrGenerationForm = ({ setSvg }: { setSvg: (svg: string | null) => void }) 
   }
 
   const handlePermaQr = async () => {
-    const res = await fetch(`${API_BASE_URL}/gen/perma`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        /// @ts-ignore
-        'Authorization': `Bearer ${user?.accessToken}`
-      },
-      body: JSON.stringify({ url: destinationUrl })
-    })
+    const data = await createPermaQR(destinationUrl)
+    console.log('🟠🟠', data)
 
-    const data: { svg: string } = await res.json()
-    setSvg(data.svg)
+    if (!data) return
+
+    // setSvg(data.svg)
   }
 
   return (

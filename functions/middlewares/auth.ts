@@ -1,32 +1,14 @@
+import type { Context } from "hono";
 
-import { getFirebaseToken, verifyFirebaseAuth } from "@hono/firebase-auth";
+export async function authMiddleware (c: Context, next: () => void) {
+  const token = c.req.header('Authorization')
+  if (!token) return c.json({ error: 'Unauthorized' }, 401)
+    
+    const TOKEN_KEY = c.env.TOKEN_KEY
 
-/// @ts-ignore ** TODO **
-export const auth = async (c, next) => {
-  let l: any;
-  const firebaseAuth = verifyFirebaseAuth({
-    projectId: c.env.FIREBASE_PROJECT_ID,
-    firebaseEmulatorHost: "",
-    keyStore: {
-      get() {
-        return l;
-      },
-      /// @ts-ignore ** TODO **
-      put(e: any) {
-        l = e;
-      },
-    },
-  });
-
-  try {
-    /// @ts-ignore ** TODO **
-    await firebaseAuth(c, () => {
-      c.set("auth", getFirebaseToken(c));
-    });
-
-    return await next();
-  } catch (e) {
-    console.error("Unauthenticated Request");
-    return c.json({ error: "Unauthenticated Request" }, 401);
+  if (token.replace('Bearer ', '') !== TOKEN_KEY) {
+    return c.json({ error: 'Unauthorized' }, 401)
   }
-};
+
+  return next()
+}

@@ -1,4 +1,3 @@
-
-export const List = ({ id }: { id: string }) => {
+export const List = () => {
   return <p>not logged in</p> // TODO
 }

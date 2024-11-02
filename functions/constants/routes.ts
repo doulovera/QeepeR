@@ -1,1 +1,1 @@
-export const GENERATION = '/gen'
+export const GENERATION = '/code'

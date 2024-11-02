@@ -2,6 +2,7 @@
 
 import { initializeApp, cert, getApps } from 'firebase-admin/app'
 import { getAuth } from 'firebase-admin/auth'
+import { getFirestore } from 'firebase-admin/firestore'
 
 import { FIREBASE_CLIENT_EMAIL, FIREBASE_PRIVATE_KEY, FIREBASE_PROJECT_ID } from '@/constants/firebase'
 
@@ -20,3 +21,4 @@ export const firebaseApp = getApps().find((it) => it.name === APP_NAME) ||
   )
 
 export const _auth = getAuth(firebaseApp)
+export const _db = getFirestore(firebaseApp)

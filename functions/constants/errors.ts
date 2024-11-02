@@ -17,4 +17,4 @@ export const API_RESPONSE = {
     TITLE: "Unauthorized",
     MESSAGE: "You are not authorized to access this resource.",
   },
-}
+} as const

@@ -3,10 +3,10 @@ import type { HonoContext } from './types'
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 
-import { auth } from './middlewares/auth'
-
 import mainRoutes from './controllers/index.controller'
 import genRoutes from './controllers/gen.controller'
+
+import { authMiddleware } from './middlewares/auth'
 
 import { getQrLink } from './lib/qr-link'
 
@@ -15,7 +15,7 @@ import * as ROUTES from './constants/routes'
 const app = new Hono<HonoContext>()
 
 app.use('*', cors())
-app.use(`${ROUTES.GENERATION}/*`, auth)
+app.use(`${ROUTES.GENERATION}/*`, authMiddleware)
 
 app.route('/', mainRoutes())
 app.route(ROUTES.GENERATION, genRoutes())
@@ -29,7 +29,7 @@ app.get('/:key', async (c) => {
 
   // if not found return 404
 
-  return c.redirect(qr.url)
+  return c.redirect(qr)
 })
 
 export default app
