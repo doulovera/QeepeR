@@ -15,7 +15,7 @@ import { createPermaQR } from "@/data/actions/qr-code-actions";
 const QrGenerationForm = ({ setSvg }: { setSvg: (svg: string | null) => void }) => {
   const [destinationUrl, setDestinationUrl] = useState<string>('')
 
-  const permaQrDisabled = false
+  const permaQrDisabled = true
 
   const handleSubmit = async (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault()
@@ -30,11 +30,8 @@ const QrGenerationForm = ({ setSvg }: { setSvg: (svg: string | null) => void }) 
 
   const handlePermaQr = async () => {
     const data = await createPermaQR(destinationUrl)
-    console.log('🟠🟠', data)
-
     if (!data) return
-
-    // setSvg(data.svg)
+    setSvg(data)
   }
 
   return (

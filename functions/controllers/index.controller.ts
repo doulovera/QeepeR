@@ -8,7 +8,7 @@ import { API_RESPONSE } from "../constants/errors"
 export default function mainRoutes() {
   const mainRoutes = new Hono<HonoContext>()
 
-  mainRoutes.post('/', main)
+  mainRoutes.post('/', generateQR)
 
   return mainRoutes
 }
@@ -18,7 +18,7 @@ export default function mainRoutes() {
  * validating the presence of a URL, generating a QR code for the URL, and returning a success payload with the QR code.
  * If any errors occur during this process, it returns an error payload.
  */
-export const main = async (c: QeeperCtx) => {
+export const generateQR = async (c: QeeperCtx) => {
   /// TODO : do something to avoid infinite loop (using the same url as the one that is being called)
   try {
     const body = await c.req.json()

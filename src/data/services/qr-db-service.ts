@@ -4,8 +4,9 @@ import { QR_COLLECTION, USER_COLLECTION } from "@/constants/collections"
 export type QRDoc = {
   destinationUrl: string,
   disabled: boolean,
-  created: string,
+  views: boolean,
   user: string,
+  created: string,
 }
 
 interface QRInfoCreation {
@@ -20,12 +21,15 @@ export const addQR = async (key: string, qr: QRInfoCreation) => {
       throw new Error('Unauthorized')
     }
 
-    const response = await _db.collection(QR_COLLECTION).doc(key).set({
+    const qrDocValues: QRDoc = {
       destinationUrl: url,
       disabled: false,
       created: new Date().toISOString(),
       user: `${USER_COLLECTION}/${uid}`,
-    })
+      views: false,
+    }
+
+    const response = await _db.collection(QR_COLLECTION).doc(key).set(qrDocValues)
 
     await addQRToUserList(key, uid)
 

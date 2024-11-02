@@ -1,9 +1,6 @@
 import type { WranglerBindings } from "../types"
 
-export type QrResponse = {
-  url: string
-  views: number | null
-}
+export type QrResponse = string
 
 const db = (c: { env: WranglerBindings }) => c.env.KV
 

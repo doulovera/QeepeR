@@ -4,11 +4,11 @@ import type { QrResponse } from './db'
 import * as db from './db'
 import { getRandomString } from '../utils/get-random-string'
 
-export const createQrLink = async (c: { env: WranglerBindings }, url: string, defaultKey?: string) => {
+export const generateQrLink = async (c: { env: WranglerBindings }, url: string, defaultKey?: string) => {
   let key = defaultKey || undefined
 
   if (!key) key = getRandomString()
-  const response = await db.set(c, key, { url, views: 0 })
+  const response = await db.set(c, key, url)
 
   if (!response) {
     throw new Error('Failed to create QR link')
@@ -28,20 +28,16 @@ export const getQrLink = async (c: { env: WranglerBindings }, key: string): Prom
 }
 
 export const sumView = async (c: { env: WranglerBindings }, qrInfo: { key: string, qr: QrResponse }) => {
-  if (qrInfo.qr.views == null) return qrInfo.qr
+  // if (qrInfo.qr.views == null) return qrInfo.qr
 
-  const copyOfQr = {
-    ...qrInfo.qr,
-    views: qrInfo.qr.views + 1
-  }
 
-  const response = await db.set(c, qrInfo.key, copyOfQr)
+  const response = await db.set(c, qrInfo.key, qrInfo.qr)
 
   if (!response) {
     throw new Error('Failed to update QR link')
   }
 
-  return copyOfQr
+  return qrInfo.key
 }
 
 export const deleteQrLink = async (c: { env: WranglerBindings }, key: string) => {
@@ -58,7 +54,7 @@ export const updateQrLink = async (c: { env: WranglerBindings }, key: string, ur
     views: options?.views ?? null
   }
 
-  const response = await db.set(c, key, copyOfQr)
+  const response = await db.set(c, key, url)
 
   if (!response) {
     throw new Error('Failed to update QR link')

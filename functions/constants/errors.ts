@@ -17,4 +17,8 @@ export const API_RESPONSE = {
     TITLE: "Unauthorized",
     MESSAGE: "You are not authorized to access this resource.",
   },
+  INTERNAL_SERVER_ERROR: {
+    TITLE: "Internal Server Error",
+    MESSAGE: "An unexpected error occurred.",
+  },
 } as const

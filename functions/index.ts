@@ -4,7 +4,7 @@ import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 
 import mainRoutes from './controllers/index.controller'
-import genRoutes from './controllers/gen.controller'
+import codeGenRoutes from './controllers/code.controller'
 
 import { authMiddleware } from './middlewares/auth'
 
@@ -18,7 +18,7 @@ app.use('*', cors())
 app.use(`${ROUTES.GENERATION}/*`, authMiddleware)
 
 app.route('/', mainRoutes())
-app.route(ROUTES.GENERATION, genRoutes())
+app.route(ROUTES.GENERATION, codeGenRoutes())
 
 app.get('/:key', async (c) => {
   const key = c.req.param('key')
@@ -27,7 +27,7 @@ app.get('/:key', async (c) => {
   const qr = await getQrLink(c, key)
   if (!qr) return c.json({ error: 'Not found' }, 404)
 
-  // if not found return 404
+  // TODO: add not found return 404 or redirect to main page
 
   return c.redirect(qr)
 })
