@@ -10,7 +10,7 @@ import { Qr } from "../icons/qr";
 import { Button } from "@/components/shared/button";
 import { Input } from "@/components/shared/input";
 import { QrImage } from "@/components/shared/qr-image";
-import { createPermaQR } from "@/data/actions/qr-code-actions";
+import { createPermaQR } from "@/data/actions/perma-code-actions";
 
 const QrGenerationForm = ({ setSvg }: { setSvg: (svg: string | null) => void }) => {
   const [destinationUrl, setDestinationUrl] = useState<string>('')

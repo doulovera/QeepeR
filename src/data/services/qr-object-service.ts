@@ -22,11 +22,11 @@ const httpRequest = async (method: 'GET' | 'POST' | 'PUT', path: string, body: a
   return response.json()
 }
 
-export async function fetchWorkerQR (id: string) {
+export async function fetchInfoWorkerQR (id: string) {
   try {
     const item = await httpRequest(
       'GET',
-      `${PATH}/${id}`,
+      `${PATH}/${id}/info`,
       null,
     )
 
@@ -47,6 +47,21 @@ export async function createWorkerQR (url: string): Promise<CreateWorkerQRRespon
     const item = await httpRequest(
       'POST',
       `${PATH}/create`,
+      { url },
+    )
+
+    return item
+  } catch (error) {
+    console.log(error)
+    return null
+  }
+}
+
+export async function updateUrlWorkerQR (id: string, url: string) {
+  try {
+    const item = await httpRequest(
+      'PUT',
+      `${PATH}/${id}/url`,
       { url },
     )
 

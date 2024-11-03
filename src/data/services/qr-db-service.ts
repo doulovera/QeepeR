@@ -1,5 +1,3 @@
-import { _db } from "@/lib/firebase/admin"
-import { QR_COLLECTION, USER_COLLECTION } from "@/constants/collections"
 import { QRs } from "../models/QRs"
 
 export type QRDoc = {
@@ -33,21 +31,8 @@ export const addQR = async (key: string, qr: QRInfoCreation) => {
 
 export const listUserQrs = async (uid: string) => {
   try {
-    const fetchedQrs = await _db
-      .collection(USER_COLLECTION)
-      .doc(uid)
-      .collection(QR_COLLECTION)
-
-    const test = await fetchedQrs.get()
-
-    // const mappedQrs = fetchedQrs.docs.map(({ id, data }) => ({
-    //   id,
-    //   ...data(),
-    // }))
-    
-    // console.log({ mappedQrs })
-
-    return []
+    const fetchedQrs = await QRs.getLinksByUser(uid)
+    return fetchedQrs
   } catch (error) {
     console.error('Error getting documents: ', error)
   }
