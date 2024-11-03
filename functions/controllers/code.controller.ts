@@ -5,7 +5,7 @@ import { Hono } from "hono"
 
 import { successPayload, errorPayload } from "../lib/response"
 import ApplicationError from "../lib/error"
-import { deleteQrLink, generateQrLink, updateQrLink } from "../lib/qr-link"
+import { deleteQrLink, generateQrLink, getQrLink, getQrViews, updateQrLink } from "../lib/qr-link"
 
 import { generateQr } from "../utils/generate-qr"
 import { API_RESPONSE } from "../constants/errors"
@@ -14,11 +14,12 @@ import { extractAppUrl } from "../utils/extract-app-url"
 export default function genRoutes() {
   const code = new Hono<HonoContext>()
 
+  code.get('/:key/info', getInfoPermaQR)
   code.post('/create', createPermaQR)
+  code.put('/:key/url', updateUrlPermaQR)
 
-  // code.get('/list', listUserQrs)
-  // code.get('/info/:key', getQrInfo)
-  // code.put('/update/:key', updateQrInfo)
+  // update qr views status
+  // update qr disabled status (not implement yet)
 
   return code
 }
@@ -49,131 +50,49 @@ export const createPermaQR = async (c: QeeperCtx) => {
 }
 
 /**
- * This is the controller for listing all the QR codes for the user. It handles incoming requests by fetching the list of QR codes
- * from the database and returning a success payload with the list of QR codes. If any errors occur during this process, it returns an error payload.
- * @param c The Hono context
- */
-// export const listUserQrs = async (c: QeeperCtx) => {
-//   try {
-//     const qrList = await getUserQrListDB(c)
-    
-//     const img = c.req.query('img')
-
-//     if (img) {
-//       const qrListWithQr = await Promise.all(qrList.map(async (qr) => {
-//         /// TODO : create a better and scalable way to get the app url
-//         const appUrl = c.req.url.split('/gen')[0]
-//         const svg = await generateQr(`${appUrl}/${qr.id}`)
-//         return { ...qr, svg }
-//       }))
-
-//       /// TODO : list should ALWAYS have a concurrent sort order (by creation date probably)
-//       return successPayload(c, { success: true, images: img, result: qrListWithQr })
-//     }
-
-//     return successPayload(c, { success: true, images: img, result: qrList })
-//   } catch (error) {
-//     return errorPayload(c, error as Error)
-//   }
-// }
-
-/**
  * This is the controller for getting the information of a QR code. It handles incoming requests by parsing the request parameters,
  * validating the presence of a key, and fetching the information of the QR code. It returns a success payload with the information
  * of the QR code. If any errors occur during this process, it returns an error payload.
  * @param c The Hono context
  */
-// export const getQrInfo = async (c: QeeperCtx) => {
-//   try {
-//     console.log('doesnt get here right?')
-//     const key = c.req.param('key')
-//     if (!key) throw new ApplicationError(API_RESPONSE.MISSING_BODY_KEY.TITLE, API_RESPONSE.MISSING_BODY_KEY.MESSAGE('key'), 400)
-    
-//     const userKeys = await getUserQrKeys(c)
+export const getInfoPermaQR = async (c: QeeperCtx) => {
+  try {
+    const key = c.req.param('key')
+    if (!key) throw new ApplicationError(API_RESPONSE.MISSING_BODY_KEY.TITLE, API_RESPONSE.MISSING_BODY_KEY.MESSAGE('key'), 400)
 
-//     // Validate if the key is associated with the user
-//     if (!userKeys.includes(key)) throw new ApplicationError(API_RESPONSE.NOT_FOUND.TITLE, API_RESPONSE.NOT_FOUND.MESSAGE, 404)
+    const destinationUrl = await getQrLink(c, key)
+    const views = await getQrViews(c, key)
+    const isViewsDisabled = views === null
 
-//     const qrInfo = await getQrInfoByKey(c, key)
-//     if (!qrInfo) throw new ApplicationError(API_RESPONSE.NOT_FOUND.TITLE, API_RESPONSE.NOT_FOUND.MESSAGE, 404)
+    const response = {
+      destinationUrl,
+      views,
+      viewsDisabled: isViewsDisabled
+    }
 
-//     const currentKeyPosition = userKeys.indexOf(key)
+    return successPayload(c, { success: true, response })
+  } catch (error) {
+    return errorPayload(c, error as Error)
+  }
 
-//     const response: GetQrInfoResponse = {
-//       id: key,
-//       ...qrInfo,
-//       length: userKeys.length,
-//       page: currentKeyPosition + 1,
-//       image: false,
-//       next: userKeys[currentKeyPosition + 1] || null,
-//       previous: userKeys[currentKeyPosition - 1] || null
-//     }
+}
 
-//     const img = c.req.query('img')
+export const updateUrlPermaQR = async (c: QeeperCtx) => {
+  try {
+    const body = await c.req.json()
+    if (!body) throw new ApplicationError(API_RESPONSE.MISSING_BODY.TITLE, API_RESPONSE.MISSING_BODY.MESSAGE, 400)
 
-//     if (img) {
-//       const appUrl = c.req.url.split('/gen')[0]
-//       const svg = await generateQr(`${appUrl}/${key}`)
-//       response.image = svg
-//     }
+    const key = c.req.param('key')
+    if (!key) throw new ApplicationError(API_RESPONSE.MISSING_BODY_KEY.TITLE, API_RESPONSE.MISSING_BODY_KEY.MESSAGE('key'), 400)
 
-//     return successPayload(c, { success: true, response })
-//   } catch (error) {
-//     return errorPayload(c, error as Error)
-//   }
+    const qr = await getQrLink(c, key)
+    if (!qr) throw new ApplicationError(API_RESPONSE.NOT_FOUND.TITLE, API_RESPONSE.NOT_FOUND.MESSAGE, 404)
 
-// }
+    const { url: newUrl } = body
+    const response = await updateQrLink(c, key, newUrl)
 
-/**
- * This is the controller for updating the information of a QR code. It handles incoming requests by parsing the request body,
- * validating the presence of a key, and updating the URL, disabled status, and views status of the QR code. It returns a success payload
- * with the updated information of the QR code. If any errors occur during this process, it returns an error payload.
- * @param c The Hono context
- */
-// export const updateQrInfo = async (c: QeeperCtx) => {
-//   /// TODO :: FIX - if it's disabled, it shouldn't appear in upstash if any other setting is updated
-//   try {
-//     const body = await c.req.json()
-//     if (!body) throw new ApplicationError(API_RESPONSE.MISSING_BODY.TITLE, API_RESPONSE.MISSING_BODY.MESSAGE, 400)
-
-//     const key = c.req.param('key')
-//     if (!key) throw new ApplicationError(API_RESPONSE.MISSING_BODY_KEY.TITLE, API_RESPONSE.MISSING_BODY_KEY.MESSAGE('key'), 400)
-//     await validateUserQrDB(c, key)
-
-//     const { url: newUrl, disabled, disableViews } = body
-
-//     const qrInfo = await getQrInfoByKey(c, key)
-//     if (!qrInfo) throw new ApplicationError(API_RESPONSE.NOT_FOUND.TITLE, API_RESPONSE.NOT_FOUND.MESSAGE, 404)
-
-//     const response: Record<string, any> = qrInfo
-//     delete response.user
-
-//     // Change URL
-//     if (newUrl && newUrl !== qrInfo.destinationUrl) {
-//       await updateQrLink(c, key, newUrl, { views: 0 })
-//       await updateQrDB(c, key, { destinationUrl: newUrl })
-//       response.destinationUrl = newUrl
-//     }
-
-//     // Change disabled status
-//     if (disabled !== undefined && disabled !== qrInfo.disabled) {
-//       if (disabled === true) await deleteQrLink(c, key)
-//       if (disabled === false) {
-//         // await createQrLink(c, qrInfo.destinationUrl, key)
-//         response.views = 0
-//       }
-//       await updateQrDB(c, key, { disabled })
-//       response.disabled = disabled
-//     }
-
-//     // Change views status
-//     if (disableViews !== undefined) {
-//       await updateQrLink(c, key, qrInfo.destinationUrl, { views: disableViews ? null : 0 })
-//       response.views = disableViews ? null : 0
-//     }
-
-//     return successPayload(c, { success: true, response })
-//   } catch (error) {
-//     return errorPayload(c, error as Error)
-//   }
-// }
+    return successPayload(c, { success: true, url: response })
+  } catch (error) {
+    return errorPayload(c, error as Error)
+  }
+}

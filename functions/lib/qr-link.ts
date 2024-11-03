@@ -24,20 +24,13 @@ export const getQrLink = async (c: { env: WranglerBindings }, key: string): Prom
     throw new Error('QR link not found')
   }
 
-  return sumView(c, { key, qr })
+  return qr
 }
 
 export const sumView = async (c: { env: WranglerBindings }, qrInfo: { key: string, qr: QrResponse }) => {
-  // if (qrInfo.qr.views == null) return qrInfo.qr
-
-
-  const response = await db.set(c, qrInfo.key, qrInfo.qr)
-
-  if (!response) {
-    throw new Error('Failed to update QR link')
-  }
-
-  return qrInfo.key
+  // search in KV for `views:${key}`
+  // if it doesn't exist, create it with value "null"
+  // if it does exist and it's not "null", increment the value by 1
 }
 
 export const deleteQrLink = async (c: { env: WranglerBindings }, key: string) => {
@@ -48,17 +41,17 @@ export const deleteQrLink = async (c: { env: WranglerBindings }, key: string) =>
   }
 }
 
-export const updateQrLink = async (c: { env: WranglerBindings }, key: string, url: string, options: { views: number | null }) => {  
-  const copyOfQr = {
-    url,
-    views: options?.views ?? null
-  }
-
+export const updateQrLink = async (c: { env: WranglerBindings }, key: string, url: string) => {  
   const response = await db.set(c, key, url)
 
   if (!response) {
     throw new Error('Failed to update QR link')
   }
 
-  return copyOfQr
+  return url
+}
+
+export const getQrViews = async (c: { env: WranglerBindings }, key: string): Promise<number | null> => {
+  const views = await db.getViews(c, key)
+  return views
 }

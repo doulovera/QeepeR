@@ -26,9 +26,8 @@ app.get('/:key', async (c) => {
 
   const qr = await getQrLink(c, key)
   if (!qr) return c.json({ error: 'Not found' }, 404)
-
   // TODO: add not found return 404 or redirect to main page
-
+  // TODO: sumView here
   return c.redirect(qr)
 })
 
