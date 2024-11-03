@@ -73,7 +73,20 @@ export const Hero = () => {
       />
       <div className="flex flex-col justify-center gap-2">
         <QrImage svg={svg || ''} size="large" />
-        <Button className={`${svg ? 'inline-block' : 'invisible'}`}>
+        <Button
+          className={`${svg ? 'inline-block' : 'invisible'}`}
+          onClick={() => {
+            if (svg) {
+              const blob = new Blob([svg], { type: 'image/svg+xml' })
+              const url = URL.createObjectURL(blob)
+              const a = document.createElement('a')
+              a.href = url
+              a.download = 'qr-code.svg'
+              a.click()
+              URL.revokeObjectURL(url)
+            }
+          }}
+        >
           Save
         </Button>
       </div>
