@@ -1,5 +1,6 @@
 import { _db } from "@/lib/firebase/admin"
 import { QR_COLLECTION, USER_COLLECTION } from "@/constants/collections"
+import { QRs } from "../models/QRs"
 
 export type QRDoc = {
   destinationUrl: string,
@@ -21,37 +22,33 @@ export const addQR = async (key: string, qr: QRInfoCreation) => {
       throw new Error('Unauthorized')
     }
 
-    const qrDocValues: QRDoc = {
-      destinationUrl: url,
-      disabled: false,
-      created: new Date().toISOString(),
-      user: `${USER_COLLECTION}/${uid}`,
-      views: false,
-    }
+    const link = new QRs(key, url, uid)
+    await link.save()
 
-    const response = await _db.collection(QR_COLLECTION).doc(key).set(qrDocValues)
-
-    await addQRToUserList(key, uid)
-
-    return response
+    return link
   } catch (error) {
     console.error('Error adding document: ', error)
   }
 }
 
-export const addQRToUserList = async (key: string, uid: string) => {
+export const listUserQrs = async (uid: string) => {
   try {
-    const response = await _db
+    const fetchedQrs = await _db
       .collection(USER_COLLECTION)
       .doc(uid)
       .collection(QR_COLLECTION)
-      .doc(key)
-      .set({
-        qr: `${QR_COLLECTION}/${key}`,
-      })
 
-    return response
+    const test = await fetchedQrs.get()
+
+    // const mappedQrs = fetchedQrs.docs.map(({ id, data }) => ({
+    //   id,
+    //   ...data(),
+    // }))
+    
+    // console.log({ mappedQrs })
+
+    return []
   } catch (error) {
-    console.error('Error adding document: ', error)
+    console.error('Error getting documents: ', error)
   }
 }
