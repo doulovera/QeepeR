@@ -1,7 +1,7 @@
 'use server'
 
 import { _auth } from "@/lib/firebase/admin"
-import { createCookieSession, getSessionFromCookies } from "@/data/services/session-service"
+import { createCookieSession, deleteCookieSession, getSessionFromCookies } from "@/data/services/session-service"
 
 export async function getUserByCookie(propCookie: string | undefined = undefined) {
   const cookie = propCookie ?? (await getSessionFromCookies())
@@ -12,6 +12,10 @@ export async function getUserByCookie(propCookie: string | undefined = undefined
     const user = await _auth.verifySessionCookie(cookie, true)
     return user
   } catch (error) {
+    if ((error as Error & { code: string }).code === 'auth/session-cookie-expired') {
+      await deleteCookieSession()
+      return false
+    }
     console.error(error)
     return false
   }
