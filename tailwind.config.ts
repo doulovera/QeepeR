@@ -15,33 +15,29 @@ const config: Config = {
       },
       colors: {
         'primary': {
-          '50': '#b4cbee',
-          '100': '#a4c2ea',
-          '200': '#8db0e2',
-          '300': '#689bd9',
-          '400': '#407ece',
-          '500': '#3161b4',
-          '600': '#2f4d93',
-          '700': '#2c3f7d',
-          '800': '#24305c',
-          '900': '#1c2540',
-          '950': '#181e34',
+          '100': '#E3DFF2',
+          '400': '#A388EE',
         },
         'secondary': {
-          '50': '#f9f7f7',
-          '100': '#f2eeef',
-          '200': '#e7e1e2',
-          '300': '#d6cbcc',
-          '400': '#c2b2b4',
-          '500': '#a48f92',
-          '600': '#8d7578',
-          '700': '#756063',
-          '800': '#625254',
-          '900': '#54484a',
-          '950': '#2b2425',
+          '400': '#A3E636',
+        },
+        'base': {
+          '400': '#1D1F27',
+        }
       },
-      
-      }
+      borderRadius: {
+        base: '4px',
+      },
+      boxShadow: {
+        light: '4px 4px 0px 0px #000',
+        dark: '4px 4px 0px 0px #000',
+      },
+      translate: {
+        boxShadowX: '4px',
+        boxShadowY: '4px',
+        reverseBoxShadowX: '-4px',
+        reverseBoxShadowY: '-4px',
+      },
     },
   },
   plugins: [],

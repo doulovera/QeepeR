@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { Onest } from "next/font/google";
 import "./globals.css";
 
 const satoshiFont = localFont({
@@ -20,7 +19,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={satoshiFont.className}>
-      <body>{children}</body>
+      <body
+        className="bg-primary-100 text-black"
+      >
+        {children}
+      </body>
     </html>
   );
 }

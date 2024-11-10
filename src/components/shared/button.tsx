@@ -10,15 +10,7 @@ interface Props {
 export const Button = ({ children, title, disabled, type, onClick, className }: Props) => {
   return (
     <button
-      className={`
-        text-white px-3 py-2 rounded-md 
-        ${
-          disabled
-            ? 'bg-gray-700 cursor-not-allowed opacity-70'
-            : 'bg-primary-800 hover:bg-primary-700 hover:shadow-lg'
-        }
-        ${className}
-      `}
+      className="flex cursor-pointer items-center rounded-base border-2 border-base-400 bg-primary-400 px-4 py-2 text-md font-base shadow-dark transition-all hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-x-0 disabled:hover:translate-y-0 disabled:hover:shadow-dark"
       title={title}
       disabled={disabled}
       type={type}
