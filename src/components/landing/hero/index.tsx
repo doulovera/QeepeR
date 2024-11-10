@@ -18,24 +18,22 @@ export function Hero() {
   }
 
   return (
-    <section>
-      <Card>
-        <div className="flex items-center justify-between gap-20 w-full min-h-80">
-          <QrGenerationForm
-            setSvg={setSvg}
-          />
-          <div className="flex flex-col justify-center gap-2">
-            <QrImage svg={svg || ''} size="large" />
-            <Button
-              className="inline-block"
-              onClick={handleSave}
-              disabled
-            >
-              Save
-            </Button>
-          </div>
+    <Card as="section">
+      <div className="flex items-center justify-between gap-20 w-full min-h-80">
+        <QrGenerationForm
+          setSvg={setSvg}
+        />
+        <div className="flex flex-col justify-center gap-2">
+          <QrImage svg={svg || ''} size="large" />
+          <Button
+            className="inline-block"
+            onClick={handleSave}
+            disabled
+          >
+            Save
+          </Button>
         </div>
-      </Card>
-    </section>
+      </div>
+    </Card>
   );
 }
