@@ -26,9 +26,7 @@ export function Hero() {
         <div className="flex flex-col justify-center gap-2">
           <QrImage svg={svg || ''} size="large" />
           <Button
-            className="inline-block"
             onClick={handleSave}
-            disabled
           >
             Save
           </Button>

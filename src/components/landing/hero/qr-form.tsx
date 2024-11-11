@@ -17,6 +17,7 @@ export function QrGenerationForm({ setSvg }: { setSvg: (svg: string | null) => v
     const form = evt.currentTarget
     const { value } = form.url
 
+    if (!value) return
     const data = await createQR({ url: value })
     if (!data.success) return
 
@@ -37,6 +38,7 @@ export function QrGenerationForm({ setSvg }: { setSvg: (svg: string | null) => v
         name="url"
         label="Destination URL"
         onChange={(evt) => setDestinationUrl(evt.target.value)}
+        required
       />
 
       <div className="flex gap-2">

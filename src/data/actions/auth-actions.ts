@@ -12,10 +12,16 @@ export async function getUserByCookie(propCookie: string | undefined = undefined
     const user = await _auth.verifySessionCookie(cookie, true)
     return user
   } catch (error) {
-    if ((error as Error & { code: string }).code === 'auth/session-cookie-expired') {
-      await deleteCookieSession()
-      return false
+    switch ((error as Error & { code: string }).code) {
+      case 'auth/popup-closed-by-user':
+      case 'auth/cancelled-popup-request':
+        console.log('User closed the login popup') // catch this error properly
+        return false
+      case 'auth/session-cookie-expired':
+        await deleteCookieSession()
+        return false
     }
+
     console.error(error)
     return false
   }

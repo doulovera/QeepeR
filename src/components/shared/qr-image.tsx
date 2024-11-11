@@ -8,7 +8,7 @@ interface Props {
 }
 export const QrImage = ({ svg, size = 'medium' }: Props) => {
   return (
-    <Card>
+    <Card shadow={false}>
       <div className="h-64 w-64" dangerouslySetInnerHTML={{ __html: svg }} />
     </Card>
   )
