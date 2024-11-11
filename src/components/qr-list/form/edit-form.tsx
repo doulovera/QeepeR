@@ -1,8 +1,6 @@
 import type { FetchStatus } from "@/types/types";
 import { useState } from "react";
 
-import { updateQr } from "@/modules/qr-generation/update-qr";
-
 import { Input } from "../../shared/input"
 import { Switch } from "../../shared/switch"
 import { DestinationUrlField } from "./destination-url-field";
@@ -25,11 +23,7 @@ export const EditForm = (
 
   const handleUpdateSwitch = async (event: React.ChangeEvent<HTMLInputElement>) => {
     setStatus({ ...status, [event.target.name]: 'FETCHING' })
-    const response = await updateQr({
-      id,
-      disabled: event.target.name === 'disabled' ? event.target.checked : undefined,
-      disableViews: event.target.name === 'disableViews' ? event.target.checked : undefined,
-    })
+    const response = false
 
     if (response) {
       setStatus({ ...status, [event.target.name]: 'SUCCESS' })

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Save } from "@/components/icons/save";
 import { Input } from "@/components/shared/input";
-import { updateQr } from "@/modules/qr-generation/update-qr";
 
 export const DestinationUrlField = (
   { id, destinationUrl }:
@@ -16,10 +15,7 @@ export const DestinationUrlField = (
   const hasChanges = destinationUrlValue !== dbDestinationUrl
 
   const handleSave = async () => {
-    const response = await updateQr({
-      id,
-      newUrl: destinationUrlValue,
-    })
+    const response = false
 
     if (response) {
       console.log('TODO: add toast notification for success')
