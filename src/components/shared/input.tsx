@@ -61,7 +61,6 @@ export const Input = (
                 <Button
                   type="button"
                   onClick={iconBtnOnClick}
-                  className="bg-primary-950 hover:bg-primary-900"
                 >
                   {iconBtn}
                 </Button>
