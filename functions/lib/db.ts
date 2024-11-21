@@ -15,7 +15,7 @@ const VIEWS_PREFIX = 'views:'
  */
 export const set = async (c: { env: WranglerBindings }, key: string, value: QrResponse) => {
   try {
-    await db(c).put(key, JSON.stringify(value))
+    await db(c).put(key, value)
     return true
   } catch (error) {
     console.error(error)
@@ -24,17 +24,14 @@ export const set = async (c: { env: WranglerBindings }, key: string, value: QrRe
 }
 
 /**
- * Gets a value from the database.
+ * Gets a value from the KV.
  * @param c - The context object that includes the environment variables.
  * @param key - The key of the value.
  * @returns A Promise that resolves with the value.
  */
 export const get = async (c: { env: WranglerBindings }, key: string): Promise<QrResponse | null> => {
   const value = await db(c).get(key)
-
-  return value
-    ? JSON.parse(value)
-    : null
+  return value ?? null
 }
 
 /**
