@@ -8,7 +8,7 @@ export const Header = async () => {
   const user = await getUserMe()
 
   return (
-    <header className="flex items-center justify-between w-full h-20 p-4 mx-auto">
+    <header className="flex items-center justify-between w-full h-20 py-4 mx-auto">
       <h2 className="text-xl font-bold">
         QeepeR
       </h2>

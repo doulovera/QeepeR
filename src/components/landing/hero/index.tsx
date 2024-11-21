@@ -1,37 +1,18 @@
-'use client'
-
-import { useState } from "react";
-
-import { QrImage } from "@/components/shared/qr-image";
-import { Button } from "@/components/shared/button";
-
-import { QrGenerationForm } from "./qr-form";
-import { downloadSvg } from "@/utils/download-svg";
-import { Card } from "@/components/shared/card";
+import { Generate } from "./generate";
 
 export function Hero() {
-  const [svg, setSvg] = useState<string | null>(null)
-
-  const handleSave = () => {
-    if (!svg) return
-    downloadSvg('qr-code', svg)
-  }
-
   return (
-    <Card as="section">
-      <div className="flex items-center justify-between gap-20 w-full min-h-80">
-        <QrGenerationForm
-          setSvg={setSvg}
-        />
-        <div className="flex flex-col justify-center gap-2">
-          <QrImage svg={svg || ''} size="large" />
-          <Button
-            onClick={handleSave}
-          >
-            Save
-          </Button>
-        </div>
+    <section className="flex flex-col gap-10 my-14 sm:my-20">
+      <div className="flex flex-col gap-4 text-center">
+        <h1 className="text-6xl font-semibold">
+          Generate & <span className="bg-purple-300">Edit</span>
+        </h1>
+
+        <p className="max-w-[40ch] mx-auto font-medium">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta numquam vitae, minus beatae eaque officia alias.          
+        </p>
       </div>
-    </Card>
-  );
+      <Generate />
+    </section>
+  )
 }

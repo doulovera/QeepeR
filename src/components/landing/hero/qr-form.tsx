@@ -32,7 +32,7 @@ export function QrGenerationForm({ setSvg }: { setSvg: (svg: string | null) => v
 
   return (
     <form className="flex-1 flex flex-col gap-2" onSubmit={handleSubmit}>
-      <h1 className="text-3xl font-bold">Generate a QR</h1>
+      <h2 className="text-3xl font-bold">Generate a QR</h2>
 
       <Input
         name="url"
