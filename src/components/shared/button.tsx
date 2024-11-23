@@ -4,7 +4,7 @@ interface Props {
   disabled?: boolean
   type?: "button" | "submit" | "reset"
   onClick?: () => void
-  color?: "primary" | "light"
+  color?: "primary" | "light" | "negative"
 }
 
 export const Button = (
@@ -18,7 +18,11 @@ export const Button = (
     light: {
       background: "bg-primary-100",
       disabled: "disabled:bg-primary-100",
-    }
+    },
+    negative: {
+      background: "bg-gray-600 text-white",
+      disabled: "disabled:bg-primary-100",
+    },
   }
 
   return (

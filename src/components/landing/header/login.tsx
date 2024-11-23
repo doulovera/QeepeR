@@ -25,7 +25,7 @@ export function LoginHeader({ name }: Props) {
   return (
     <Button
       onClick={name ? handleLogOut : handleLogIn}
-      color="light"
+      color={name ? 'primary' : 'light'}
     >
       <span className="px-4">
         {
