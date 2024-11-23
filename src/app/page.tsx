@@ -2,6 +2,7 @@
 
 import { Header } from "@/components/landing/header";
 import { Hero } from "@/components/landing/hero";
+import { Bento } from "@/components/landing/bento";
 
 export default async function Home() {
   return (
@@ -9,6 +10,9 @@ export default async function Home() {
       {/* @ts-ignore */}
       <Header />
       <Hero />
+      <Bento />
+      {/* <UseCases /> */}
+      {/* <Footer /> */}
     </main>
   );
 }

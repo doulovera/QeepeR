@@ -2,7 +2,7 @@ import { Generate } from "./generate";
 
 export function Hero() {
   return (
-    <section className="flex flex-col gap-10 my-14 sm:my-20">
+    <section className="flex flex-col gap-10 my-14 sm:mt-20 sm:mb-32">
       <div className="flex flex-col gap-4 text-center">
         <h1 className="text-6xl font-semibold">
           Generate & <span className="bg-purple-300">Edit</span>
