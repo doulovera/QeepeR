@@ -7,10 +7,15 @@ import { createPermaQR } from "@/data/actions/perma-code-actions";
 import { Button } from "@/components/shared/button";
 import { Input } from "@/components/shared/input";
 
-export function QrGenerationForm({ setSvg }: { setSvg: (svg: string | null) => void }) {
+interface Props {
+  setSvg: (svg: string | null) => void
+  isUserLogged: boolean
+}
+
+export function QrGenerationForm({ setSvg, isUserLogged }: Props) {
   const [destinationUrl, setDestinationUrl] = useState<string>('')
 
-  const permaQrDisabled = true
+  const isPermaQrDisabled = !isUserLogged
 
   const handleSubmit = async (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault()
@@ -50,8 +55,8 @@ export function QrGenerationForm({ setSvg }: { setSvg: (svg: string | null) => v
 
         <Button
           type="button"
-          title={permaQrDisabled ? "You need to login" : undefined}
-          disabled={permaQrDisabled}
+          title={isPermaQrDisabled ? "You need to login" : undefined}
+          disabled={isPermaQrDisabled}
           onClick={handlePermaQr}
         >
           <span className="flex gap-2 px-5">
