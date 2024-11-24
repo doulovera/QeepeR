@@ -14,7 +14,7 @@ export function Bento () {
       <section className="grid gap-4 mb-20 lg:grid-cols-2 lg:grid-rows-2">
         <div className="row-span-2 col-span-1 flex flex-col [&>article]:h-full">
           <Card as="article" shadow={false}>
-            <div className="flex flex-col w-full">
+            <div className="flex flex-col w-full justify-center text-center">
               <h3 className="text-2xl">
                 🤳 Scan
               </h3>

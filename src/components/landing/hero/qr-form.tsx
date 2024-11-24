@@ -30,6 +30,7 @@ export function QrGenerationForm({ setSvg, isUserLogged }: Props) {
   }
 
   const handlePermaQr = async () => {
+    if (!isUserLogged || !destinationUrl) return
     const data = await createPermaQR(destinationUrl)
     if (!data) return
     setSvg(data)
