@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "biome lint ./src",
+    "lint:fix": "biome lint --write ./src",
     "deploy:api": "wrangler deploy functions/index.ts",
     "dev:api": "wrangler dev functions/index.ts",
     "start:api": "wrangler dev functions/index.ts"
@@ -22,6 +23,7 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.9.4",
     "@cloudflare/workers-types": "^4.20240129.0",
     "@types/node": "^22.1.0",
     "@types/react": "^18.2.8",
