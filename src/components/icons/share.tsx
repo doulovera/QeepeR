@@ -1,4 +1,4 @@
-import { SVGProps } from "react"
+import type { SVGProps } from 'react'
 
 const Share = (props: SVGProps<SVGSVGElement>) => (
   <svg
@@ -9,6 +9,7 @@ const Share = (props: SVGProps<SVGSVGElement>) => (
     viewBox="0 0 24 24"
     {...props}
   >
+    <title>Share</title>
     <path
       strokeLinecap="round"
       strokeLinejoin="round"

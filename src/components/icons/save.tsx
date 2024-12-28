@@ -1,4 +1,4 @@
-import { SVGProps } from "react"
+import type { SVGProps } from 'react'
 
 const Save = (props: SVGProps<SVGSVGElement>) => (
   <svg
@@ -9,6 +9,7 @@ const Save = (props: SVGProps<SVGSVGElement>) => (
     viewBox="0 0 24 24"
     {...props}
   >
+    <title>Save</title>
     <path
       strokeLinecap="round"
       strokeLinejoin="round"

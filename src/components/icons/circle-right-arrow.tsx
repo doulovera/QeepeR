@@ -1,4 +1,4 @@
-import { SVGProps } from "react"
+import type { SVGProps } from 'react'
 
 export const CircleRightArrow = (props: SVGProps<SVGSVGElement>) => (
   <svg
@@ -8,6 +8,7 @@ export const CircleRightArrow = (props: SVGProps<SVGSVGElement>) => (
     viewBox="0 0 24 24"
     {...props}
   >
+    <title>Circle Right arrow</title>
     <path
       strokeLinecap="round"
       strokeLinejoin="round"

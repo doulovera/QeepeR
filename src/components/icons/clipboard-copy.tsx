@@ -1,4 +1,4 @@
-import { SVGProps } from "react"
+import type { SVGProps } from 'react'
 
 export const ClipboardCopy = (props: SVGProps<SVGSVGElement>) => (
   <svg
@@ -9,6 +9,7 @@ export const ClipboardCopy = (props: SVGProps<SVGSVGElement>) => (
     viewBox="0 0 24 24"
     {...props}
   >
+    <title>Clipboard Copy</title>
     <path
       strokeLinecap="round"
       strokeLinejoin="round"

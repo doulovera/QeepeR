@@ -1,4 +1,4 @@
-import { SVGProps } from "react"
+import type { SVGProps } from 'react'
 
 const LightningBolt = (props: SVGProps<SVGSVGElement>) => (
   <svg
@@ -9,6 +9,7 @@ const LightningBolt = (props: SVGProps<SVGSVGElement>) => (
     viewBox="0 0 24 24"
     {...props}
   >
+    <title>Lightning Bolt</title>
     <path
       strokeLinecap="round"
       strokeLinejoin="round"

@@ -1,4 +1,4 @@
-import { SVGProps } from "react"
+import type { SVGProps } from 'react'
 
 const Eye = (props: SVGProps<SVGSVGElement>) => (
   <svg
@@ -8,6 +8,7 @@ const Eye = (props: SVGProps<SVGSVGElement>) => (
     viewBox="0 0 24 24"
     {...props}
   >
+    <title>Eye</title>
     <path
       strokeLinecap="round"
       strokeLinejoin="round"

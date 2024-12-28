@@ -1,11 +1,11 @@
-import { useState } from "react"
-import { API_BASE_URL } from "@/constants/app";
+import { useState } from 'react'
+import { API_BASE_URL } from '@/constants/app'
 /* actions */
-import { createQR } from "@/data/actions/create-qr-actions";
-import { createPermaQR } from "@/data/actions/perma-code-actions";
+import { createQR } from '@/data/actions/create-qr-actions'
+import { createPermaQR } from '@/data/actions/perma-code-actions'
 /* components */
-import { Button } from "@/components/shared/button";
-import { Input } from "@/components/shared/input";
+import { Button } from '@/components/shared/button'
+import { Input } from '@/components/shared/input'
 
 interface Props {
   setSvg: (svg: string | null) => void
@@ -49,23 +49,18 @@ export function QrGenerationForm({ setSvg, isUserLogged }: Props) {
 
       <div className="flex gap-2">
         <Button type="submit" disabled={!API_BASE_URL}>
-          <span className="flex gap-2 px-5">
-            Generate
-          </span>
+          <span className="flex gap-2 px-5">Generate</span>
         </Button>
 
         <Button
           type="button"
-          title={isPermaQrDisabled ? "You need to login" : undefined}
+          title={isPermaQrDisabled ? 'You need to login' : undefined}
           disabled={isPermaQrDisabled}
           onClick={handlePermaQr}
         >
-          <span className="flex gap-2 px-5">
-            PermaQR
-          </span>
+          <span className="flex gap-2 px-5">PermaQR</span>
         </Button>
       </div>
-
     </form>
   )
 }

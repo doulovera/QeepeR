@@ -1,19 +1,20 @@
-import { WORKER_API_TOKEN, WORKER_BASE_URL } from "@/constants/app"
+import { WORKER_API_TOKEN, WORKER_BASE_URL } from '@/constants/app'
 
 const PATH = '/code'
 
-const httpRequest = async (method: 'GET' | 'POST' | 'PUT', path: string, body: any) => {
-  const response = await fetch(
-    `${WORKER_BASE_URL}${path}`,
-    {
-      method,
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${WORKER_API_TOKEN}`
-      },
-      body: JSON.stringify(body),
-    }
-  )
+const httpRequest = async (
+  method: 'GET' | 'POST' | 'PUT',
+  path: string,
+  body: Record<string, unknown> | null,
+) => {
+  const response = await fetch(`${WORKER_BASE_URL}${path}`, {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${WORKER_API_TOKEN}`,
+    },
+    body: JSON.stringify(body),
+  })
 
   if (!response.ok) {
     throw response
@@ -22,13 +23,9 @@ const httpRequest = async (method: 'GET' | 'POST' | 'PUT', path: string, body: a
   return response.json()
 }
 
-export async function fetchInfoWorkerQR (id: string) {
+export async function fetchInfoWorkerQR(id: string) {
   try {
-    const item = await httpRequest(
-      'GET',
-      `${PATH}/${id}/info`,
-      null,
-    )
+    const item = await httpRequest('GET', `${PATH}/${id}/info`, null)
 
     return item
   } catch (error) {
@@ -38,17 +35,15 @@ export async function fetchInfoWorkerQR (id: string) {
 }
 
 interface CreateWorkerQRResponse {
-  success: boolean,
-  key: string,
-  svg: string,
+  success: boolean
+  key: string
+  svg: string
 }
-export async function createWorkerQR (url: string): Promise<CreateWorkerQRResponse | null> {
+export async function createWorkerQR(
+  url: string,
+): Promise<CreateWorkerQRResponse | null> {
   try {
-    const item = await httpRequest(
-      'POST',
-      `${PATH}/create`,
-      { url },
-    )
+    const item = await httpRequest('POST', `${PATH}/create`, { url })
 
     return item
   } catch (error) {
@@ -57,13 +52,9 @@ export async function createWorkerQR (url: string): Promise<CreateWorkerQRRespon
   }
 }
 
-export async function updateUrlWorkerQR (id: string, url: string) {
+export async function updateUrlWorkerQR(id: string, url: string) {
   try {
-    const item = await httpRequest(
-      'PUT',
-      `${PATH}/${id}/url`,
-      { url },
-    )
+    const item = await httpRequest('PUT', `${PATH}/${id}/url`, { url })
 
     return item
   } catch (error) {

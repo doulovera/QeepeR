@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import { createSession } from "@/data/actions/auth-actions";
 import { logger } from "@/data/services/logger";
 
