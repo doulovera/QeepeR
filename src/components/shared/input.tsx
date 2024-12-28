@@ -30,7 +30,7 @@ export const Input = ({
   required,
 }: Props) => {
   return (
-    <label className="w-full my-5">
+    <label className="w-full">
       {label && (
         <span className="block text-primary-50 mb-2 text-sm font-bold">
           {label}

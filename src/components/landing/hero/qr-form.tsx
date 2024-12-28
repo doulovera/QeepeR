@@ -6,6 +6,7 @@ import { createPermaQR } from '@/data/actions/perma-code-actions'
 /* components */
 import { Button } from '@/components/shared/button'
 import { Input } from '@/components/shared/input'
+import { Switch } from '@/components/shared/switch'
 
 interface Props {
   setSvg: (svg: string | null) => void
@@ -37,29 +38,35 @@ export function QrGenerationForm({ setSvg, isUserLogged }: Props) {
   }
 
   return (
-    <form className="flex-1 flex flex-col gap-2" onSubmit={handleSubmit}>
+    <form className="flex-1 flex flex-col gap-5" onSubmit={handleSubmit}>
       <h2 className="text-3xl font-bold">Generate a QR</h2>
 
-      <Input
-        name="url"
-        label="Destination URL"
-        onChange={(evt) => setDestinationUrl(evt.target.value)}
-        required
-      />
+      <div className="flex flex-col gap-6">
+        <Input
+          name="url"
+          label="Destination URL"
+          onChange={(evt) => setDestinationUrl(evt.target.value)}
+          required
+        />
 
-      <div className="flex gap-2">
-        <Button type="submit" disabled={!API_BASE_URL}>
-          <span className="flex gap-2 px-5">Generate</span>
-        </Button>
+        <div title={isPermaQrDisabled ? 'You need to login' : undefined}>
+          <Switch label="PermaQR" disabled={isPermaQrDisabled} />
+        </div>
 
-        <Button
-          type="button"
-          title={isPermaQrDisabled ? 'You need to login' : undefined}
-          disabled={isPermaQrDisabled}
-          onClick={handlePermaQr}
-        >
-          <span className="flex gap-2 px-5">PermaQR</span>
-        </Button>
+        <div>
+          <Button type="submit" disabled={!API_BASE_URL}>
+            <span className="flex gap-2 px-5">Generate</span>
+          </Button>
+
+          {/* <Button
+            type="button"
+            title={isPermaQrDisabled ? 'You need to login' : undefined}
+            disabled={isPermaQrDisabled}
+            onClick={handlePermaQr}
+          >
+            <span className="flex gap-2 px-5">PermaQR</span>
+          </Button> */}
+        </div>
       </div>
     </form>
   )

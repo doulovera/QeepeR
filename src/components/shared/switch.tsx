@@ -26,22 +26,23 @@ export const Switch = ({
 
   return (
     <label
-      className={`relative inline-flex items-center w-full max-w-full my-5 ${disabled ? 'opacity-80 cursor-not-allowed' : 'cursor-pointer'}`}
+      className={`relative inline-flex items-center w-full max-w-full ${disabled ? 'opacity-80 cursor-not-allowed' : 'cursor-pointer'}`}
     >
-      <div className="relative">
-        <input
-          name={name}
-          type="checkbox"
-          checked={isChecked}
-          value=""
-          className="sr-only peer"
-          disabled={disabled}
-          onChange={handleChange}
-        />
-        <div className="w-20 h-10 bg-gray-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-800 rounded-xl peer peer-checked:after:translate-x-[145%] rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[6px] after:start-[6px] after:bg-white after:border-gray-300 after:border after:rounded-lg after:w-7 after:h-7 after:transition-all border-gray-600 peer-checked:bg-primary-700" />
-      </div>
+      <input
+        name={name}
+        type="checkbox"
+        checked={isChecked}
+        value=""
+        className="sr-only peer"
+        disabled={disabled}
+        onChange={handleChange}
+      />
+      <div
+        className="peer inline-flex items-center shrink-0 h-6 w-12 rounded-full border-2 border-base-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 focus-visible:ring-offset-white disabled:cursor-not-allowed disabled:opacity-50 peer-checked:bg-primary-400 bg-primary-100 cursor-pointer peer-checked:after:translate-x-[130%] rtl:peer-checked:after:-translate-x-full after:content-[''] after:absolute after:top-[4px] after:start-[6px] after:bg-white after:border-black after:border-2 after:rounded-lg after:h-4 after:w-4 after:transition-all
+      "
+      />
       <div className="ms-3">
-        <span className="text-sm font-bold text-gray-300">{label}</span>
+        <span className="text-sm font-bold">{label}</span>
         {description ? <p className="text-xs">{description}</p> : null}
       </div>
     </label>
