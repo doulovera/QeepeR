@@ -20,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={satoshiFont.className}>
-      <body className="pb-10 bg-primary-100 text-black">{children}</body>
+      <body className="pb-10 text-black">{children}</body>
     </html>
   )
 }

@@ -21,11 +21,15 @@ export default async function Page() {
   }
 
   return (
-    <main className="min-w-80 w-full max-w-3xl mx-auto">
-      <Header />
-      <h1 className="text-4xl font-semibold text-center my-10">Your QR List</h1>
-      <Generate isUserLogged={!!user?.uid} />
-      <List list={list} />
+    <main className="min-w-80 w-full bg-[#b0f0da]">
+      <div className="w-full max-w-3xl mx-auto">
+        <Header />
+        <h1 className="text-4xl font-semibold text-center my-10">
+          Your QR List
+        </h1>
+        <Generate isUserLogged={!!user?.uid} />
+        <List list={list} />
+      </div>
     </main>
   )
 }
