@@ -3,7 +3,9 @@
 import { redirect } from 'next/navigation'
 import { getUserMe } from '@/data/services/get-user-me-service'
 import { listPermaQRs } from '@/data/actions/perma-code-actions'
-import type firebase from 'firebase/compat/app'
+import { Generate } from '@/components/landing/hero/generate'
+import { List } from '@/components/qr-list/list'
+import { Header } from '@/components/landing/header'
 
 export default async function Page() {
   const user = await getUserMe()
@@ -14,26 +16,16 @@ export default async function Page() {
 
   const list = await listPermaQRs()
 
-  const transformTimestamp = (timestamp: firebase.firestore.Timestamp) => {
-    return timestamp.toDate().toString()
+  if (!list) {
+    return <div>Improve this</div>
   }
 
   return (
-    <div>
-      <h1>QR List</h1>
-
-      <ul>
-        {list?.map((item) => (
-          <li key={item.destinationUrl} className="border-2 border-white">
-            {Object.entries(item).map(([key, value]) => (
-              <div key={key}>
-                <strong>{key}</strong>:{' '}
-                {key === 'createdAt' ? transformTimestamp(value) : value}
-              </div>
-            ))}
-          </li>
-        ))}
-      </ul>
-    </div>
+    <main className="min-w-80 w-full max-w-3xl mx-auto">
+      <Header />
+      <h1 className="text-4xl font-semibold text-center my-10">Your QR List</h1>
+      <Generate isUserLogged={!!user?.uid} />
+      <List list={list} />
+    </main>
   )
 }

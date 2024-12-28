@@ -8,11 +8,15 @@
   5. delete
 */
 
-import { addQR, listUserQrs } from "../services/qr-db-service"
-import { getUserMe } from "../services/get-user-me-service"
-import { createWorkerQR, updateUrlWorkerQR } from "../services/qr-object-service"
+import { addQR, listUserQrs } from '../services/qr-db-service'
+import { getUserMe } from '../services/get-user-me-service'
+import {
+  createWorkerQR,
+  updateUrlWorkerQR,
+} from '../services/qr-object-service'
+import { transformTimestamp } from '@/utils/transform-timestamp'
 
-export async function createPermaQR (url: string) {
+export async function createPermaQR(url: string) {
   try {
     const workerQR = await createWorkerQR(url)
 
@@ -35,7 +39,7 @@ export async function createPermaQR (url: string) {
   }
 }
 
-export async function updateUrlPermaQR (key: string, url: string) {
+export async function updateUrlPermaQR(key: string, url: string) {
   try {
     const user = await getUserMe()
 
@@ -56,7 +60,7 @@ export async function updateUrlPermaQR (key: string, url: string) {
   }
 }
 
-export async function listPermaQRs () {
+export async function listPermaQRs() {
   try {
     const user = await getUserMe()
 
@@ -66,7 +70,13 @@ export async function listPermaQRs () {
 
     const response = await listUserQrs(user.uid)
 
-    return response
+    const mapped = response?.map((item) => ({
+      ...item,
+      createdAt: transformTimestamp(item?.createdAt),
+      svg: '',
+    }))
+
+    return mapped
   } catch (error) {
     console.error(error)
     return null

@@ -23,6 +23,8 @@ export function QrGenerationForm({ setSvg, isUserLogged }: Props) {
     const form = evt.currentTarget
     const { value } = form.url
 
+    // TODO: Check the value is a valid URL
+
     if (!value) return
     const data = await createQR({ url: value })
     if (!data.success) return
