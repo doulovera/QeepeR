@@ -12,17 +12,14 @@ export function Bento () {
       </div>
 
       <section className="grid gap-4 mb-20 lg:grid-cols-2 lg:grid-rows-2">
-        <div className="row-span-2 col-span-1 flex flex-col [&>article]:h-full">
+        <div className="row-span-2 col-span-1 flex flex-col [&>article]:h-full aspect-square">
           <Card as="article" shadow={false}>
-            <div className="flex flex-col w-full justify-center text-center">
-              <h3 className="text-2xl">
-                🤳 Scan
-              </h3>
+            <div className="flex flex-col h-full w-full justify-center items-center text-center">
               <Image
                 src={theImage}
                 alt="Hand holding phone scanning a QR code"
-                width={250}
-                className="mx-auto"
+                width={300}
+                className="mx-auto rounded-lg object-cover w-[300px] aspect-square"
               />
             </div>
           </Card>
