@@ -48,7 +48,7 @@ export const Input = (
           value={value}
           onChange={onChange}
           className={
-            `h-14 w-full rounded-base bg-white border-2 border-base-400 p-3 font-base ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 outline-none`
+            `h-16 w-full rounded-base bg-white border-2 border-base-400 p-3 font-base ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 outline-none`
           }
           disabled={disabled}
           required={required}

@@ -18,7 +18,7 @@ export function Bento () {
               <Image
                 src={theImage}
                 alt="Hand holding phone scanning a QR code"
-                width={300}
+                width={350}
                 className="mx-auto rounded-lg object-cover w-[300px] aspect-square"
               />
             </div>

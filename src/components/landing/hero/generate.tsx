@@ -23,18 +23,20 @@ export function Generate({ isUserLogged }: Props) {
 
   return (
     <Card as="section" shadow={false}>
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-20 w-full min-h-80">
+      <div className="grid grid-cols-1 sm:grid-cols-[1fr_30%] items-center gap-12 w-full min-h-80">
         <QrGenerationForm
           setSvg={setSvg}
           isUserLogged={isUserLogged}
         />
         <div className="flex flex-col justify-center gap-2">
-          <QrImage svg={svg || ''} size="large" />
+          <QrImage svg={svg || ''} />
           <Button
             onClick={handleSave}
             disabled={!svg}
           >
-            Save
+            <span className="flex justify-center text-center">
+              Download
+            </span>
           </Button>
         </div>
       </div>

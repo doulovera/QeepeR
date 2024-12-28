@@ -1,15 +1,12 @@
 import { Card } from "./card"
 
-type Sizes = "small" | "medium" | "large"
-
 interface Props {
   svg: string
-  size?: Sizes
 }
-export const QrImage = ({ svg, size = 'medium' }: Props) => {
+export const QrImage = ({ svg }: Props) => {
   return (
-    <Card shadow={false}>
-      <div className="h-64 w-64" dangerouslySetInnerHTML={{ __html: svg }} />
+    <Card shadow={false} weight="normal" soft>
+      <div className="h-full w-full aspect-square" dangerouslySetInnerHTML={{ __html: svg }} />
     </Card>
   )
 }
