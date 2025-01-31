@@ -6,7 +6,7 @@ import { Bento } from '@/components/landing/bento'
 
 export default async function Home() {
   return (
-    <main className="w-full bg-primary-100 px-4 lg:px-0">
+    <main className="w-full bg-primary-100 px-4 pb-10 lg:px-0">
       <div className="max-w-3xl mx-auto">
         <Header />
         <Hero />

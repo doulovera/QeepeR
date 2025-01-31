@@ -27,7 +27,7 @@ const config: Config = {
         },
       },
       borderRadius: {
-        base: '12px',
+        base: '2px',
       },
       boxShadow: {
         light: '4px 4px 0px 0px #000',
