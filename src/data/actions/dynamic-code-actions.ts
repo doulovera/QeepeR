@@ -16,7 +16,7 @@ import {
 } from '../services/qr-object-service'
 import { transformTimestamp } from '@/utils/transform-timestamp'
 
-export async function createPermaQR(url: string) {
+export async function createDynamicQR(url: string) {
   try {
     const workerQR = await createWorkerQR(url)
 
@@ -39,7 +39,7 @@ export async function createPermaQR(url: string) {
   }
 }
 
-export async function updateUrlPermaQR(key: string, url: string) {
+export async function updateUrlDynamicQR(key: string, url: string) {
   try {
     const user = await getUserMe()
 
@@ -60,7 +60,7 @@ export async function updateUrlPermaQR(key: string, url: string) {
   }
 }
 
-export async function listPermaQRs() {
+export async function listDynamicQRs() {
   try {
     const user = await getUserMe()
 

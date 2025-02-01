@@ -14,9 +14,9 @@ import { extractAppUrl } from "../utils/extract-app-url"
 export default function genRoutes() {
   const code = new Hono<HonoContext>()
 
-  code.get('/:key/info', getInfoPermaQR)
-  code.post('/create', createPermaQR)
-  code.put('/:key/url', updateUrlPermaQR)
+  code.get('/:key/info', getInfoDynamicQR)
+  code.post('/create', createDynamicQR)
+  code.put('/:key/url', updateUrlDynamicQR)
 
   // update qr views status
   // update qr disabled status (not implement yet)
@@ -25,12 +25,12 @@ export default function genRoutes() {
 }
 
 /**
- * This is the controller for generating a permanent QR code. It handles incoming requests by parsing the request body,
+ * This is the controller for generating a dynamic QR code. It handles incoming requests by parsing the request body,
  * validating the presence of a URL, generating a QR code for the URL, and returning a success payload with the QR code.
  * If any errors occur during this process, it returns an error payload.
  * @param c The Hono context
  */
-export const createPermaQR = async (c: QeeperCtx) => {
+export const createDynamicQR = async (c: QeeperCtx) => {
   try {
     const body = await c.req.json()
     if (!body) throw new ApplicationError(API_RESPONSE.MISSING_BODY.TITLE, API_RESPONSE.MISSING_BODY.MESSAGE, 400)
@@ -55,7 +55,7 @@ export const createPermaQR = async (c: QeeperCtx) => {
  * of the QR code. If any errors occur during this process, it returns an error payload.
  * @param c The Hono context
  */
-export const getInfoPermaQR = async (c: QeeperCtx) => {
+export const getInfoDynamicQR = async (c: QeeperCtx) => {
   try {
     const key = c.req.param('key')
     if (!key) throw new ApplicationError(API_RESPONSE.MISSING_BODY_KEY.TITLE, API_RESPONSE.MISSING_BODY_KEY.MESSAGE('key'), 400)
@@ -77,7 +77,7 @@ export const getInfoPermaQR = async (c: QeeperCtx) => {
 
 }
 
-export const updateUrlPermaQR = async (c: QeeperCtx) => {
+export const updateUrlDynamicQR = async (c: QeeperCtx) => {
   try {
     const body = await c.req.json()
     if (!body) throw new ApplicationError(API_RESPONSE.MISSING_BODY.TITLE, API_RESPONSE.MISSING_BODY.MESSAGE, 400)

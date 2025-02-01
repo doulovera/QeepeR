@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { API_BASE_URL } from '@/constants/app'
 /* actions */
 import { createQR } from '@/data/actions/create-qr-actions'
-import { createPermaQR } from '@/data/actions/perma-code-actions'
+import { createDynamicQR } from '@/data/actions/dynamic-code-actions'
 /* components */
 import { Button } from '@/components/shared/button'
 import { Input } from '@/components/shared/input'
@@ -16,7 +16,7 @@ interface Props {
 export function QrGenerationForm({ setSvg, isUserLogged }: Props) {
   const [destinationUrl, setDestinationUrl] = useState<string>('')
 
-  const isPermaQrDisabled = !isUserLogged
+  const isDynamicQrDisabled = !isUserLogged
 
   const handleSubmit = async (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault()
@@ -34,7 +34,7 @@ export function QrGenerationForm({ setSvg, isUserLogged }: Props) {
 
   const handlePermaQr = async () => {
     if (!isUserLogged || !destinationUrl) return
-    const data = await createPermaQR(destinationUrl)
+    const data = await createDynamicQR(destinationUrl)
     if (!data) return
     setSvg(data)
   }
@@ -51,8 +51,8 @@ export function QrGenerationForm({ setSvg, isUserLogged }: Props) {
           required
         />
 
-        <div title={isPermaQrDisabled ? 'You need to login' : undefined}>
-          <Switch label="PermaQR" disabled={isPermaQrDisabled} />
+        <div title={isDynamicQrDisabled ? 'You need to login' : undefined}>
+          <Switch label="DynamicQR" disabled={isDynamicQrDisabled} />
         </div>
 
         <div>

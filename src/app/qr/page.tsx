@@ -2,7 +2,7 @@
 
 import { redirect } from 'next/navigation'
 import { getUserMe } from '@/data/services/get-user-me-service'
-import { listPermaQRs } from '@/data/actions/perma-code-actions'
+import { listDynamicQRs } from '@/data/actions/dynamic-code-actions'
 import { Generate } from '@/components/landing/hero/generate'
 import { List } from '@/components/qr-list/list'
 import { Header } from '@/components/landing/header'
@@ -14,7 +14,7 @@ export default async function Page() {
     return redirect('/')
   }
 
-  const list = await listPermaQRs()
+  const list = await listDynamicQRs()
 
   if (!list) {
     return <div>Improve this</div>
