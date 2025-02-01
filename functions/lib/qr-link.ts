@@ -8,6 +8,7 @@ export const generateQrLink = async (c: { env: WranglerBindings }, url: string, 
   let key = defaultKey || undefined
 
   if (!key) key = getRandomString()
+  // TODO: validate URL ALWAYS starts with `http://` or `https://`, it will throw an error otherwise
   const response = await db.set(c, key, url)
 
   if (!response) {
@@ -17,11 +18,11 @@ export const generateQrLink = async (c: { env: WranglerBindings }, url: string, 
   return key
 }
 
-export const getQrLink = async (c: { env: WranglerBindings }, key: string): Promise<QrResponse> => {
+export const getQrLink = async (c: { env: WranglerBindings }, key: string): Promise<QrResponse | null> => {
   const qr = await db.get(c, key)
 
   if (!qr) {
-    throw new Error('QR link not found')
+    return null
   }
 
   return qr
