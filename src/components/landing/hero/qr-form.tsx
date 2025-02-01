@@ -22,21 +22,21 @@ export function QrGenerationForm({ setSvg, isUserLogged }: Props) {
     evt.preventDefault()
     const form = evt.currentTarget
     const { value } = form.url
-
-    // TODO: Check the value is a valid URL
+    const { checked } = form.is_dynamic
 
     if (!value) return
-    const data = await createQR({ url: value })
-    if (!data.success) return
+    // TODO: Check the value is a valid URL
 
-    setSvg(data.svg)
-  }
-
-  const handlePermaQr = async () => {
-    if (!isUserLogged || !destinationUrl) return
-    const data = await createDynamicQR(destinationUrl)
-    if (!data) return
-    setSvg(data)
+    if (!checked) {
+      const data = await createQR({ url: value })
+      if (!data.success) return
+      setSvg(data.svg)
+    } else {
+      if (!isUserLogged) return
+      const data = await createDynamicQR(value)
+      if (!data) return
+      setSvg(data)
+    }
   }
 
   return (
@@ -52,22 +52,17 @@ export function QrGenerationForm({ setSvg, isUserLogged }: Props) {
         />
 
         <div title={isDynamicQrDisabled ? 'You need to login' : undefined}>
-          <Switch label="DynamicQR" disabled={isDynamicQrDisabled} />
+          <Switch
+            label="DynamicQR"
+            disabled={isDynamicQrDisabled}
+            name="is_dynamic"
+          />
         </div>
 
         <div>
           <Button type="submit" disabled={!API_BASE_URL}>
             <span className="flex gap-2 px-5">Generate</span>
           </Button>
-
-          {/* <Button
-            type="button"
-            title={isPermaQrDisabled ? 'You need to login' : undefined}
-            disabled={isPermaQrDisabled}
-            onClick={handlePermaQr}
-          >
-            <span className="flex gap-2 px-5">PermaQR</span>
-          </Button> */}
         </div>
       </div>
     </form>
