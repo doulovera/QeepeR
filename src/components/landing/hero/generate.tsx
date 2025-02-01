@@ -34,7 +34,7 @@ export function Generate({ isUserLogged }: Props) {
             onClick={handleSave}
             disabled={!svg}
           >
-            <span className="flex justify-center text-center">
+            <span className="flex justify-center w-full text-center">
               Download
             </span>
           </Button>
