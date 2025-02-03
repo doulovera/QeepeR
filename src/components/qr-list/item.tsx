@@ -1,6 +1,7 @@
 import type { ClientIQRS } from '@/data/models/IQRs'
 import { Card } from '../shared/card'
 import { QrImage } from '../shared/qr-image'
+import { Accordion } from '../shared/accordion'
 
 type Props = ClientIQRS
 
@@ -11,15 +12,15 @@ export function Item({
   disabled,
   userId,
   views,
-  svg,
 }: Props) {
+  const svg = ''
   return (
     <Card
       as="article"
       background={disabled ? 'bg-yellow-100' : 'bg-yellow-200'}
     >
       <div
-        className={`flex h-32 justify-between ${disabled ? 'opacity-60 cursor-not-allowed' : ''}`} // TODO
+        className={`flex h-32 justify-between mb-6 ${disabled ? 'opacity-60 cursor-not-allowed' : ''}`} // TODO
       >
         <div className="flex flex-col justify-center gap-1 w-1/2">
           <h3>
@@ -41,6 +42,11 @@ export function Item({
           <QrImage svg={svg} />
         </div>
       </div>
+      <Accordion
+        title="Show Details"
+      >
+        :D
+      </Accordion>
     </Card>
   )
 }
