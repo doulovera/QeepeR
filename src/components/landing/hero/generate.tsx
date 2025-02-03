@@ -3,11 +3,10 @@
 import { useState } from "react";
 
 import { QrImage } from "@/components/shared/qr-image";
-import { Button } from "@/components/shared/button";
 
 import { QrGenerationForm } from "./qr-form";
-import { downloadSvg } from "@/utils/download-svg";
 import { Card } from "@/components/shared/card";
+import { DownloadButton } from "./download-button";
 
 interface Props {
   isUserLogged: boolean
@@ -15,11 +14,6 @@ interface Props {
 
 export function Generate({ isUserLogged }: Props) {
   const [svg, setSvg] = useState<string | null>(null)
-
-  const handleSave = () => {
-    if (!svg) return
-    downloadSvg('qr-code', svg)
-  }
 
   return (
     <Card as="section" shadow={false}>
@@ -30,14 +24,8 @@ export function Generate({ isUserLogged }: Props) {
         />
         <div className="flex flex-col justify-center gap-2">
           <QrImage svg={svg || ''} />
-          <Button
-            onClick={handleSave}
-            disabled={!svg}
-          >
-            <span className="flex justify-center w-full text-center">
-              Download
-            </span>
-          </Button>
+          
+          <DownloadButton svg={svg} />
         </div>
       </div>
     </Card>
