@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Input } from "../../shared/input"
 import { Switch } from "../../shared/switch"
 import { DestinationUrlField } from "./destination-url-field";
+import { Button } from "@/components/shared/button";
 
 export const EditForm = (
   { id, destinationUrl, disabled }:
@@ -11,7 +12,6 @@ export const EditForm = (
     id: string;
     destinationUrl: string;
     disabled: boolean;
-    // handle colors change
   }
 ) => {
   const fieldNames = {
@@ -23,7 +23,7 @@ export const EditForm = (
 
   const handleUpdateSwitch = async (event: React.ChangeEvent<HTMLInputElement>) => {
     setStatus({ ...status, [event.target.name]: 'FETCHING' })
-    const response = false
+    const response = true
 
     if (response) {
       setStatus({ ...status, [event.target.name]: 'SUCCESS' })
@@ -31,8 +31,8 @@ export const EditForm = (
   }
 
   return (
-    <>
-       <div className="flex justify-between gap-20">
+    <section className="flex flex-col gap-6 mb-2">
+       <div className="hidden justify-between gap-20">
         <Input
           label="Background Color"
           disabled
@@ -66,6 +66,29 @@ export const EditForm = (
           disabled
         />
       </div>
-    </>
+
+      <div className="flex justify-between gap-4">
+        <Button
+          className="flex justify-center w-full text-center"
+          color="danger"
+        >
+          Delete
+        </Button>
+        
+        <Button
+          className="flex justify-center w-full text-center"
+          color="light"
+        >
+          Share
+        </Button>
+
+        <Button
+          className="flex justify-center w-full text-center"
+          color="light"
+        >
+          Download
+        </Button>
+      </div>
+    </section>
   )
 }

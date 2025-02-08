@@ -2,6 +2,7 @@ import type { ClientIQRS } from '@/data/models/IQRs'
 import { Card } from '../shared/card'
 import { QrImage } from '../shared/qr-image'
 import { Accordion } from '../shared/accordion'
+import { EditForm } from './form/edit-form'
 
 type Props = ClientIQRS
 
@@ -45,7 +46,11 @@ export function Item({
       <Accordion
         title="Show Details"
       >
-        :D
+        <EditForm
+          id={alias}
+          destinationUrl={destinationUrl}
+          disabled={disabled}
+        />
       </Accordion>
     </Card>
   )

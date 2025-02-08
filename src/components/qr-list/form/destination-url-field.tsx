@@ -26,7 +26,7 @@ export const DestinationUrlField = (
 
   return (
     <Input
-      label="Destination URL"
+      label="Edit Destination URL"
       description="The link you want it to redirect"
       value={destinationUrlValue}
       onChange={(event) => setDestinationUrlValue(event.target.value)}
