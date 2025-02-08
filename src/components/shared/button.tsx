@@ -4,11 +4,12 @@ interface Props {
   disabled?: boolean
   type?: "button" | "submit" | "reset"
   onClick?: () => void
-  color?: "primary" | "light" | "negative"
+  color?: "primary" | "light" | "negative" | "danger"
+  className?: string
 }
 
 export const Button = (
-  { children, title, disabled, type, onClick, color = 'primary' }: Props
+  { children, title, disabled, type, onClick, color = 'primary', className = '' }: Props
 ) => {
   const colors = {
     primary: {
@@ -23,11 +24,15 @@ export const Button = (
       background: "bg-gray-600 text-white",
       disabled: "disabled:bg-primary-100",
     },
+    danger: {
+      background: "bg-rose-500 text-white",
+      disabled: "disabled:bg-primary-100",
+    },
   }
 
   return (
     <button
-      className={`flex cursor-pointer items-center rounded-base border-2 border-base-400 ${colors[color].background} ${colors[color].disabled} px-4 py-4 text-md font-base shadow-dark transition-all hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-x-0 disabled:hover:translate-y-0 disabled:hover:shadow-dark`}
+      className={`flex cursor-pointer items-center rounded-base border-2 border-base-400 ${colors[color].background} ${colors[color].disabled} px-4 py-4 text-md font-base shadow-dark transition-all hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-x-0 disabled:hover:translate-y-0 disabled:hover:shadow-dark ${className}`}
       title={title}
       disabled={disabled}
       type={type}
