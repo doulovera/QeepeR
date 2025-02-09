@@ -29,7 +29,7 @@ export const Switch = ({
     <label
       className={`relative inline-flex items-center w-full max-w-full ${disabled ? 'opacity-80 cursor-not-allowed' : 'cursor-pointer'}`}
     >
-      <div className="relative">
+      <div className="relative flex items-center">
         <input
           name={name}
           type="checkbox"

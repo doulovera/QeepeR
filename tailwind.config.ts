@@ -44,10 +44,14 @@ const config: Config = {
         'fade-in': {
           '0%': { opacity: '0' },
           '100%': { opacity: '1' },
+        },
+        'pop': {
+          '50%': { transform: 'scale(1.2)' },
         }
       },
       animation: {
         'fade-in': 'fade-in 0.1s ease-in-out',
+        'pop': 'pop 0.2s',
       }
     },
   },

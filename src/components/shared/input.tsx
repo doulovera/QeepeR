@@ -51,7 +51,7 @@ export const Input = ({
         />
 
         {iconBtn && showIconBtn ? (
-          <span className="absolute right-3 top-0 bottom-1 grid place-content-center my-auto mx-0 animate-fade-in">
+          <span className="absolute right-3 top-0 bottom-1 grid place-content-center my-auto mx-0 animate-pop">
             <Button type="button" onClick={iconBtnOnClick} size="small">
               {iconBtn}
             </Button>
