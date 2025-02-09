@@ -30,7 +30,7 @@ export function Item({
               href={destinationUrl}
               target="_blank"
               rel="noreferrer"
-              className="text-primary-600 font-bold"
+              className="text-primary-800 font-bold text-xl"
             >
               {destinationUrl}
             </a>
