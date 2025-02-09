@@ -67,26 +67,12 @@ export const EditForm = (
         />
       </div>
 
-      <div className="flex justify-between gap-4">
+      <div className="flex justify-start gap-4 mt-8">
         <Button
-          className="flex justify-center w-full text-center"
+          className="flex justify-center text-center w-1/4"
           color="danger"
         >
           Delete
-        </Button>
-        
-        <Button
-          className="flex justify-center w-full text-center"
-          color="light"
-        >
-          Share
-        </Button>
-
-        <Button
-          className="flex justify-center w-full text-center"
-          color="light"
-        >
-          Download
         </Button>
       </div>
     </section>

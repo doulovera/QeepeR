@@ -19,6 +19,7 @@ export function Item({
     <Card
       as="article"
       background={disabled ? 'bg-yellow-100' : 'bg-yellow-200'}
+      shadow={false}
     >
       <div
         className={`flex h-32 justify-between mb-6 ${disabled ? 'opacity-60 cursor-not-allowed' : ''}`} // TODO
