@@ -30,7 +30,8 @@ export const DestinationUrlField = (
       description="The link you want it to redirect"
       value={destinationUrlValue}
       onChange={(event) => setDestinationUrlValue(event.target.value)}
-      iconBtn={hasChanges && <Save width="20" color="#fff" />}
+      iconBtn={<Save width="20" color="#fff" />}
+      showIconBtn={hasChanges}
       iconBtnOnClick={handleSave}
     />
   )

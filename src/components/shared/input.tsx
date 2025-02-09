@@ -13,6 +13,7 @@ interface Props {
   iconBtn?: React.ReactNode
   iconBtnOnClick?: () => void
   required?: boolean
+  showIconBtn?: boolean
 }
 
 export const Input = ({
@@ -28,6 +29,7 @@ export const Input = ({
   iconBtn,
   iconBtnOnClick,
   required,
+  showIconBtn = true,
 }: Props) => {
   return (
     <label className="w-full">
@@ -48,9 +50,9 @@ export const Input = ({
           required={required}
         />
 
-        {iconBtn ? (
-          <span className="absolute right-2 top-0 bottom-0 grid place-content-center my-auto mx-0">
-            <Button type="button" onClick={iconBtnOnClick}>
+        {iconBtn && showIconBtn ? (
+          <span className="absolute right-3 top-0 bottom-1 grid place-content-center my-auto mx-0 animate-fade-in">
+            <Button type="button" onClick={iconBtnOnClick} size="small">
               {iconBtn}
             </Button>
           </span>
