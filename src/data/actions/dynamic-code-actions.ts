@@ -8,8 +8,12 @@
   5. delete
 */
 
-import { addQR, listUserQrs } from '../services/qr-db-service'
 import { getUserMe } from '../services/get-user-me-service'
+import {
+  addQR,
+  listUserQrs,
+  updateQRUrlInDB,
+} from '../services/qr-db-service'
 import {
   createWorkerQR,
   updateUrlWorkerQR,
@@ -47,9 +51,11 @@ export async function updateUrlDynamicQR(key: string, url: string) {
       throw new Error('Unauthorized')
     }
 
-    const response = await updateUrlWorkerQR(key, url)
+    // Be careful with a mismatch between both DBs services
+    const workerResponse = await updateUrlWorkerQR(key, url)
+    const dbResponse = await updateQRUrlInDB(key, url)
 
-    if (!response) {
+    if (!workerResponse || !dbResponse) {
       throw new Error('Failed to update QR')
     }
 

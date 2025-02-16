@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Save } from "@/components/icons/save";
 import { Input } from "@/components/shared/input";
+import { updateUrlDynamicQR } from "@/data/actions/dynamic-code-actions";
 
 export const DestinationUrlField = (
   { id, destinationUrl }:
@@ -15,12 +16,16 @@ export const DestinationUrlField = (
   const hasChanges = destinationUrlValue !== dbDestinationUrl
 
   const handleSave = async () => {
-    const response = false
+    const response = await updateUrlDynamicQR(id, destinationUrlValue)
 
     if (response) {
-      console.log('TODO: add toast notification for success')
+      // TODO: add toast notification for success
+      alert('Success. \nQR can take a few seconds to update.')
 
       setDbDestinationUrl(destinationUrlValue)
+    } else {
+      // TODO: add toast notification for error
+      alert('Error')
     }
   }
 
