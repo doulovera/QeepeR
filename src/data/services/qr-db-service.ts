@@ -37,3 +37,20 @@ export const listUserQrs = async (uid: string) => {
     console.error('Error getting documents: ', error)
   }
 }
+
+export const updateQRUrlInDB = async (key: string, url: string) => {
+  try {
+    const qr = await QRs.getByAlias(key)
+    if (!qr) {
+      throw new Error('QR code not found')
+    }
+
+    const link = new QRs(key, url, qr.userId)
+    await link.update({ destinationUrl: url })
+
+    return true
+  } catch (error) {
+    console.error('Error updating QR URL: ', error)
+    return false
+  }
+}
