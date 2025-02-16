@@ -53,6 +53,16 @@ export function Item({
           disabled={disabled}
         />
       </Accordion>
+
+      <p className="text-xs font-mono text-left mt-5">
+        <span className="font-bold">
+          Alias:
+        </span>
+        {" "}
+        <span className="">
+          {alias}
+        </span>
+      </p>
     </Card>
   )
 }
