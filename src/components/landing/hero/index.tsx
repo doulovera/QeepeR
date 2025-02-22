@@ -14,9 +14,14 @@ export async function Hero() {
           Generate & <span className="bg-purple-300">Edit</span>
         </h1>
 
-        <p className="max-w-[40ch] mx-auto font-medium">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta numquam vitae, minus beatae eaque officia alias.          
+        <p className="max-w-[45ch] mx-auto text-lg">
+          Quickly generate static or dynamic QR codes, personalize their design, and update their destinations at any time.
         </p>
+
+        {/* <p className="text-balance">
+        Whether you’re sharing a website, promoting an event, or tracking product information,
+        QeepeR makes it simple to engage your audience and keep your content fresh.
+        </p> */}
       </div>
       <Generate isUserLogged={!!user?.uid} />
     </section>

@@ -22,12 +22,12 @@ export function QrGenerationForm({ setSvg, isUserLogged }: Props) {
     evt.preventDefault()
     const form = evt.currentTarget
     const { value } = form.url
-    const { checked } = form.is_dynamic
+    const { checked: isDynamic } = form.is_dynamic
 
     if (!value) return
     // TODO: Check the value is a valid URL
 
-    if (!checked) {
+    if (!isDynamic) {
       const data = await createQR({ url: value })
       if (!data.success) return
       setSvg(data.svg)
