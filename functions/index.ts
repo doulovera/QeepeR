@@ -3,7 +3,6 @@ import type { HonoContext } from './types'
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 
-import mainRoutes from './controllers/index.controller'
 import codeGenRoutes from './controllers/code.controller'
 
 import { authMiddleware } from './middlewares/auth'
@@ -17,7 +16,6 @@ const app = new Hono<HonoContext>()
 app.use('*', cors())
 app.use(`${ROUTES.GENERATION}/*`, authMiddleware)
 
-app.route('/', mainRoutes())
 app.route(ROUTES.GENERATION, codeGenRoutes())
 
 app.get('/:key', async (c) => {

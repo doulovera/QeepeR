@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import { API_BASE_URL } from '@/constants/app'
 /* actions */
-import { createQR } from '@/data/actions/create-qr-actions'
 import { createDynamicQR } from '@/data/actions/dynamic-code-actions'
 /* components */
 import { Button } from '@/components/shared/button'
 import { Input } from '@/components/shared/input'
 import { Switch } from '@/components/shared/switch'
+import { generateQr } from '@/utils/generate-qr'
 
 interface Props {
   setSvg: (svg: string | null) => void
@@ -28,9 +28,8 @@ export function QrGenerationForm({ setSvg, isUserLogged }: Props) {
     // TODO: Check the value is a valid URL
 
     if (!isDynamic) {
-      const data = await createQR({ url: value })
-      if (!data.success) return
-      setSvg(data.svg)
+      const svg = await generateQr(value)
+      setSvg(svg)
     } else {
       if (!isUserLogged) return
       const data = await createDynamicQR(value)

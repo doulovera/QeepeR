@@ -7,7 +7,6 @@ import { successPayload, errorPayload } from "../lib/response"
 import ApplicationError from "../lib/error"
 import { deleteQrLink, generateQrLink, getQrLink, getQrViews, updateQrLink } from "../lib/qr-link"
 
-import { generateQr } from "../utils/generate-qr"
 import { API_RESPONSE } from "../constants/errors"
 import { extractAppUrl } from "../utils/extract-app-url"
 
@@ -41,9 +40,8 @@ export const createDynamicQR = async (c: QeeperCtx) => {
     const key = await generateQrLink(c, url)
     const appUrl = extractAppUrl(c.req.url)
     const qrUrl = `${appUrl}/${key}`
-    const svg = await generateQr(qrUrl)
 
-    return successPayload(c, { success: true, svg, key })
+    return successPayload(c, { success: true, key, url: qrUrl })
   } catch (error) {
     return errorPayload(c, error as Error)
   }
