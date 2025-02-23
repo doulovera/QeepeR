@@ -21,12 +21,12 @@ export function Item({
       background={disabled ? 'bg-yellow-100' : 'bg-yellow-200'}
       shadow={false}
     >
-      <div className="p-2">
+      <div className="p-2 max-w-full w-full">
         <div
-          className={`flex h-32 justify-between mb-6 ${disabled ? 'opacity-60 cursor-not-allowed' : ''}`} // TODO
+          className={`flex h-32 max-w-full justify-between mb-6 ${disabled ? 'opacity-60 cursor-not-allowed' : ''}`} // TODO
         >
-          <div className="flex flex-col justify-center gap-1 w-1/2">
-            <h3>
+          <div className="flex flex-col justify-center gap-1">
+            <h3 className="max-w-[20ch] sm:max-w-[45ch] whitespace-nowrap overflow-ellipsis overflow-hidden">
               <a
                 href={destinationUrl}
                 target="_blank"
@@ -41,7 +41,7 @@ export function Item({
               <span className="text-base font-bold">Views:</span> {views ?? 0}
             </p>
           </div>
-          <div className="flex justify-end w-full">
+          <div className="hidden sm:flex">
             <QrImage svg={svg} />
           </div>
         </div>
