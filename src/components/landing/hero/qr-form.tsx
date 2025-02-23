@@ -38,9 +38,7 @@ export function QrGenerationForm({ setSvg, isUserLogged, defaultDynamicSwitch }:
   }
 
   return (
-    <form className="flex-1 flex flex-col gap-5" onSubmit={handleSubmit}>
-      <h2 className="text-3xl font-bold">Generate a QR</h2>
-
+    <form className="flex-1 flex flex-col gap-14" onSubmit={handleSubmit}>
       <div className="flex flex-col gap-6">
         <Input
           name="url"
@@ -57,11 +55,11 @@ export function QrGenerationForm({ setSvg, isUserLogged, defaultDynamicSwitch }:
           />
         </div>
 
-        <div>
-          <Button type="submit" disabled={!API_BASE_URL}>
-            <span className="flex gap-2 px-5">Generate</span>
-          </Button>
-        </div>
+      </div>
+      <div>
+        <Button type="submit" disabled={!API_BASE_URL}>
+          <span className="flex gap-2 px-5">Generate</span>
+        </Button>
       </div>
     </form>
   )

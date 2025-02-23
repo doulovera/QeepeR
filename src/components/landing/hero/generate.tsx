@@ -18,16 +18,20 @@ export function Generate({ isUserLogged, defaultDynamicSwitch }: Props) {
 
   return (
     <Card as="section" shadow={false}>
-      <div className="grid grid-cols-1 sm:grid-cols-[1fr_30%] items-center gap-12 w-full min-h-80 p-4">
-        <QrGenerationForm
-          setSvg={setSvg}
-          isUserLogged={isUserLogged}
-          defaultDynamicSwitch={defaultDynamicSwitch}
-        />
-        <div className="flex flex-col justify-center gap-2">
-          <QrImage svg={svg || ''} />
-          
-          <DownloadButton svg={svg} />
+      <div className="py-4 px-8">
+        <h2 className="mb-8 text-center text-3xl font-bold">Generate a QR</h2>
+        
+        <div className="grid grid-cols-1 sm:grid-cols-[1fr_30%] items-center gap-12 w-full min-h-72">
+          <QrGenerationForm
+            setSvg={setSvg}
+            isUserLogged={isUserLogged}
+            defaultDynamicSwitch={defaultDynamicSwitch}
+          />
+          <div className="flex flex-col gap-4 justify-between h-full">
+            <QrImage svg={svg || ''} />
+            
+            <DownloadButton svg={svg} />
+          </div>
         </div>
       </div>
     </Card>
