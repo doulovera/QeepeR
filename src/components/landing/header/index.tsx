@@ -8,34 +8,24 @@ export const Header = async () => {
   const user = await getUserMe()
 
   return (
-    <header className="flex items-center justify-between w-full h-20 py-4 mx-auto">
-      <h2 className="text-xl font-bold">
-        QeepeR
-      </h2>
-      <nav>
-        <ul className="flex justify-between w-full gap-10">
-          <li>
-            <Link href="/">Home</Link>
-          </li>
-          <li>
+    <header className="w-full bg-white border-b-2 border-base-400">
+      <div className="max-w-4xl flex items-center justify-between w-full h-20 py-4 mx-auto">
+        <h2 className="text-2xl font-extrabold">
+          <Link href="/">
+            QeepeR
+          </Link>
+        </h2>
+        <nav className="flex items-center gap-10">
+          <span className={`font-bold ${!user ? 'opacity-70 cursor-not-allowed' : 'hover:underline'}`}>
             {
               user
-                ? (
-                  <Link
-                    href="/qr"
-                    className={!user ? 'opacity-70 cursor-not-allowed' : ''}
-                  >
-                    My QRs
-                  </Link>
-                )
-                : <span className={!user ? 'opacity-70 cursor-not-allowed' : ''}>My QRs</span>
+                ? <Link href="/qr">My QR Codes</Link>
+                : 'My QR codes'
             }
-          </li>
-          <li>
-          </li>
-        </ul>
-      </nav>
-      <LoginHeader name={user?.name ?? undefined} />
+          </span>
+          <LoginHeader name={user?.name ?? undefined} />
+        </nav>
+      </div>
     </header>
   );
 }

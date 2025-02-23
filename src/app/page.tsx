@@ -7,8 +7,8 @@ import { Bento } from '@/components/landing/bento'
 export default async function Home() {
   return (
     <main className="w-full bg-primary-100 px-4 pb-10 lg:px-0">
-      <div className="max-w-3xl mx-auto">
-        <Header />
+      <Header />
+      <div className="max-w-4xl mx-auto">
         <Hero />
         <Bento />
         {/* <UseCases /> */}

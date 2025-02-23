@@ -22,17 +22,24 @@ export function LoginHeader({ name }: Props) {
     }
   }
 
+  if (name) {
+    return (
+      <div className="flex items-center gap-4">
+        <p>{name.split(' ')[0]}</p>
+        <Button onClick={handleLogOut} color="light" size="small">
+          ↪
+        </Button>
+      </div>
+    )
+  }
+
   return (
     <Button
-      onClick={name ? handleLogOut : handleLogIn}
-      color={name ? 'primary' : 'light'}
+      onClick={handleLogIn}
+      color="primary"
     >
       <span className="px-4">
-        {
-          name
-            ? name.split(' ')[0]
-            : 'Login'
-        }
+        Login
       </span>
     </Button>
   )
