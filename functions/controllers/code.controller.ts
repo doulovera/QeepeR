@@ -1,5 +1,4 @@
 import type { HonoContext, QeeperCtx } from "../types"
-import type { GetQrInfoResponse } from "../types/responses"
 
 import { Hono } from "hono"
 
@@ -16,6 +15,7 @@ export default function genRoutes() {
   code.get('/:key/info', getInfoDynamicQR)
   code.post('/create', createDynamicQR)
   code.put('/:key/url', updateUrlDynamicQR)
+  code.delete('/:key', deleteDynamicQR)
 
   // update qr views status
   // update qr disabled status (not implement yet)
@@ -90,6 +90,22 @@ export const updateUrlDynamicQR = async (c: QeeperCtx) => {
     const response = await updateQrLink(c, key, newUrl)
 
     return successPayload(c, { success: true, url: response })
+  } catch (error) {
+    return errorPayload(c, error as Error)
+  }
+}
+
+export const deleteDynamicQR = async (c: QeeperCtx) => {
+  try {
+    const key = c.req.param('key')
+    if (!key) throw new ApplicationError(API_RESPONSE.MISSING_BODY_KEY.TITLE, API_RESPONSE.MISSING_BODY_KEY.MESSAGE('key'), 400)
+
+    const qr = await getQrLink(c, key)
+    if (!qr) throw new ApplicationError(API_RESPONSE.NOT_FOUND.TITLE, API_RESPONSE.NOT_FOUND.MESSAGE, 404)
+
+    const response = await deleteQrLink(c, key)
+
+    return successPayload(c, { success: true, response })
   } catch (error) {
     return errorPayload(c, error as Error)
   }

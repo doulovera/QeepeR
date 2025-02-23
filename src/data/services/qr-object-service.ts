@@ -3,9 +3,9 @@ import { WORKER_API_TOKEN, WORKER_BASE_URL } from '@/constants/app'
 const PATH = '/code'
 
 const httpRequest = async (
-  method: 'GET' | 'POST' | 'PUT',
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE',
   path: string,
-  body: Record<string, unknown> | null,
+  body?: Record<string, unknown> | null,
 ) => {
   const response = await fetch(`${WORKER_BASE_URL}${path}`, {
     method,
@@ -13,7 +13,7 @@ const httpRequest = async (
       'Content-Type': 'application/json',
       Authorization: `Bearer ${WORKER_API_TOKEN}`,
     },
-    body: JSON.stringify(body),
+    body: body ? JSON.stringify(body) : undefined,
   })
 
   if (!response.ok) {
@@ -25,7 +25,7 @@ const httpRequest = async (
 
 export async function fetchInfoWorkerQR(id: string) {
   try {
-    const item = await httpRequest('GET', `${PATH}/${id}/info`, null)
+    const item = await httpRequest('GET', `${PATH}/${id}/info`)
 
     return item
   } catch (error) {
@@ -55,6 +55,16 @@ export async function updateUrlWorkerQR(id: string, url: string) {
   try {
     const item = await httpRequest('PUT', `${PATH}/${id}/url`, { url })
 
+    return item
+  } catch (error) {
+    console.log(error)
+    return null
+  }
+}
+
+export async function deleteWorkerQR(id: string) {
+  try {
+    const item = await httpRequest('DELETE', `${PATH}/${id}`)
     return item
   } catch (error) {
     console.log(error)

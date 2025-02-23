@@ -12,11 +12,13 @@ import { generateQr } from '@/utils/generate-qr'
 import { getUserMe } from '../services/get-user-me-service'
 import {
   addQR,
+  deleteQRInDB,
   listUserQrs,
   updateQRUrlInDB,
 } from '../services/qr-db-service'
 import {
   createWorkerQR,
+  deleteWorkerQR,
   updateUrlWorkerQR,
 } from '../services/qr-object-service'
 import { transformTimestamp } from '@/utils/transform-timestamp'
@@ -96,5 +98,27 @@ export async function listDynamicQRs() {
   } catch (error) {
     console.error(error)
     return null
+  }
+}
+
+export async function deleteDynamicQR(key: string) {
+  try {
+    const user = await getUserMe()
+
+    if (!user) {
+      throw new Error('Unauthorized')
+    }
+
+    const workerResponse = await deleteWorkerQR(key)
+    const dbResponse = await deleteQRInDB(key)
+
+    if (!workerResponse || !dbResponse) {
+      throw new Error('Failed to delete QR')
+    }
+
+    return true
+  } catch (error) {
+    console.error(error)
+    return false
   }
 }

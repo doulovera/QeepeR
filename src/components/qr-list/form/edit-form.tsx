@@ -5,6 +5,7 @@ import { Input } from "../../shared/input"
 import { Switch } from "../../shared/switch"
 import { DestinationUrlField } from "./destination-url-field";
 import { Button } from "@/components/shared/button";
+import { deleteDynamicQR } from "@/data/actions/dynamic-code-actions";
 
 export const EditForm = (
   { id, destinationUrl, disabled }:
@@ -28,6 +29,24 @@ export const EditForm = (
     if (response) {
       setStatus({ ...status, [event.target.name]: 'SUCCESS' })
     }
+  }
+
+  const handleDelete = async () => {
+    // use a modal here
+    const userResponse = confirm('Are you sure you want to delete this QR?')
+
+    if (!userResponse) return
+
+    setStatus({ ...status, delete: 'FETCHING' })
+    const response = await deleteDynamicQR(id)
+
+    if (response) {
+      setStatus({ ...status, delete: 'SUCCESS' })
+    } else {
+      setStatus({ ...status, delete: 'FAILED' })
+    }
+
+    return response
   }
 
   return (
@@ -71,6 +90,7 @@ export const EditForm = (
         <Button
           className="flex justify-center text-center w-1/4"
           color="danger"
+          onClick={handleDelete}
         >
           Delete
         </Button>

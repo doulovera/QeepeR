@@ -54,3 +54,18 @@ export const updateQRUrlInDB = async (key: string, url: string) => {
     return false
   }
 }
+
+export const deleteQRInDB = async (key: string) => {
+  try {
+    const qr = await QRs.getByAlias(key)
+    if (!qr) {
+      throw new Error('QR code not found')
+    }
+
+    await QRs.deleteByAlias(key, qr.userId)
+    return true
+  } catch (error) {
+    console.error('Error deleting QR code: ', error)
+    return false
+  }
+}
