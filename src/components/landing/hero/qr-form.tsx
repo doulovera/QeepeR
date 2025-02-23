@@ -11,11 +11,10 @@ import { generateQr } from '@/utils/generate-qr'
 interface Props {
   setSvg: (svg: string | null) => void
   isUserLogged: boolean
+  defaultDynamicSwitch?: boolean
 }
 
-export function QrGenerationForm({ setSvg, isUserLogged }: Props) {
-  const [destinationUrl, setDestinationUrl] = useState<string>('')
-
+export function QrGenerationForm({ setSvg, isUserLogged, defaultDynamicSwitch }: Props) {
   const isDynamicQrDisabled = !isUserLogged
 
   const handleSubmit = async (evt: React.FormEvent<HTMLFormElement>) => {
@@ -46,7 +45,6 @@ export function QrGenerationForm({ setSvg, isUserLogged }: Props) {
         <Input
           name="url"
           label="Destination URL"
-          onChange={(evt) => setDestinationUrl(evt.target.value)}
           required
         />
 
@@ -55,6 +53,7 @@ export function QrGenerationForm({ setSvg, isUserLogged }: Props) {
             label="DynamicQR"
             disabled={isDynamicQrDisabled}
             name="is_dynamic"
+            checked={defaultDynamicSwitch}
           />
         </div>
 

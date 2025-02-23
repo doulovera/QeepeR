@@ -10,9 +10,10 @@ import { DownloadButton } from "./download-button";
 
 interface Props {
   isUserLogged: boolean
+  defaultDynamicSwitch?: boolean
 }
 
-export function Generate({ isUserLogged }: Props) {
+export function Generate({ isUserLogged, defaultDynamicSwitch }: Props) {
   const [svg, setSvg] = useState<string | null>(null)
 
   return (
@@ -21,6 +22,7 @@ export function Generate({ isUserLogged }: Props) {
         <QrGenerationForm
           setSvg={setSvg}
           isUserLogged={isUserLogged}
+          defaultDynamicSwitch={defaultDynamicSwitch}
         />
         <div className="flex flex-col justify-center gap-2">
           <QrImage svg={svg || ''} />
