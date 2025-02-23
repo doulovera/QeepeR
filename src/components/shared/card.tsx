@@ -20,7 +20,7 @@ export function Card({
   }
   return (
     <As
-      className={`rounded-base ${borderWeights[weight]} ${background} border-base-400 p-4 text-md font-base ${shadow ? 'shadow-dark' : ''}`}
+      className={`rounded-base ${borderWeights[weight]} ${background} border-base-400 p-2 text-md font-base ${shadow ? 'shadow-dark' : ''}`}
     >
       {children}
     </As>

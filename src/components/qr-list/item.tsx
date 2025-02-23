@@ -13,56 +13,58 @@ export function Item({
   disabled,
   userId,
   views,
+  svg,
 }: Props) {
-  const svg = ''
   return (
     <Card
       as="article"
       background={disabled ? 'bg-yellow-100' : 'bg-yellow-200'}
       shadow={false}
     >
-      <div
-        className={`flex h-32 justify-between mb-6 ${disabled ? 'opacity-60 cursor-not-allowed' : ''}`} // TODO
-      >
-        <div className="flex flex-col justify-center gap-1 w-1/2">
-          <h3>
-            <a
-              href={destinationUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="text-primary-800 font-bold text-xl"
-            >
-              {destinationUrl}
-            </a>
-          </h3>
+      <div className="p-2">
+        <div
+          className={`flex h-32 justify-between mb-6 ${disabled ? 'opacity-60 cursor-not-allowed' : ''}`} // TODO
+        >
+          <div className="flex flex-col justify-center gap-1 w-1/2">
+            <h3>
+              <a
+                href={destinationUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="text-primary-800 font-bold text-xl"
+              >
+                {destinationUrl}
+              </a>
+            </h3>
 
-          <p>
-            <span className="text-base font-bold">Views:</span> {views ?? 0}
-          </p>
+            <p>
+              <span className="text-base font-bold">Views:</span> {views ?? 0}
+            </p>
+          </div>
+          <div className="flex justify-end w-full">
+            <QrImage svg={svg} />
+          </div>
         </div>
-        <div className="flex justify-end w-full">
-          <QrImage svg={svg} />
-        </div>
+        <Accordion
+          title="Show Details"
+        >
+          <EditForm
+            id={alias}
+            destinationUrl={destinationUrl}
+            disabled={disabled}
+          />
+        </Accordion>
+
+        <p className="text-xs font-mono text-left mt-5">
+          <span className="font-bold">
+            Alias:
+          </span>
+          {" "}
+          <span className="">
+            {alias}
+          </span>
+        </p>
       </div>
-      <Accordion
-        title="Show Details"
-      >
-        <EditForm
-          id={alias}
-          destinationUrl={destinationUrl}
-          disabled={disabled}
-        />
-      </Accordion>
-
-      <p className="text-xs font-mono text-left mt-5">
-        <span className="font-bold">
-          Alias:
-        </span>
-        {" "}
-        <span className="">
-          {alias}
-        </span>
-      </p>
     </Card>
   )
 }

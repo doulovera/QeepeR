@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Card } from "./card";
 
 interface AccordionProps {
   children: React.ReactNode;

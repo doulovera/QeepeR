@@ -20,6 +20,7 @@ import {
   updateUrlWorkerQR,
 } from '../services/qr-object-service'
 import { transformTimestamp } from '@/utils/transform-timestamp'
+import { getWorkerUrl } from '@/utils/get-worker-url'
 
 export async function createDynamicQR(url: string) {
   try {
@@ -79,13 +80,19 @@ export async function listDynamicQRs() {
 
     const response = await listUserQrs(user.uid)
 
-    const mapped = response?.map((item) => ({
+    if (!response || !response.length) {
+      return []
+    }
+
+    const mapped = response.map(async (item) => ({
       ...item,
       createdAt: transformTimestamp(item?.createdAt),
-      svg: '',
+      svg: await generateQr(getWorkerUrl(item.alias)),
     }))
 
-    return mapped
+    const result = await Promise.all(mapped)
+
+    return result
   } catch (error) {
     console.error(error)
     return null

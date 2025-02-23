@@ -17,7 +17,7 @@ export function Generate({ isUserLogged }: Props) {
 
   return (
     <Card as="section" shadow={false}>
-      <div className="grid grid-cols-1 sm:grid-cols-[1fr_30%] items-center gap-12 w-full min-h-80">
+      <div className="grid grid-cols-1 sm:grid-cols-[1fr_30%] items-center gap-12 w-full min-h-80 p-4">
         <QrGenerationForm
           setSvg={setSvg}
           isUserLogged={isUserLogged}
