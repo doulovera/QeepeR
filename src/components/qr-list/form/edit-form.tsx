@@ -69,7 +69,7 @@ export const EditForm = (
         />
       </div>
 
-      <div className="flex justify-between items-center gap-20">
+      <div className="hidden justify-between items-center gap-20">
         <Switch
           name={fieldNames.disabled}
           label="Disable Link"
