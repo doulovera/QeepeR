@@ -37,14 +37,13 @@ export async function fetchInfoWorkerQR(id: string) {
 interface CreateWorkerQRResponse {
   success: boolean
   key: string
-  svg: string
+  url: string
 }
 export async function createWorkerQR(
   url: string,
 ): Promise<CreateWorkerQRResponse | null> {
   try {
     const item = await httpRequest('POST', `${PATH}/create`, { url })
-
     return item
   } catch (error) {
     console.log(error)

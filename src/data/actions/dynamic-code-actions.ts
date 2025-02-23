@@ -1,5 +1,6 @@
 'use server'
 
+import { generateQr } from '@/utils/generate-qr'
 /*
   1. get
   2. update
@@ -22,21 +23,23 @@ import { transformTimestamp } from '@/utils/transform-timestamp'
 
 export async function createDynamicQR(url: string) {
   try {
-    const workerQR = await createWorkerQR(url)
-
-    if (!workerQR) {
-      throw new Error('Failed to create QR')
-    }
-
     const user = await getUserMe()
 
     if (!user) {
       throw new Error('Unauthorized')
     }
 
+    const workerQR = await createWorkerQR(url)
+
+    if (!workerQR) {
+      throw new Error('Failed to create QR')
+    }
+
     await addQR(workerQR.key, { url, uid: user.uid })
 
-    return workerQR.svg
+    const svg = await generateQr(workerQR.url)
+
+    return svg
   } catch (error) {
     console.error(error)
     return null

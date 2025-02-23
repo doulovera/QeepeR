@@ -1,5 +1,3 @@
-'use server'
-
 import qr from 'qrcode'
 
 type QrOptions = {
@@ -13,7 +11,7 @@ export async function generateQr (url: string, options?: QrOptions) {
       dark: options?.dark || '#000',
       light: options?.light || '#fff'
     },
-    margin: 1
+    margin: 0.5
   })
 
   return qrImage
