@@ -41,14 +41,14 @@ export const Button = (
   }
 
   const sizes = {
-    smaller: "py-2 px-2 text-xs rounded-xl",
-    small: "py-3 px-3 text-xs rounded-xl",
-    medium: "py-4 px-4 text-md rounded-base",
+    smaller: "py-2 px-2 text-xs",
+    small: "py-3 px-3 text-xs",
+    medium: "py-4 px-4 text-md",
   }
 
   return (
     <button
-      className={`flex cursor-pointer items-center border-2 border-base-400 ${colors[color].background} ${colors[color].disabled} ${sizes[size]} font-base shadow-dark transition-all hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-x-0 disabled:hover:translate-y-0 disabled:hover:shadow-dark ${className}`}
+      className={`flex cursor-pointer items-center border-2 border-base-400 rounded-base ${colors[color].background} ${colors[color].disabled} ${sizes[size]} font-base shadow-dark transition-all hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-x-0 disabled:hover:translate-y-0 disabled:hover:shadow-dark ${className}`}
       title={title}
       disabled={disabled}
       type={type}
