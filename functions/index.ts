@@ -18,6 +18,11 @@ app.use(`${ROUTES.GENERATION}/*`, authMiddleware)
 
 app.route(ROUTES.GENERATION, codeGenRoutes())
 
+app.get('/', (c) => {
+  const LANDING_PAGE = 'https://qeeper-qr.vercel.app'
+  return c.redirect(LANDING_PAGE)
+})
+
 app.get('/:key', async (c) => {
   const key = c.req.param('key')
   if (!key) return c.json({ error: 'Not found' }, 404)
