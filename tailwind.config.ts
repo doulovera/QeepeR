@@ -30,6 +30,9 @@ const config: Config = {
       borderRadius: {
         base: '6px',
       },
+      borderWidth: {
+        base: '1px',
+      },
       boxShadow: {
         light: '4px 4px 0px 0px #000',
         dark: '4px 4px 0px 0px #000',
@@ -45,14 +48,14 @@ const config: Config = {
           '0%': { opacity: '0' },
           '100%': { opacity: '1' },
         },
-        'pop': {
+        pop: {
           '50%': { transform: 'scale(1.2)' },
-        }
+        },
       },
       animation: {
         'fade-in': 'fade-in 0.1s ease-in-out',
-        'pop': 'pop 0.2s',
-      }
+        pop: 'pop 0.2s',
+      },
     },
   },
   plugins: [],

@@ -2,7 +2,7 @@ type Props = {
   children: React.ReactNode
   as?: React.ElementType
   shadow?: boolean
-  weight?: 'light' | 'normal' | 'bold'
+  weight?: 'thin' | 'light' | 'normal' | 'bold'
   background?: `bg-${string}`
 }
 
@@ -10,10 +10,11 @@ export function Card({
   children,
   as: As = 'div',
   shadow = true,
-  weight = 'light',
+  weight = 'thin',
   background = 'bg-white',
 }: Props) {
   const borderWeights = {
+    thin: 'border-base',
     light: 'border-2',
     normal: 'border-4',
     bold: 'border-8',

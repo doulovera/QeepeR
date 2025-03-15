@@ -5,7 +5,7 @@ interface Props {
 }
 export const QrImage = ({ svg }: Props) => {
   return (
-    <Card shadow={false} weight="normal">
+    <Card shadow={false}>
       <div
         className="h-full w-full aspect-square"
         // biome-ignore lint/security/noDangerouslySetInnerHtml: svg is sanitized
