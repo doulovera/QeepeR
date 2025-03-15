@@ -1,49 +1,47 @@
-interface Props {
+export interface ButtonProps {
   children: React.ReactNode
   title?: string
   disabled?: boolean
-  type?: "button" | "submit" | "reset"
+  type?: 'button' | 'submit' | 'reset'
   onClick?: () => void
-  color?: "primary" | "light" | "negative" | "danger"
+  color?: 'primary' | 'light' | 'negative' | 'danger'
   className?: string
-  size?: "small" | "medium"
+  size?: 'small' | 'medium'
 }
 
-export const Button = (
-  {
-    children,
-    title,
-    disabled,
-    type,
-    onClick,
-    color = 'primary',
-    className = '',
-    size = 'medium',
-  }: Props
-) => {
+export const Button = ({
+  children,
+  title,
+  disabled,
+  type,
+  onClick,
+  color = 'primary',
+  className = '',
+  size = 'medium',
+}: ButtonProps) => {
   const colors = {
     primary: {
-      background: "bg-primary-400",
-      disabled: "disabled:bg-primary-100",
+      background: 'bg-primary-400',
+      disabled: 'disabled:bg-primary-100',
     },
     light: {
-      background: "bg-primary-100",
-      disabled: "disabled:bg-primary-100",
+      background: 'bg-primary-100',
+      disabled: 'disabled:bg-primary-100',
     },
     negative: {
-      background: "bg-gray-600 text-white",
-      disabled: "disabled:bg-primary-100",
+      background: 'bg-gray-600 text-white',
+      disabled: 'disabled:bg-primary-100',
     },
     danger: {
-      background: "bg-rose-500 text-white",
-      disabled: "disabled:bg-primary-100",
+      background: 'bg-rose-500 text-white',
+      disabled: 'disabled:bg-primary-100',
     },
   }
 
   const sizes = {
-    smaller: "py-2 px-2 text-xs",
-    small: "py-3 px-3 text-xs",
-    medium: "py-4 px-4 text-md",
+    smaller: 'py-2 px-2 text-xs',
+    small: 'py-3 px-3 text-xs',
+    medium: 'py-4 px-4 text-md',
   }
 
   return (
