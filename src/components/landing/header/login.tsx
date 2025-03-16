@@ -1,7 +1,7 @@
 'use client'
 
-import { Button } from "@/components/shared/button"
-import { logInWithGoogle, logOut } from "@/data/services/auth-service"
+import { Button } from '@/components/shared/button'
+import { logInWithGoogle, logOut } from '@/data/services/auth-service'
 
 type Props = {
   name?: string
@@ -24,7 +24,7 @@ export function LoginHeader({ name }: Props) {
 
   if (name) {
     return (
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-2">
         <p>{name.split(' ')[0]}</p>
         <Button onClick={handleLogOut} color="light" size="small">
           ↪
@@ -34,14 +34,8 @@ export function LoginHeader({ name }: Props) {
   }
 
   return (
-    <Button
-      onClick={handleLogIn}
-      color="primary"
-    >
-      <span className="px-4">
-        Login
-      </span>
+    <Button onClick={handleLogIn} color="primary">
+      <span className="px-4">Login</span>
     </Button>
   )
-
 }

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import './globals.css'
+import { Header } from '@/components/landing/header'
 
 const satoshiFont = localFont({
   src: './fonts/Satoshi.woff2',
@@ -20,7 +21,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={satoshiFont.className}>
-      <body className="text-black">{children}</body>
+      <body className="text-black">
+        <Header />
+        {children}
+      </body>
     </html>
   )
 }

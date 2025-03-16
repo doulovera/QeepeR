@@ -14,7 +14,11 @@ interface Props {
   defaultDynamicSwitch?: boolean
 }
 
-export function QrGenerationForm({ setSvg, isUserLogged, defaultDynamicSwitch }: Props) {
+export function QrGenerationForm({
+  setSvg,
+  isUserLogged,
+  defaultDynamicSwitch,
+}: Props) {
   const isDynamicQrDisabled = !isUserLogged
 
   const handleSubmit = async (evt: React.FormEvent<HTMLFormElement>) => {
@@ -38,13 +42,12 @@ export function QrGenerationForm({ setSvg, isUserLogged, defaultDynamicSwitch }:
   }
 
   return (
-    <form className="flex-1 flex flex-col gap-14" onSubmit={handleSubmit}>
-      <div className="flex flex-col gap-6">
-        <Input
-          name="url"
-          label="Destination URL"
-          required
-        />
+    <form
+      className="flex-1 flex flex-col gap-6 sm:gap-14"
+      onSubmit={handleSubmit}
+    >
+      <div className="flex flex-col gap-4">
+        <Input name="url" label="Destination URL" required />
 
         <div title={isDynamicQrDisabled ? 'You need to login' : undefined}>
           <Switch
@@ -54,7 +57,6 @@ export function QrGenerationForm({ setSvg, isUserLogged, defaultDynamicSwitch }:
             checked={defaultDynamicSwitch}
           />
         </div>
-
       </div>
       <div>
         <Button type="submit" disabled={!API_BASE_URL}>
