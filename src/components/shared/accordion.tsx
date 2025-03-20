@@ -19,6 +19,11 @@ export function Accordion({
       <div
         className="flex justify-between items-center w-full cursor-pointer p-4"
         onClick={toggle}
+        onKeyDown={(e) => e.key === 'Enter' && toggle()}
+        tabIndex={0}
+        // biome-ignore lint/a11y/useSemanticElements: can't be a button because of its children
+        role="button"
+        aria-expanded={isOpen}
       >
         <p className="font-bold text-lg">{title}</p>
         <span

@@ -26,7 +26,7 @@ export default async function Page() {
         <h1 className="text-4xl font-semibold text-center py-10">
           Your QR List
         </h1>
-        <Generate isUserLogged={!!user?.uid} defaultDynamicSwitch />
+        <Generate isUserLogged={!!user?.uid} defaultDynamicSwitch hideable />
         <List list={list} />
       </div>
     </main>

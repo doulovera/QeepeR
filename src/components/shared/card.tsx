@@ -4,6 +4,7 @@ type Props = {
   shadow?: boolean
   weight?: 'thin' | 'light' | 'normal' | 'bold'
   background?: `bg-${string}`
+  componentProps?: Record<string, unknown>
 }
 
 export function Card({
@@ -12,6 +13,7 @@ export function Card({
   shadow = true,
   weight = 'thin',
   background = 'bg-white',
+  componentProps = {},
 }: Props) {
   const borderWeights = {
     thin: 'border-base',
@@ -22,6 +24,7 @@ export function Card({
   return (
     <As
       className={`rounded-base ${borderWeights[weight]} ${background} border-base-400 p-2 text-md font-base ${shadow ? 'shadow-dark' : ''}`}
+      {...componentProps}
     >
       {children}
     </As>
