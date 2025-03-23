@@ -1,8 +1,8 @@
-import type { IQRs } from "./IQRs"
+import type { IQRs } from './IQRs'
 
-import { firestore } from "firebase-admin"
-import { _db } from "@/lib/firebase/admin"
-import { QR_COLLECTION, USER_COLLECTION } from "@/constants/collections"
+import { firestore } from 'firebase-admin'
+import { _db } from '@/lib/firebase/admin'
+import { QR_COLLECTION, USER_COLLECTION } from '@/constants/collections'
 
 export class QRs implements IQRs {
   alias: string
@@ -25,10 +25,6 @@ export class QRs implements IQRs {
     return _db.collection(QR_COLLECTION)
   }
 
-  static userLinksCollection(userId: string) {
-    return _db.collection(USER_COLLECTION).doc(userId).collection(QR_COLLECTION)
-  }
-
   async save(): Promise<void> {
     const batch = _db.batch()
 
@@ -47,6 +43,17 @@ export class QRs implements IQRs {
     await batch.commit()
   }
 
+  async update(
+    fields: Partial<Pick<IQRs, 'destinationUrl' | 'disabled' | 'views'>>,
+  ): Promise<void> {
+    const linkRef = QRs.collection().doc(this.alias)
+    await linkRef.update(fields)
+  }
+
+  static userLinksCollection(userId: string) {
+    return _db.collection(USER_COLLECTION).doc(userId).collection(QR_COLLECTION)
+  }
+
   static async getByAlias(alias: string): Promise<IQRs | null> {
     const doc = await QRs.collection().doc(alias).get()
     /// @ts-ignore
@@ -58,15 +65,12 @@ export class QRs implements IQRs {
     const aliases = userLinksSnapshot.docs.map((doc) => doc.id)
 
     const linksSnapshot = await QRs.collection()
-      .where(firestore.FieldPath.documentId(), "in", aliases)
+      .where(firestore.FieldPath.documentId(), 'in', aliases)
       .get()
     /// @ts-ignore
-    return linksSnapshot.docs.map((doc) => ({ alias: doc.id, ...doc.data() } as IQRs))
-  }
-
-  async update(fields: Partial<Pick<IQRs, "destinationUrl" | "disabled" | "views">>): Promise<void> {
-    const linkRef = QRs.collection().doc(this.alias)
-    await linkRef.update(fields)
+    return linksSnapshot.docs.map(
+      (doc) => ({ alias: doc.id, ...doc.data() }) as IQRs,
+    )
   }
 
   static async deleteByAlias(alias: string, userId: string): Promise<void> {
@@ -79,5 +83,18 @@ export class QRs implements IQRs {
     batch.delete(userLinkRef)
 
     await batch.commit()
+  }
+
+  static async updateDisabledByAlias(
+    alias: string,
+    value: boolean,
+  ): Promise<void> {
+    const qr = await QRs.getByAlias(alias)
+    if (!qr) {
+      throw new Error('QR code not found')
+    }
+
+    const qrInstance = new QRs(alias, qr.destinationUrl, qr.userId)
+    await qrInstance.update({ disabled: value })
   }
 }

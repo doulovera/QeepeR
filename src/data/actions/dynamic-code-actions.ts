@@ -1,28 +1,23 @@
 'use server'
 
 import { generateQr } from '@/utils/generate-qr'
-/*
-  1. get
-  2. update
-  3. create
-  4. list
-  5. delete
-*/
+import { transformTimestamp } from '@/utils/transform-timestamp'
+import { getWorkerUrl } from '@/utils/get-worker-url'
 
-import { getUserMe } from '../services/get-user-me-service'
+import { getUserMe } from '@/data/services/get-user-me-service'
 import {
   addQR,
   deleteQRInDB,
+  updateDisableQRInDB,
   listUserQrs,
   updateQRUrlInDB,
-} from '../services/qr-db-service'
+  getOneQRInDB,
+} from '@/data/services/qr-db-service'
 import {
   createWorkerQR,
   deleteWorkerQR,
   updateUrlWorkerQR,
-} from '../services/qr-object-service'
-import { transformTimestamp } from '@/utils/transform-timestamp'
-import { getWorkerUrl } from '@/utils/get-worker-url'
+} from '@/data/services/qr-object-service'
 
 export async function createDynamicQR(url: string) {
   try {
@@ -114,6 +109,51 @@ export async function deleteDynamicQR(key: string) {
 
     if (!workerResponse || !dbResponse) {
       throw new Error('Failed to delete QR')
+    }
+
+    return true
+  } catch (error) {
+    console.error(error)
+    return false
+  }
+}
+
+export async function disableDynamicQR(key: string) {
+  try {
+    const user = await getUserMe()
+
+    if (!user) {
+      throw new Error('Unauthorized')
+    }
+
+    const dbResponse = await updateDisableQRInDB(key, true)
+    const workerResponse = await deleteWorkerQR(key)
+
+    if (!workerResponse || !dbResponse) {
+      throw new Error('Failed to disable QR')
+    }
+
+    return true
+  } catch (error) {
+    console.error(error)
+    return false
+  }
+}
+
+export async function enableDynamicQR(key: string) {
+  try {
+    const user = await getUserMe()
+    const qr = await getOneQRInDB(key)
+
+    if (!user || !qr) {
+      throw new Error('Unauthorized')
+    }
+
+    const dbResponse = await updateDisableQRInDB(key, false)
+    const workerResponse = await createWorkerQR(qr?.destinationUrl, { key })
+
+    if (!workerResponse || !dbResponse) {
+      throw new Error('Failed to enable QR')
     }
 
     return true

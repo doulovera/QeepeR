@@ -1,5 +1,5 @@
 import { Button } from '@/components/shared/button'
-import { downloadPng, downloadSvg } from '@/utils/download-image'
+import { downloadPng } from '@/utils/download-image'
 
 interface Props {
   svg: string | null
@@ -10,7 +10,6 @@ interface Props {
 export function DownloadButton({ svg, disabled, size }: Props) {
   const handleSave = () => {
     if (!svg) return
-    // downloadSvg('qr-code', svg)
     downloadPng('qr-code', svg, { scale: 5 })
   }
 

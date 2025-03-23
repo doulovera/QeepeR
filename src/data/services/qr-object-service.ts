@@ -41,9 +41,13 @@ interface CreateWorkerQRResponse {
 }
 export async function createWorkerQR(
   url: string,
+  override: { key: string } | null = null,
 ): Promise<CreateWorkerQRResponse | null> {
   try {
-    const item = await httpRequest('POST', `${PATH}/create`, { url })
+    const item = await httpRequest('POST', `${PATH}/create`, {
+      url,
+      key: override?.key,
+    })
     return item
   } catch (error) {
     console.log(error)

@@ -1,16 +1,16 @@
-import { QRs } from "../models/QRs"
+import { QRs } from '../models/QRs'
 
 export type QRDoc = {
-  destinationUrl: string,
-  disabled: boolean,
-  views: boolean,
-  user: string,
-  created: string,
+  destinationUrl: string
+  disabled: boolean
+  views: boolean
+  user: string
+  created: string
 }
 
 interface QRInfoCreation {
-  url: string,
-  uid: string,
+  url: string
+  uid: string
 }
 export const addQR = async (key: string, qr: QRInfoCreation) => {
   try {
@@ -26,6 +26,19 @@ export const addQR = async (key: string, qr: QRInfoCreation) => {
     return link
   } catch (error) {
     console.error('Error adding document: ', error)
+  }
+}
+
+export const getOneQRInDB = async (key: string) => {
+  try {
+    const qr = await QRs.getByAlias(key)
+    if (!qr) {
+      throw new Error('QR code not found')
+    }
+
+    return qr
+  } catch (error) {
+    console.error('Error getting document: ', error)
   }
 }
 
@@ -66,6 +79,21 @@ export const deleteQRInDB = async (key: string) => {
     return true
   } catch (error) {
     console.error('Error deleting QR code: ', error)
+    return false
+  }
+}
+
+export const updateDisableQRInDB = async (key: string, value: boolean) => {
+  try {
+    const qr = await QRs.getByAlias(key)
+    if (!qr) {
+      throw new Error('QR code not found')
+    }
+
+    await QRs.updateDisabledByAlias(key, value)
+    return true
+  } catch (error) {
+    console.error('Error disabling QR code: ', error)
     return false
   }
 }
