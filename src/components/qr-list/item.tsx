@@ -3,6 +3,7 @@ import { Card } from '../shared/card'
 import { QrImage } from '../shared/qr-image'
 import { Accordion } from '../shared/accordion'
 import { EditForm } from './form/edit-form'
+import { DownloadButton } from '../landing/hero/download-button'
 
 type Props = ClientIQRS
 
@@ -23,10 +24,10 @@ export function Item({
     >
       <div className="p-2 max-w-full w-full">
         <div
-          className={`flex h-32 max-w-full justify-between mb-6 ${disabled ? 'opacity-60 cursor-not-allowed' : ''}`} // TODO
+          className={`flex max-w-full justify-between mb-6 ${disabled ? 'opacity-60 cursor-not-allowed' : ''}`} // TODO
         >
-          <div className="flex flex-col justify-center gap-1">
-            <h3 className="max-w-[20ch] sm:max-w-[45ch] whitespace-nowrap overflow-ellipsis overflow-hidden">
+          <div className="flex flex-col justify-center gap-1 flex-grow min-w-0 overflow-hidden mr-4">
+            <h3 className="whitespace-nowrap overflow-ellipsis overflow-hidden">
               <a
                 href={destinationUrl}
                 target="_blank"
@@ -41,13 +42,14 @@ export function Item({
               <span className="text-base font-bold">Views:</span> {views ?? 0}
             </p>
           </div>
-          <div className="hidden sm:flex">
+          <div className="flex flex-col gap-2 flex-shrink-0 w-[120px]">
             <QrImage svg={svg} />
+
+            <DownloadButton svg={svg} disabled={disabled} size="small" />
           </div>
         </div>
-        <Accordion
-          title="Show Details"
-        >
+
+        <Accordion title="Show Details">
           <EditForm
             id={alias}
             destinationUrl={destinationUrl}
@@ -56,13 +58,8 @@ export function Item({
         </Accordion>
 
         <p className="text-xs font-mono text-left mt-5">
-          <span className="font-bold">
-            Alias:
-          </span>
-          {" "}
-          <span className="">
-            {alias}
-          </span>
+          <span className="font-bold">Alias:</span>{' '}
+          <span className="">{alias}</span>
         </p>
       </div>
     </Card>

@@ -1,7 +1,13 @@
 import { Button } from '@/components/shared/button'
 import { downloadPng, downloadSvg } from '@/utils/download-image'
 
-export function DownloadButton({ svg }: { svg: string | null }) {
+interface Props {
+  svg: string | null
+  disabled?: boolean
+  size?: 'small'
+}
+
+export function DownloadButton({ svg, disabled, size }: Props) {
   const handleSave = () => {
     if (!svg) return
     // downloadSvg('qr-code', svg)
@@ -9,7 +15,11 @@ export function DownloadButton({ svg }: { svg: string | null }) {
   }
 
   return (
-    <Button disabled={!svg} onClick={handleSave}>
+    <Button
+      disabled={!svg || disabled}
+      onClick={handleSave}
+      size={size || 'medium'}
+    >
       <span className="flex justify-center w-full text-center">Download</span>
     </Button>
   )
