@@ -3,9 +3,9 @@ import { API_BASE_URL } from '@/constants/app'
 /* actions */
 import { createDynamicQR } from '@/data/actions/dynamic-code-actions'
 /* components */
-import { Button } from '@/components/shared/button'
-import { Input } from '@/components/shared/input'
-import { Switch } from '@/components/shared/switch'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Switch } from '@/components/ui/switch'
 import { generateQr } from '@/utils/generate-qr'
 
 interface Props {
@@ -47,7 +47,7 @@ export function QrGenerationForm({
       onSubmit={handleSubmit}
     >
       <div className="flex flex-col gap-4">
-        <Input name="url" label="Destination URL" required />
+        <Input name="url" placeholder="Destination URL" required />
 
         <div title={isDynamicQrDisabled ? 'You need to login' : undefined}>
           <Switch

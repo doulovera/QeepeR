@@ -18,11 +18,12 @@ export function downloadSvg(name: string, svg: string) {
 
 type DownloadPngOptions = {
   scale?: number
+  size?: number
 }
 export function downloadPng(
   name: string,
   svg: string,
-  { scale }: DownloadPngOptions = {},
+  { scale = 5, size = 1024 }: DownloadPngOptions = {},
 ) {
   try {
     const canvas = document.createElement('canvas')
@@ -30,17 +31,33 @@ export function downloadPng(
     if (!ctx) return false
 
     const img = new Image()
-    img.src = `data:image/svg+xml;base64,${btoa(svg)}`
+    const svgBlob = new Blob([svg], {
+      type: 'image/svg+xml;charset=utf-8',
+    })
+    const url = URL.createObjectURL(svgBlob)
+
     img.onload = () => {
-      canvas.width = img.width * (scale || 1)
-      canvas.height = img.height * (scale || 1)
-      ctx.drawImage(img, 0, 0)
+      const imageSize = Math.max(
+        img.naturalWidth || img.width || 0,
+        img.naturalHeight || img.height || 0,
+      )
+      const outputSize = Math.max(size, imageSize * scale)
+
+      canvas.width = outputSize
+      canvas.height = outputSize
+      ctx.fillStyle = '#fff'
+      ctx.fillRect(0, 0, outputSize, outputSize)
+      ctx.imageSmoothingEnabled = false
+      ctx.drawImage(img, 0, 0, outputSize, outputSize)
 
       const a = document.createElement('a')
       a.href = canvas.toDataURL('image/png')
       a.download = `${name}.png`
       a.click()
+      URL.revokeObjectURL(url)
     }
+    img.onerror = () => URL.revokeObjectURL(url)
+    img.src = url
 
     return true
   } catch (error) {

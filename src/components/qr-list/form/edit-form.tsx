@@ -1,10 +1,10 @@
 import type { FetchStatus } from '@/types/types'
 import { useState } from 'react'
 
-import { Input } from '../../shared/input'
-import { Switch } from '../../shared/switch'
+import { Input } from '@/components/ui/input'
+import { Switch } from '@/components/ui/switch'
 import { DestinationUrlField } from './destination-url-field'
-import { Button } from '@/components/shared/button'
+import { Button } from '@/components/ui/button'
 import {
   deleteDynamicQR,
   disableDynamicQR,
@@ -78,8 +78,8 @@ export const EditForm = ({
   return (
     <section className="flex flex-col gap-6 mb-2">
       <div className="hidden justify-between gap-20">
-        <Input label="Background Color" disabled />
-        <Input label="Squares Color" disabled />
+        <Input placeholder="Background Color" disabled />
+        <Input placeholder="Squares Color" disabled />
       </div>
 
       <div className="w-full">
@@ -108,7 +108,7 @@ export const EditForm = ({
       <div className="flex justify-start gap-4 mt-8">
         <Button
           className="flex justify-center text-center w-1/4"
-          color="danger"
+          variant="destructive"
           onClick={handleDelete}
         >
           Delete

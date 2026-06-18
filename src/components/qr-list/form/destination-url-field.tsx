@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Save } from "@/components/icons/save";
-import { Input } from "@/components/shared/input";
+import { Input } from '@/components/ui/input'
 import { updateUrlDynamicQR } from "@/data/actions/dynamic-code-actions";
 
 export const DestinationUrlField = (
@@ -31,13 +31,9 @@ export const DestinationUrlField = (
 
   return (
     <Input
-      label="Edit Destination URL"
-      description="The link you want it to redirect"
+      placeholder="Edit Destination URL"
       value={destinationUrlValue}
       onChange={(event) => setDestinationUrlValue(event.target.value)}
-      iconBtn={<Save width="20" color="#fff" />}
-      showIconBtn={hasChanges}
-      iconBtnOnClick={handleSave}
     />
   )
 }

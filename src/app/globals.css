@@ -2,8 +2,61 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+:root {
+  --background: oklch(92.13% 0.0388 282.36);
+  --secondary-background: oklch(100% 0 0);
+  --foreground: oklch(0% 0 0);
+  --main-foreground: oklch(0% 0 0);
+  --main: oklch(66.34% 0.1806 277.2);
+  --border: oklch(0% 0 0);
+  --ring: oklch(0% 0 0);
+  --overlay: oklch(0% 0 0 / 0.8);
+  --shadow: 4px 4px 0px 0px var(--border);
+  --chart-1: #7A83FF;
+  --chart-2: #FACC00;
+  --chart-3: #FF4D50;
+  --chart-4: #00D696;
+  --chart-5: #0099FF;
+  --chart-active-dot: #000;
+  --box-shadow-x: 4px;
+  --box-shadow-y: 4px;
+  --reverse-box-shadow-x: -4px;
+  --reverse-box-shadow-y: -4px;
+  --radius-base: 5px;
+  --font-weight-base: 500;
+  --font-weight-heading: 700;
+}
+
+.dark {
+  --background: oklch(26.58% 0.0737 283.96);
+  --secondary-background: oklch(23.93% 0 0);
+  --foreground: oklch(92.49% 0 0);
+  --main-foreground: oklch(0% 0 0);
+  --main: oklch(66.34% 0.1806 277.2);
+  --border: oklch(0% 0 0);
+  --ring: oklch(100% 0 0);
+  --shadow: 4px 4px 0px 0px var(--border);
+  --chart-1: #7A83FF;
+  --chart-2: #E0B700;
+  --chart-3: #FF6669;
+  --chart-4: #00BD84;
+  --chart-5: #008AE5;
+  --chart-active-dot: #fff;
+  --box-shadow-x: 4px;
+  --box-shadow-y: 4px;
+  --reverse-box-shadow-x: -4px;
+  --reverse-box-shadow-y: -4px;
+  --radius-base: 5px;
+  --font-weight-base: 500;
+  --font-weight-heading: 700;
+}
+  
+@layer base {
+  body {
+    @apply bg-background text-foreground font-base;
+  }
+
+  h1, h2, h3, h4, h5, h6{
+    @apply font-heading;
   }
 }
