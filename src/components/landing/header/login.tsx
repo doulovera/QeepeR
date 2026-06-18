@@ -1,6 +1,6 @@
 'use client'
 
-import { Button } from '@/components/shared/button'
+import { Button } from '@/components/ui/button'
 import { logInWithGoogle, logOut } from '@/data/services/auth-service'
 
 type Props = {
@@ -34,7 +34,7 @@ export function LoginHeader({ name }: Props) {
   }
 
   return (
-    <Button onClick={handleLogIn} color="primary">
+    <Button onClick={handleLogIn}>
       <span className="px-4">Login</span>
     </Button>
   )

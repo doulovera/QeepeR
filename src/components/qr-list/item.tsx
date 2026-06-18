@@ -1,5 +1,5 @@
 import type { ClientIQRS } from '@/data/models/IQRs'
-import { Card } from '../shared/card'
+import { Card } from '@/components/ui/card'
 import { QrImage } from '../shared/qr-image'
 import { Accordion } from '../shared/accordion'
 import { EditForm } from './form/edit-form'
@@ -18,8 +18,7 @@ export function Item({
 }: Props) {
   return (
     <Card
-      as="article"
-      background={disabled ? 'bg-yellow-100' : 'bg-yellow-200'}
+      className={disabled ? 'bg-yellow-100' : 'bg-yellow-200'}
       shadow={false}
     >
       <div className="p-2 max-w-full w-full">

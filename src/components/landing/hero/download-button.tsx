@@ -1,4 +1,4 @@
-import { Button } from '@/components/shared/button'
+import { Button } from '@/components/ui/button'
 import { downloadPng } from '@/utils/download-image'
 
 interface Props {
@@ -17,7 +17,7 @@ export function DownloadButton({ svg, disabled, size }: Props) {
     <Button
       disabled={!svg || disabled}
       onClick={handleSave}
-      size={size || 'medium'}
+      size={size || 'default'}
     >
       <span className="flex justify-center w-full text-center">Download</span>
     </Button>

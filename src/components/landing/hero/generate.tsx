@@ -5,9 +5,9 @@ import { useState } from 'react'
 import { QrImage } from '@/components/shared/qr-image'
 
 import { QrGenerationForm } from './qr-form'
-import { Card } from '@/components/shared/card'
+import { Card } from '@/components/ui/card'
 import { DownloadButton } from './download-button'
-import { Button } from '@/components/shared/button'
+import { Button } from '@/components/ui/button'
 import { Accordion } from '@/components/shared/accordion'
 import { useScreen } from '@/hook/use-screen'
 

@@ -14,6 +14,19 @@ const config: Config = {
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
       colors: {
+        background: 'var(--background)',
+        'secondary-background': 'var(--secondary-background)',
+        foreground: 'var(--foreground)',
+        'main-foreground': 'var(--main-foreground)',
+        main: 'var(--main)',
+        border: 'var(--border)',
+        overlay: 'var(--overlay)',
+        ring: 'var(--ring)',
+        'chart-1': 'var(--chart-1)',
+        'chart-2': 'var(--chart-2)',
+        'chart-3': 'var(--chart-3)',
+        'chart-4': 'var(--chart-4)',
+        'chart-5': 'var(--chart-5)',
         primary: {
           '100': '#E3DFF2',
           '400': '#A388EE',
@@ -28,20 +41,25 @@ const config: Config = {
         },
       },
       borderRadius: {
-        base: '6px',
+        base: 'var(--radius-base)',
       },
       borderWidth: {
         base: '1px',
       },
       boxShadow: {
+        shadow: 'var(--shadow)',
         light: '4px 4px 0px 0px #000',
         dark: '4px 4px 0px 0px #000',
       },
       translate: {
-        boxShadowX: '4px',
-        boxShadowY: '4px',
-        reverseBoxShadowX: '-4px',
-        reverseBoxShadowY: '-4px',
+        boxShadowX: 'var(--box-shadow-x)',
+        boxShadowY: 'var(--box-shadow-y)',
+        reverseBoxShadowX: 'var(--reverse-box-shadow-x)',
+        reverseBoxShadowY: 'var(--reverse-box-shadow-y)',
+      },
+      fontWeight: {
+        base: 'var(--font-weight-base)',
+        heading: 'var(--font-weight-heading)',
       },
       keyframes: {
         'fade-in': {
