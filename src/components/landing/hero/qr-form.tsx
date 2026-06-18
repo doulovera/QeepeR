@@ -47,7 +47,12 @@ export function QrGenerationForm({
       onSubmit={handleSubmit}
     >
       <div className="flex flex-col gap-4">
-        <Input name="url" placeholder="Destination URL" required />
+        <Input
+          name="url"
+          placeholder="Destination URL"
+          required
+          className="h-14 px-4 text-base sm:h-16 sm:text-lg"
+        />
 
         <div title={isDynamicQrDisabled ? 'You need to login' : undefined}>
           <Switch
