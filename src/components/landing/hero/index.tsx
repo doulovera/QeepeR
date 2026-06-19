@@ -8,21 +8,24 @@ export async function Hero() {
   const user = await getUserMe()
 
   return (
-    <section className="flex flex-col gap-10 mb-14 sm:mb-32">
-      <div className="flex flex-col gap-4 text-center">
-        <h1 className="text-6xl font-semibold">
-          Generate & <span className="bg-purple-300">Edit</span>
+    <section className="mb-12 flex flex-col gap-5 sm:mb-20">
+      <div className="relative flex flex-col items-center gap-4 pt-2 text-center">
+        <h1 className="mx-auto max-w-6xl text-5xl font-black uppercase leading-[0.88] sm:text-7xl lg:text-[6.25rem] xl:text-[6.75rem]">
+          Generate &{' '}
+          <span className="inline-block border-4 border-black bg-main px-4 shadow-[10px_10px_0_#000]">
+            Edit
+          </span>
         </h1>
 
-        <p className="max-w-[45ch] mx-auto text-lg">
+        <p className="mx-auto max-w-[52ch] text-base font-bold leading-7 sm:text-lg">
           Quickly generate static or dynamic QR codes, personalize their design,
           and update their destinations at any time.
         </p>
-
-        {/* <p className="text-balance">
-        Whether you’re sharing a website, promoting an event, or tracking product information,
-        QeepeR makes it simple to engage your audience and keep your content fresh.
-        </p> */}
+        <div className="absolute right-10 top-32 hidden -rotate-3 border-4 border-black bg-white px-5 py-3 text-sm font-black uppercase shadow-[8px_8px_0_#000] xl:block">
+          Fast. Flexible.
+          <br />
+          Yours.
+        </div>
       </div>
       <Generate isUserLogged={!!user?.uid} />
     </section>

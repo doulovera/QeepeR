@@ -45,14 +45,14 @@ function Switch({
         defaultChecked={defaultChecked}
         onCheckedChange={handleCheckedChange}
         className={cn(
-          'peer inline-flex h-6 w-12 shrink-0 cursor-pointer items-center rounded-full border-2 border-border bg-secondary-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-main data-[state=unchecked]:bg-secondary-background',
+          'peer inline-flex h-6 w-12 shrink-0 cursor-pointer items-center rounded-base border-2 border-border bg-secondary-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-main data-[state=unchecked]:bg-secondary-background',
           className,
         )}
         {...props}
       >
         <SwitchPrimitive.Thumb
           data-slot="switch-thumb"
-          className="pointer-events-none block h-4 w-4 rounded-full border-2 border-border bg-white ring-0 transition-transform data-[state=checked]:translate-x-6 data-[state=unchecked]:translate-x-1"
+          className="pointer-events-none block h-4 w-4 rounded-[3px] border-2 border-border bg-white ring-0 transition-transform data-[state=checked]:translate-x-6 data-[state=unchecked]:translate-x-1"
         />
       </SwitchPrimitive.Root>
       {(label || description) && (

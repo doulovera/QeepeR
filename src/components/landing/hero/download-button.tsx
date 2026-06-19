@@ -1,13 +1,16 @@
 import { Button } from '@/components/ui/button'
 import { downloadPng } from '@/utils/download-image'
+import type React from 'react'
 
 interface Props {
   svg: string | null
   disabled?: boolean
   size?: 'small'
+  className?: string
+  icon?: React.ReactNode
 }
 
-export function DownloadButton({ svg, disabled, size }: Props) {
+export function DownloadButton({ svg, disabled, size, className, icon }: Props) {
   const handleSave = () => {
     if (!svg) return
     downloadPng('qr-code', svg, { scale: 5 })
@@ -18,8 +21,10 @@ export function DownloadButton({ svg, disabled, size }: Props) {
       disabled={!svg || disabled}
       onClick={handleSave}
       size={size || 'default'}
+      className={className}
     >
-      <span className="flex justify-center w-full text-center">Download</span>
+      {icon}
+      <span className="flex w-full justify-center text-center">Download</span>
     </Button>
   )
 }
