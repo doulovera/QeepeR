@@ -45,10 +45,10 @@ export function QrGenerationForm({
 
   return (
     <form
-      className="flex flex-1 flex-col gap-6"
+      className="flex flex-1 flex-col gap-5"
       onSubmit={handleSubmit}
     >
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-3.5">
         <label className="flex flex-col gap-2" htmlFor="landing-url">
           <span className="text-sm font-black uppercase sm:text-base">
             Destination URL
@@ -95,7 +95,7 @@ export function QrGenerationForm({
           />
         </div>
 
-        <div className="flex max-w-md items-center gap-3 border-2 border-dashed border-black px-4 py-2.5">
+        <div className="flex items-center gap-3 border-2 border-dashed border-black px-4 py-2">
           <span className="flex size-9 shrink-0 items-center justify-center bg-main">
             <LightningBolt className="size-5" />
           </span>
@@ -109,7 +109,7 @@ export function QrGenerationForm({
         <Button
           type="submit"
           disabled={!API_BASE_URL}
-          className="h-16 w-full max-w-md rounded-none border-4 text-2xl font-black uppercase shadow-[8px_8px_0_#000] sm:text-3xl"
+          className="h-14 w-full rounded-none border-4 text-2xl font-black uppercase shadow-[8px_8px_0_#000]"
         >
           <Qr className="size-8" />
           <span className="flex flex-1 justify-center px-3">Generate</span>

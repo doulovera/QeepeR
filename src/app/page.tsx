@@ -12,8 +12,6 @@ export default async function Home() {
         <span className="h-7 w-14 bg-black" />
         <span className="h-16 w-16 bg-main" />
       </div>
-      <div className="pointer-events-none absolute bottom-28 left-0 hidden h-72 w-32 bg-main sm:block" />
-      <div className="pointer-events-none absolute bottom-12 right-5 hidden h-44 w-24 border-2 border-black bg-[linear-gradient(to_right,#000_1px,transparent_1px),linear-gradient(to_bottom,#000_1px,transparent_1px)] [background-size:24px_24px] lg:block" />
       <div className="relative mx-auto max-w-7xl">
         <Hero />
         {/* <Bento /> */}
