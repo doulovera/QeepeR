@@ -13,7 +13,8 @@ import { Input } from '@/components/ui/input'
 
 export function ApiKeyManager({
   initialKeys,
-}: { initialKeys: ClientApiKey[] | null }) {
+  defaultOpen = false,
+}: { initialKeys: ClientApiKey[] | null; defaultOpen?: boolean }) {
   const t = useTranslations()
   const [keys, setKeys] = useState(initialKeys)
   const [name, setName] = useState('')
@@ -109,7 +110,10 @@ export function ApiKeyManager({
   }
 
   return (
-    <details className="mt-16 border-4 border-black bg-white p-5 shadow-[6px_6px_0_#000]">
+    <details
+      open={defaultOpen}
+      className="border-4 border-black bg-white p-5 shadow-[6px_6px_0_#000]"
+    >
       <summary className="cursor-pointer text-xl font-black uppercase">
         {t('apiKeys')}
       </summary>

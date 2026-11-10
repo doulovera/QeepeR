@@ -22,6 +22,8 @@ const en = {
   myQrCodes: 'My QR Codes',
   login: 'Login',
   logout: 'Log out',
+  profile: 'Profile',
+  accountMenu: 'Account menu',
   generateAnd: 'Generate &',
   edit: 'Edit',
   heroDescription:
@@ -117,6 +119,8 @@ const es: Record<MessageKey, string> = {
   myQrCodes: 'Mis códigos QR',
   login: 'Iniciar sesión',
   logout: 'Cerrar sesión',
+  profile: 'Perfil',
+  accountMenu: 'Menú de la cuenta',
   generateAnd: 'Genera y',
   edit: 'Edita',
   heroDescription:

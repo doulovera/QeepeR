@@ -11,8 +11,6 @@ import {
 import { Generate } from '@/components/landing/hero/generate'
 import { List } from '@/components/qr-list/list'
 import { Header } from '@/components/landing/header'
-import { ApiKeyManager } from '@/components/api-keys/manager'
-import { listApiKeys } from '@/data/actions/api-key-actions'
 
 export default async function Page() {
   const user = await getUserMe()
@@ -21,10 +19,9 @@ export default async function Page() {
     return redirect('/')
   }
 
-  const [list, activeLimit, apiKeys] = await Promise.all([
+  const [list, activeLimit] = await Promise.all([
     listDynamicQRs(),
     getActiveQrLimit(),
-    listApiKeys(),
   ])
 
   if (!list) {
@@ -43,7 +40,6 @@ export default async function Page() {
         </h1>
         <Generate isUserLogged={!!user?.uid} defaultDynamicSwitch hideable />
         <List list={list} activeLimit={activeLimit} />
-        <ApiKeyManager initialKeys={apiKeys.ok ? apiKeys.data : null} />
       </div>
     </main>
   )
