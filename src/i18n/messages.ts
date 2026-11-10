@@ -91,7 +91,14 @@ const en = {
   apiKeyName: 'Key name',
   apiKeyNamePlaceholder: 'e.g. Claude Code',
   apiKeyCreate: 'Create key',
-  apiKeyOnce: 'Copy this key now. It will only be shown once.',
+  apiKeyCopyNow: 'Copy this key now.',
+  apiKeyShownOnce: 'It will only be shown once.',
+  apiKeyConnect: 'Add it to your AI client',
+  apiKeyCommandCopy: 'Copy command',
+  apiKeyCodexHint:
+    'Codex reads the key from QEEPER_API_KEY, so keep it exported in your shell profile.',
+  apiKeyHermesHint:
+    'Hermes asks for the key: answer yes to authentication and paste it.',
   apiKeyCopy: 'Copy key',
   apiKeyCopied: 'Copied',
   apiKeyDismiss: 'Done',
@@ -188,7 +195,14 @@ const es: Record<MessageKey, string> = {
   apiKeyName: 'Nombre de la clave',
   apiKeyNamePlaceholder: 'p. ej. Claude Code',
   apiKeyCreate: 'Crear clave',
-  apiKeyOnce: 'Copia esta clave ahora. Solo se mostrará una vez.',
+  apiKeyCopyNow: 'Copia esta clave ahora.',
+  apiKeyShownOnce: 'Solo se mostrará una vez.',
+  apiKeyConnect: 'Agrégala a tu cliente de IA',
+  apiKeyCommandCopy: 'Copiar comando',
+  apiKeyCodexHint:
+    'Codex lee la clave de QEEPER_API_KEY, así que mantenla exportada en el perfil de tu shell.',
+  apiKeyHermesHint:
+    'Hermes pide la clave: responde que sí a la autenticación y pégala.',
   apiKeyCopy: 'Copiar clave',
   apiKeyCopied: 'Copiada',
   apiKeyDismiss: 'Listo',

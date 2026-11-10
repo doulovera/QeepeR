@@ -8,6 +8,8 @@ import {
 } from '@/data/actions/api-key-actions'
 import type { ClientApiKey } from '@/data/models/IApiKey'
 import { useTranslations } from '@/i18n/provider'
+import type { MessageKey } from '@/i18n/messages'
+import { ClipboardCopy } from '@/components/icons/clipboard-copy'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
@@ -148,7 +150,12 @@ export function ApiKeyManager({
           className="mt-5 border-2 border-dashed border-black bg-main/20 p-4"
           aria-live="polite"
         >
-          <p className="mb-3 font-bold">{t('apiKeyOnce')}</p>
+          <p className="mb-3 font-bold">
+            {t('apiKeyCopyNow')}{' '}
+            <mark className="bg-yellow-300 px-1 font-black text-black box-decoration-clone">
+              {t('apiKeyShownOnce')}
+            </mark>
+          </p>
           <code className="block break-all select-all text-sm">
             {secret.value}
           </code>
@@ -160,6 +167,7 @@ export function ApiKeyManager({
               {t('apiKeyDismiss')}
             </Button>
           </div>
+          <ClientCommands apiKey={secret.value} />
         </div>
       )}
       {error && (
@@ -183,46 +191,128 @@ export function ApiKeyManager({
         <p>{t('apiKeyEmpty')}</p>
       ) : (
         <ul className="flex flex-col gap-4">
-          {keys.map((key) => (
-            <li
-              key={key.id}
-              className="flex flex-col justify-between gap-4 border-t-2 border-black pt-4 sm:flex-row sm:items-center"
-            >
-              <div className="min-w-0">
-                <p className="break-words font-black">{key.name}</p>
-                <code className="text-sm">{key.prefix}…</code>
-                <p className="text-sm">
-                  {t('apiKeyCreated')}:{' '}
-                  <time dateTime={key.createdAt}>
-                    {key.createdAt.slice(0, 10)}
-                  </time>
-                </p>
-                <p className="text-sm">
-                  {t('apiKeyLastUsed')}:{' '}
-                  {key.lastUsedAt ? (
-                    <time dateTime={key.lastUsedAt}>
-                      {key.lastUsedAt.replace('T', ' ').slice(0, 16)} UTC
+          {/* Active keys first; revoked ones sink to the bottom, dimmed. Stable sort keeps each group's order. */}
+          {[...keys]
+            .sort((a, b) => Number(!!a.revokedAt) - Number(!!b.revokedAt))
+            .map((key) => (
+              <li
+                key={key.id}
+                className={`flex flex-col justify-between gap-4 border-t-2 border-black pt-4 sm:flex-row sm:items-center ${key.revokedAt ? 'opacity-50' : ''}`}
+              >
+                <div className="min-w-0">
+                  <p className="break-words font-black">{key.name}</p>
+                  <code className="text-sm">{key.prefix}…</code>
+                  <p className="text-sm">
+                    {t('apiKeyCreated')}:{' '}
+                    <time dateTime={key.createdAt}>
+                      {key.createdAt.slice(0, 10)}
                     </time>
-                  ) : (
-                    t('apiKeyNever')
-                  )}
-                </p>
-              </div>
-              {key.revokedAt ? (
-                <span className="font-bold">{t('apiKeyRevoked')}</span>
-              ) : (
-                <Button
-                  variant="destructive"
-                  disabled={pending}
-                  onClick={() => handleRevoke(key.id)}
-                >
-                  {t('apiKeyRevoke')}
-                </Button>
-              )}
-            </li>
-          ))}
+                  </p>
+                  <p className="text-sm">
+                    {t('apiKeyLastUsed')}:{' '}
+                    {key.lastUsedAt ? (
+                      <time dateTime={key.lastUsedAt}>
+                        {key.lastUsedAt.replace('T', ' ').slice(0, 16)} UTC
+                      </time>
+                    ) : (
+                      t('apiKeyNever')
+                    )}
+                  </p>
+                </div>
+                {key.revokedAt ? (
+                  <span className="font-bold">{t('apiKeyRevoked')}</span>
+                ) : (
+                  <Button
+                    variant="destructive"
+                    disabled={pending}
+                    onClick={() => handleRevoke(key.id)}
+                  >
+                    {t('apiKeyRevoke')}
+                  </Button>
+                )}
+              </li>
+            ))}
         </ul>
       )}
     </details>
+  )
+}
+
+type ClientCommand = {
+  title: string
+  command: string
+  hint?: MessageKey
+}
+
+function getClientCommands(apiKey: string): ClientCommand[] {
+  const url = `${window.location.origin}/api/mcp`
+  return [
+    {
+      title: 'Claude Code',
+      command: `claude mcp add --transport http qeeper ${url} --header "Authorization: Bearer ${apiKey}"`,
+    },
+    {
+      title: 'Codex',
+      command: `export QEEPER_API_KEY="${apiKey}"\ncodex mcp add qeeper --url ${url} --bearer-token-env-var QEEPER_API_KEY`,
+      hint: 'apiKeyCodexHint',
+    },
+    {
+      // Hermes only takes the key interactively and stores it in ~/.hermes/.env.
+      title: 'Hermes',
+      command: `hermes mcp add qeeper --url ${url} --auth header`,
+      hint: 'apiKeyHermesHint',
+    },
+  ]
+}
+
+function ClientCommands({ apiKey }: { apiKey: string }) {
+  const t = useTranslations()
+  const [copied, setCopied] = useState<string | null>(null)
+  const [error, setError] = useState(false)
+
+  async function handleCopy({ title, command }: ClientCommand) {
+    try {
+      await navigator.clipboard.writeText(command)
+      setCopied(title)
+      setError(false)
+    } catch {
+      setError(true)
+    }
+  }
+
+  return (
+    <div className="mt-6 border-t-2 border-black pt-4">
+      <p className="mb-3 font-black uppercase">{t('apiKeyConnect')}</p>
+      <ol className="flex flex-col gap-4">
+        {getClientCommands(apiKey).map((item, i) => (
+          <li key={item.title}>
+            <p className="mb-1 text-xs font-black uppercase tracking-wide">
+              {i + 1}. {item.title}
+            </p>
+            <div className="flex items-stretch border-2 border-black bg-white">
+              <code className="min-w-0 flex-1 overflow-x-auto whitespace-pre p-3 text-xs select-all">
+                {item.command}
+              </code>
+              <button
+                type="button"
+                onClick={() => handleCopy(item)}
+                aria-label={`${t('apiKeyCommandCopy')}: ${item.title}`}
+                title={t('apiKeyCommandCopy')}
+                className="flex shrink-0 items-center gap-1 border-l-2 border-black px-3 text-xs font-black uppercase transition-colors hover:bg-main/20"
+              >
+                <ClipboardCopy className="size-4" />
+                {copied === item.title ? t('apiKeyCopied') : null}
+              </button>
+            </div>
+            {item.hint && <p className="mt-1 text-xs">{t(item.hint)}</p>}
+          </li>
+        ))}
+      </ol>
+      {error && (
+        <p className="mt-3 text-sm font-bold text-rose-700" role="alert">
+          {t('apiKeyCopyError')}
+        </p>
+      )}
+    </div>
   )
 }
