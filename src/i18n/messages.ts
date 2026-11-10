@@ -83,6 +83,31 @@ const en = {
     "You've reached the maximum of {limit} QRs for your plan. Delete one to create another.",
   enableLimit:
     "You've reached your limit of {limit} active QRs. Disable another QR first.",
+  apiKeys: 'API keys',
+  apiKeysHelp:
+    'Connect AI clients to your QRs through MCP. Each key grants access to your account’s QR codes. Revoke keys you no longer use.',
+  apiKeyName: 'Key name',
+  apiKeyNamePlaceholder: 'e.g. Claude Code',
+  apiKeyCreate: 'Create key',
+  apiKeyOnce: 'Copy this key now. It will only be shown once.',
+  apiKeyCopy: 'Copy key',
+  apiKeyCopied: 'Copied',
+  apiKeyDismiss: 'Done',
+  apiKeyRefresh: 'Refresh keys',
+  apiKeyEmpty: 'No API keys yet.',
+  apiKeyCreated: 'Created',
+  apiKeyLastUsed: 'Last used',
+  apiKeyNever: 'Never',
+  apiKeyRevoke: 'Revoke',
+  apiKeyRevoked: 'Revoked',
+  apiKeyConfirmRevoke:
+    'Revoke this API key? Clients using it will immediately lose access.',
+  apiKeyLimit:
+    'You can have up to 10 active API keys. Revoke one to create another.',
+  apiKeyInvalidName: 'Enter a key name between 1 and 80 characters.',
+  apiKeyError: 'Unable to update API keys. Please try again.',
+  apiKeyLoadError: 'Unable to load API keys. Use Refresh keys to try again.',
+  apiKeyCopyError: 'Unable to copy. Select the key and copy it manually.',
 }
 
 export type MessageKey = keyof typeof en
@@ -153,6 +178,34 @@ const es: Record<MessageKey, string> = {
     'Alcanzaste el máximo de {limit} QR de tu plan. Elimina uno para crear otro.',
   enableLimit:
     'Alcanzaste tu límite de {limit} QR activos. Desactiva otro QR primero.',
+  apiKeys: 'Claves de API',
+  apiKeysHelp:
+    'Conecta clientes de IA a tus QR mediante MCP. Cada clave da acceso a los códigos QR de tu cuenta. Revoca las claves que ya no uses.',
+  apiKeyName: 'Nombre de la clave',
+  apiKeyNamePlaceholder: 'p. ej. Claude Code',
+  apiKeyCreate: 'Crear clave',
+  apiKeyOnce: 'Copia esta clave ahora. Solo se mostrará una vez.',
+  apiKeyCopy: 'Copiar clave',
+  apiKeyCopied: 'Copiada',
+  apiKeyDismiss: 'Listo',
+  apiKeyRefresh: 'Actualizar claves',
+  apiKeyEmpty: 'Aún no hay claves de API.',
+  apiKeyCreated: 'Creada',
+  apiKeyLastUsed: 'Último uso',
+  apiKeyNever: 'Nunca',
+  apiKeyRevoke: 'Revocar',
+  apiKeyRevoked: 'Revocada',
+  apiKeyConfirmRevoke:
+    '¿Revocar esta clave de API? Los clientes que la usan perderán el acceso inmediatamente.',
+  apiKeyLimit:
+    'Puedes tener hasta 10 claves de API activas. Revoca una para crear otra.',
+  apiKeyInvalidName: 'Ingresa un nombre de entre 1 y 80 caracteres.',
+  apiKeyError:
+    'No se pudieron actualizar las claves de API. Inténtalo de nuevo.',
+  apiKeyLoadError:
+    'No se pudieron cargar las claves de API. Usa Actualizar claves para volver a intentarlo.',
+  apiKeyCopyError:
+    'No se pudo copiar. Selecciona la clave y cópiala manualmente.',
 }
 
 export const messages = { en, es }

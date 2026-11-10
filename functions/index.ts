@@ -19,7 +19,7 @@ app.use(`${ROUTES.GENERATION}/*`, authMiddleware)
 app.route(ROUTES.GENERATION, codeGenRoutes())
 
 app.get('/', (c) => {
-  const LANDING_PAGE = 'https://qeeper.doulovera.com'
+  const LANDING_PAGE = 'https://qr.doulo.dev'
   return c.redirect(LANDING_PAGE)
 })
 

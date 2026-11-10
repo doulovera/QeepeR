@@ -14,9 +14,9 @@ export async function createCookieSession(sessionCookie: string, expiresIn: numb
   const cookieStore = await cookies()
 
   cookieStore.set(COOKIE_NAME, sessionCookie, {
-    maxAge: expiresIn,
+    maxAge: expiresIn / 1000, // maxAge is in seconds, expiresIn in ms
     httpOnly: true,
-    secure: true,
+    secure: process.env.NODE_ENV === 'production',
   })
 }
 

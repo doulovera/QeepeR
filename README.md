@@ -59,3 +59,33 @@ for one year in that browser. To restore automatic detection:
 document.cookie = 'qeeper-locale=; path=/; max-age=0; SameSite=Lax';
 location.reload();
 ```
+
+## MCP access
+
+Log in, open `/qr`, expand **API keys**, and create a named key. Copy the key
+immediately: plaintext is shown only once. Each account can have ten active keys;
+list or revoke them in the same panel. Keys grant access only to their owner's QRs.
+
+The MCP endpoint is `https://<host>/api/mcp`, using stateless Streamable HTTP
+(JSON responses). Every request requires `Authorization: Bearer qk_live_...`.
+For example, connect Claude Code with:
+
+```bash
+claude mcp add --transport http qeeper https://<host>/api/mcp --header "Authorization: Bearer qk_live_..."
+```
+
+Tools generate static SVG/PNG images, create/list/read/update/enable/disable/delete
+dynamic QRs, and report plan usage. Dynamic QR tools share the web UI's ownership,
+quota, and Worker/Firestore rollback logic. Unlimited limits are returned as `null`.
+Existing Firebase Admin and Worker environment variables are required.
+
+Keys are stored in Firestore `apiKeys/{sha256}` with metadata only. No composite
+Firestore index is needed: account listing and the transactional active-key cap
+use the default single-field `apiKeys.uid` index, then filter/sort in memory.
+Keep that single-field index enabled. API-key authentication uses a direct document
+lookup. `lastUsedAt` writes are scheduled after the response and throttled to once
+per minute per key. Keep `apiKeys` inaccessible to client SDKs via Firestore rules;
+key management goes through authenticated server actions using Firebase Admin.
+
+Run the isolated auth, rollback, and MCP protocol checks with
+`node --test tests/mcp.test.cjs` (no service credentials required).
