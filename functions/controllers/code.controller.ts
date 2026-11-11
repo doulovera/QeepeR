@@ -9,6 +9,7 @@ import {
   generateQrLink,
   getQrLink,
   getQrViews,
+  toggleQrViews,
   updateQrLink,
 } from '../lib/qr-link'
 
@@ -22,8 +23,8 @@ export default function genRoutes() {
   code.post('/create', createDynamicQR)
   code.put('/:key/url', updateUrlDynamicQR)
   code.delete('/:key', deleteDynamicQR)
+  code.put('/:key/views', toggleViewsDynamicQR)
 
-  // update qr views status
   // update qr disabled status (not implement yet)
 
   return code
@@ -151,6 +152,36 @@ export const deleteDynamicQR = async (c: QeeperCtx) => {
     const response = await deleteQrLink(c, key)
 
     return successPayload(c, { success: true, response })
+  } catch (error) {
+    return errorPayload(c, error as Error)
+  }
+}
+
+/**
+ * Turns view tracking on (counter starts at 0) or off for a QR. Scans are only
+ * counted while it is on; the redirect never waits for the count.
+ */
+export const toggleViewsDynamicQR = async (c: QeeperCtx) => {
+  try {
+    const key = c.req.param('key')
+    if (!key)
+      throw new ApplicationError(
+        API_RESPONSE.MISSING_BODY_KEY.TITLE,
+        API_RESPONSE.MISSING_BODY_KEY.MESSAGE('key'),
+        400,
+      )
+
+    const qr = await getQrLink(c, key)
+    if (!qr)
+      throw new ApplicationError(
+        API_RESPONSE.NOT_FOUND.TITLE,
+        API_RESPONSE.NOT_FOUND.MESSAGE,
+        404,
+      )
+
+    const views = await toggleQrViews(c, key)
+
+    return successPayload(c, { success: true, views, viewsDisabled: views === null })
   } catch (error) {
     return errorPayload(c, error as Error)
   }

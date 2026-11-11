@@ -45,7 +45,7 @@ export const del = async (c: { env: WranglerBindings }, key: string): Promise<bo
   return true
 }
 
-
+/** View count of a link, or null when view tracking is off for it (no key or "null"). */
 export const getViews = async (c: { env: WranglerBindings }, key: string): Promise<number | null> => {
   const value = await db(c).get(VIEWS_PREFIX + key)
 
@@ -53,24 +53,28 @@ export const getViews = async (c: { env: WranglerBindings }, key: string): Promi
     return null
   }
 
-  return parseInt(value)
+  const views = Number.parseInt(value, 10)
+  return Number.isFinite(views) ? views : null
 }
 
+/**
+ * Adds one view when tracking is on for the link. Before, it wrote back the
+ * same number (`views ?? 1`), so the counter never moved past its first value.
+ * KV has no atomic increment: two scans in the same instant can count as one.
+ */
 export const incrementViews = async (c: { env: WranglerBindings }, key: string): Promise<number | null> => {
   const views = await getViews(c, key)
+  if (views === null) return null
 
-  const viewsKey = VIEWS_PREFIX + key
-  if (views === null) return views
-
-  const newViews = views ?? 1
-  await set(c, viewsKey, newViews.toString())
+  const newViews = views + 1
+  await set(c, VIEWS_PREFIX + key, newViews.toString())
 
   return newViews
 }
 
 export const toggleViews = async (c: { env: WranglerBindings }, key: string): Promise<number | null> => {
   const viewsKey = VIEWS_PREFIX + key
-  
+
   const views = await getViews(c, key)
 
   // if it's null (disabled), set it to 0
